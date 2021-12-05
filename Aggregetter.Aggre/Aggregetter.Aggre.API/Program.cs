@@ -33,10 +33,10 @@ namespace Aggregetter.Aggre.API
 
                 try
                 {
-                    //var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var context = services.GetRequiredService<AggreDbContext>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
-
+                    await Persistance.Seed.AddArticles.InitiliseAsync(context);
                     Log.Information("Application Starting");
                 }
                 catch (Exception ex)

@@ -23,7 +23,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList
         }
         public async Task<IEnumerable<ArticlePagedListVm>> Handle(GetArticlePagedListQuery request, CancellationToken cancellationToken)
         {
-            var result = (await _articleRepository.GetPagedResponseAsync(request.page, cancellationToken)).OrderBy(x => x.CreatedDateUtc);
+            var result = await _articleRepository.GetPagedResponseAsync(request.page, cancellationToken);
             return _mapper.Map<IEnumerable<ArticlePagedListVm>>(result);
         }
     }

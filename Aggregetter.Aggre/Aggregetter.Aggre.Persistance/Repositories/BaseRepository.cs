@@ -55,7 +55,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
         public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, CancellationToken cancellationToken)
         {
             int pageSize = int.Parse(_configuration["Defaults:PageSize"]);
-            return (await _context.Set<T>().Skip((page - 1) * pageSize).Take(pageSize).OrderBy(x => x.CreatedDateUtc).AsNoTracking().ToListAsync(cancellationToken));
+            return (await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken));
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)

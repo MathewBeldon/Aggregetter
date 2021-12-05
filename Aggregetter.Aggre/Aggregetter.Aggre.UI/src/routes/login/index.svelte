@@ -86,7 +86,7 @@
 	}
 	section {
 		flex: 1;
-		background-image: url(svg/newspaper.svg);
+		background-image: url(/svg/newspaper.svg);
 		background-repeat: no-repeat;
 		background-position: center;
 		background-position-y: 150px;

@@ -23,6 +23,7 @@ namespace Aggregetter.Aggre.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
         [HttpGet("{page:int?}/{size:int?}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ArticlePagedListVm>>> PagedAsync(int page = 1, int size = 20)

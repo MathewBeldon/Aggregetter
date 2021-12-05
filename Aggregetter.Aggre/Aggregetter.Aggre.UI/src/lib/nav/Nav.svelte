@@ -85,7 +85,7 @@
 			{:else}
 				<li class="nav-item">
 					<a rel="prefetch" href="/login" class:active={$page.path === '/login'}>
-						<svg class="icon"><use xlink:href="svg/icons.svg#gg-log-in"/></svg>Sign in
+						<svg class="icon"><use xlink:href="/svg/icons.svg#gg-log-in"/></svg>Sign in
 					</a>
 				</li>
 
@@ -94,7 +94,7 @@
 						rel="prefetch"
 						href="/register"
 						class:active={$page.path === '/register'}>
-						<svg class="icon"><use xlink:href="svg/icons.svg#gg-user-add"/></svg>Sign up
+						<svg class="icon"><use xlink:href="/svg/icons.svg#gg-user-add"/></svg>Sign up
 					</a>
 				</li>
 			{/if}
