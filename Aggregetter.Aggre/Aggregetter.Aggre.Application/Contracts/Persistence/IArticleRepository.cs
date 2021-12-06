@@ -7,5 +7,6 @@ namespace Aggregetter.Aggre.Application.Contracts.Persistence
     public interface IArticleRepository : IBaseRepository<Article>
     {
         Task<bool> IsArticleEndpointUniqueAsync(string endpoint, CancellationToken cancellationToken);
+        Task<Article> GetArticleBySlugAsync(string slug, CancellationToken cancellationToken);
     }
 }

@@ -61,7 +61,8 @@ namespace Aggregetter.Aggre.Persistance.Seed
                     TranslatedBody = "Dummy Text" + i,
                     OriginalTitle = "Lorem" + i,
                     TranslatedTitle = "Dummy" + i,
-                    Endpoint = "Lorem/Endpoint" + i
+                    Endpoint = "Lorem/Endpoint" + i,
+                    Slug = "lorem-ipsum-" + i
                 };
 
                 var articleResult = await context.Articles.SingleOrDefaultAsync(x => x.ArticleId == article.ArticleId);

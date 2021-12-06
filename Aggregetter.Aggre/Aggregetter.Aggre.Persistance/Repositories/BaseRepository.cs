@@ -19,16 +19,13 @@ namespace Aggregetter.Aggre.Persistance.Repositories
         protected readonly AggreDbContext _context;
         protected readonly IDistributedCache _cache;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<BaseRepository<T>> _logger;
         public BaseRepository(AggreDbContext context, 
             IDistributedCache cache,
-            IConfiguration configuration,
-            ILogger<BaseRepository<T>> logger)
+            IConfiguration configuration)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -77,7 +74,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             throw new NotImplementedException();
         }
 
-        private async Task CacheObject(string key, T entity, CancellationToken cancellationToken)
+        protected async Task CacheObject(string key, T entity, CancellationToken cancellationToken)
         {
             var options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(1));

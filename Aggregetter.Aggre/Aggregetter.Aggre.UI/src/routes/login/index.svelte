@@ -26,7 +26,7 @@
 
 		// TODO handle network errors
 		errors = response.errors;
-		console.log(response);
+		console.log('res' + response);
 		if (response) {
 			$session.user = response;
 			goto('/');

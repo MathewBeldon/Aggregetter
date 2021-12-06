@@ -8,7 +8,7 @@ namespace Aggregetter.Aggre.Domain.Entities
     public sealed class Article : BaseEntity
     {
         [Key]
-        public Guid ArticleId { get; set; }
+        public Guid ArticleId { get; set; }        
 
         [ForeignKey(nameof(Provider))]
         public Guid ProviderId { get; set; }
@@ -32,5 +32,8 @@ namespace Aggregetter.Aggre.Domain.Entities
         
         [Column(TypeName = "text")]
         public string Endpoint { get; set; }
+
+        [Column(TypeName = "tinytext")]
+        public string Slug { get; set; }
     }
 }

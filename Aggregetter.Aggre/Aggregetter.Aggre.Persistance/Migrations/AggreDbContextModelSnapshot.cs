@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
@@ -14,8 +16,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.10");
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
                 {
@@ -43,6 +45,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.Property<Guid>("ProviderId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Slug")
+                        .HasColumnType("tinytext");
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");

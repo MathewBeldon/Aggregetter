@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     public partial class InitialMigration : Migration
@@ -83,6 +85,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     OriginalBody = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Endpoint = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Slug = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
