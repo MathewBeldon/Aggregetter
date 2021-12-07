@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20211206203238_InitialMigration")]
+    [Migration("20211207200622_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<Guid>("ArticleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("ArticleSlug")
+                        .HasColumnType("tinytext");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("char(36)");
@@ -47,9 +50,6 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.Property<Guid>("ProviderId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("Slug")
-                        .HasColumnType("tinytext");
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");

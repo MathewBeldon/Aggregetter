@@ -31,10 +31,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesDefaultPage = await _client.GetAsync("/api/article/");
             articlesDefaultPage.EnsureSuccessStatusCode();
 
-            var articlesFirstPage = await _client.GetAsync("/api/article/page/1");
+            var articlesFirstPage = await _client.GetAsync("/api/article/1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/article/page/2");
+            var articlesSecondPage = await _client.GetAsync("/api/article/2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesDefaultPageString = await articlesDefaultPage.Content.ReadAsStringAsync();
@@ -53,13 +53,13 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticleDetails_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/article/page/1");
+            var articlesFirstPage = await _client.GetAsync("/api/article/1");
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
             var firstArticle = JsonConvert.DeserializeObject<List<ArticlePagedListVm>>(articlesFirstPageString).FirstOrDefault();
 
-            var response = await _client.GetAsync("/api/article/" + firstArticle?.ArticleId.ToString());
+            var response = await _client.GetAsync("/api/article/" + firstArticle?.ArticleSlug);
 
             response.EnsureSuccessStatusCode();
 
@@ -78,13 +78,14 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
             var createArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.Parse("0763EBF37CC443A3B3AFD7F94109934C"),
-                ProviderId = Guid.Parse("03867E6157024CBF9403716F4F900519"),
+                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
+                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
-                Endpoint = "New/Endpoint"
+                Endpoint = "New/Endpoint", 
+                ArticleSlug = "original-title"
             };
 
             var json = JsonConvert.SerializeObject(createArticleCommand);

@@ -86,7 +86,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Endpoint = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Slug = table.Column<string>(type: "tinytext", nullable: true)
+                    ArticleSlug = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)

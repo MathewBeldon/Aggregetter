@@ -45,7 +45,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Commands
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
-                Endpoint = "New/Endpoint"
+                Endpoint = "New/Endpoint", 
+                ArticleSlug = "original-title"
             };
 
             var response = await handler.Handle(createArticleCommand, CancellationToken.None);
@@ -68,7 +69,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Commands
                 TranslatedTitle = existingArticle.TranslatedTitle,
                 OriginalBody = existingArticle.OriginalBody,
                 TranslatedBody = existingArticle.TranslatedBody,
-                Endpoint = existingArticle.Endpoint
+                Endpoint = existingArticle.Endpoint,
+                ArticleSlug = existingArticle.ArticleSlug
             };
 
             var response = await handler.Handle(createArticleCommand, CancellationToken.None);

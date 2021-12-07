@@ -13,13 +13,13 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 {
     public class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQuery, ArticleDetailsVm>
     {
-        private readonly IBaseRepository<Article> _articleRepository;
+        private readonly IArticleRepository _articleRepository;
         private readonly IBaseRepository<Provider> _providerRepository;
         private readonly IBaseRepository<Category> _categoryRepository;
         private readonly IBaseRepository<Language> _languageRepository;
         private readonly IMapper _mapper;
 
-        public GetArticleDetailsQueryHandler(IBaseRepository<Article> articleRepository, 
+        public GetArticleDetailsQueryHandler(IArticleRepository articleRepository, 
                                              IBaseRepository<Provider> providerRepository,
                                              IBaseRepository<Category> categoryRepository,
                                              IBaseRepository<Language> languageRepository,
@@ -34,7 +34,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 
         public async Task<ArticleDetailsVm> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
         {
-            var article = await _articleRepository.GetByIdAsync(request.ArticleId, cancellationToken);
+            var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             var provider = await _providerRepository.GetByIdAsync(article.ProviderId, cancellationToken);
             var category = await _categoryRepository.GetByIdAsync(article.CategoryId, cancellationToken);
             var language = await _languageRepository.GetByIdAsync(provider.LanguageId, cancellationToken);

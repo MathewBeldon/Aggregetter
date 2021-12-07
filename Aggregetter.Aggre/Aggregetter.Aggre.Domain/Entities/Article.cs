@@ -34,6 +34,6 @@ namespace Aggregetter.Aggre.Domain.Entities
         public string Endpoint { get; set; }
 
         [Column(TypeName = "tinytext")]
-        public string Slug { get; set; }
+        public string ArticleSlug { get; set; }
     }
 }

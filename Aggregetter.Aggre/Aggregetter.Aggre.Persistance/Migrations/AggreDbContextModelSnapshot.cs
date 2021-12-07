@@ -25,6 +25,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("ArticleSlug")
+                        .HasColumnType("tinytext");
+
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("char(36)");
 
@@ -45,9 +48,6 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.Property<Guid>("ProviderId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("Slug")
-                        .HasColumnType("tinytext");
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");

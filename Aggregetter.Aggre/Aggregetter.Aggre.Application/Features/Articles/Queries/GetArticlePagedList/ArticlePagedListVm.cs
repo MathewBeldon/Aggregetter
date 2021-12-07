@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList
+﻿namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList
 {
     public class ArticlePagedListVm
     {
-        public Guid ArticleId { get; set; }
+        public string ArticleSlug { get; set; }
         public string TranslatedTitle { get; set; }
     }
 }

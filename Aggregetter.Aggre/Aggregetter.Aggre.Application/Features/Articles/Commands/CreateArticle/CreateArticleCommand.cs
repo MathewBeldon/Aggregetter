@@ -16,6 +16,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
         public string TranslatedBody { get; set; }
         public string OriginalBody { get; set; }
         public string Endpoint { get; set; }
+        public string ArticleSlug { get; set; }
 
         public override string ToString()
         {

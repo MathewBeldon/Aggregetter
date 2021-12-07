@@ -23,6 +23,11 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
                     return await _articleRepository.IsArticleEndpointUniqueAsync(endpoint, cancellationToken);
                 }).WithMessage("An article with this endpoint exists already");
 
+            RuleFor(article => article.ArticleSlug)
+                .MustAsync(async (articleSlug, cancellationToken) => {
+                    return await _articleRepository.IsArticleEndpointUniqueAsync(articleSlug, cancellationToken);
+                }).WithMessage("An article with this slug exists already");
+
             RuleFor(article => article.OriginalTitle)
                 .NotEmpty()
                 .WithMessage("{PropertyName} is required");
@@ -36,6 +41,10 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
                 .WithMessage("{PropertyName} is required");
 
             RuleFor(article => article.TranslatedBody)
+                .NotEmpty()
+                .WithMessage("{PropertyName} is required");
+
+            RuleFor(article => article.ArticleSlug)
                 .NotEmpty()
                 .WithMessage("{PropertyName} is required");
         }

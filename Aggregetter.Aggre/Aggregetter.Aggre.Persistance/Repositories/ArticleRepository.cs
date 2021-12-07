@@ -25,15 +25,15 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return !await _context.Articles.AnyAsync(article => article.Endpoint == endpoint, cancellationToken);
         }
 
-        public async Task<Article> GetArticleBySlugAsync(string slug, CancellationToken cancellationToken)
+        public async Task<Article> GetArticleBySlugAsync(string articleSlug, CancellationToken cancellationToken)
         {
-            var queryEncoded = await _cache.GetAsync(slug, cancellationToken);
+            var queryEncoded = await _cache.GetAsync(articleSlug, cancellationToken);
 
             if (queryEncoded is null)
             {
-                var entity = await _context.Articles.SingleOrDefaultAsync(article => article.Slug == slug, cancellationToken);
+                var entity = await _context.Articles.SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
 
-                await CacheObject(slug, entity, cancellationToken);
+                await CacheObject(articleSlug, entity, cancellationToken);
 
                 return entity;
             }

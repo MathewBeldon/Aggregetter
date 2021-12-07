@@ -35,12 +35,12 @@ namespace Aggregetter.Aggre.API.Controllers
             return Ok(articleListVm);
         }
 
-        [HttpGet("{articleId:Guid}", Name = "Details")]
+        [HttpGet("{articleSlug}", Name = "Details")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ArticleDetailsVm>> DetailsAsync(Guid articleId)
+        public async Task<ActionResult<ArticleDetailsVm>> DetailsAsync(string articleSlug)
         {
             var articleDetailsVm = await _mediator.Send(new GetArticleDetailsQuery(){
-                ArticleId = articleId
+                ArticleSlug = articleSlug
             });
             return Ok(articleDetailsVm);
         }

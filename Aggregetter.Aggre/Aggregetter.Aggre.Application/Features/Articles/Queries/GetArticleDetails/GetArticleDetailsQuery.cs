@@ -9,6 +9,6 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 {
     public class GetArticleDetailsQuery : IRequest<ArticleDetailsVm>
     {
-        public Guid ArticleId { get; set; }
+        public string ArticleSlug { get; set; }
     }
 }

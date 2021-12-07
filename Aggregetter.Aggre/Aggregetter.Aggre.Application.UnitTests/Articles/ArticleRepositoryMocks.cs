@@ -31,7 +31,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles
                     TranslatedBody = "Dummy Text" + i,
                     CreatedDateUtc = DateTime.UtcNow,
                     ModifiedDateUtc = DateTime.UtcNow,
-                    Endpoint = "Taken/Endpoint" + i
+                    Endpoint = "Taken/Endpoint" + i,
+                    ArticleSlug = "dummy-text" + i
                 });
             }
 
