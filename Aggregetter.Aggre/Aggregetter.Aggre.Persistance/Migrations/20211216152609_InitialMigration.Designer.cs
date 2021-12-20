@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20211207200622_InitialMigration")]
+    [Migration("20211216152609_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,10 +58,6 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .HasColumnType("tinytext");
 
                     b.HasKey("ArticleId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProviderId");
 
                     b.ToTable("Articles");
                 });
@@ -129,39 +125,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("ProviderId");
 
-                    b.HasIndex("LanguageId");
-
                     b.ToTable("Providers");
-                });
-
-            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
-                {
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Provider", "Provider")
-                        .WithMany()
-                        .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Provider");
-                });
-
-            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Provider", b =>
-                {
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
                 });
 #pragma warning restore 612, 618
         }

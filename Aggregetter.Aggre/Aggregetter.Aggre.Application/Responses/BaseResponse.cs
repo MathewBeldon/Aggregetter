@@ -2,30 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Responses
 {
-    public class BaseResponse
+    public class BaseResponse<T>
     {
         public BaseResponse()
         {
             Success = true;
         }
 
-        public BaseResponse(string message)
+        public BaseResponse(T data)
         {
-            Message = string.IsNullOrWhiteSpace(message) ? throw new ArgumentNullException(nameof(message)) : message;
+            Success = true;
+            Data = data;
+            Message = string.Empty;
+            ValidationErrors = null;
         }
 
-        public BaseResponse(string message, bool success)
-        {
-            Message = string.IsNullOrWhiteSpace(message) ? throw new ArgumentNullException(nameof(message)) : message;
-            Success = success;
-        }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public T Data { get; set; }
 
         public bool Success { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Message { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string> ValidationErrors { get; set; }
     }
 }

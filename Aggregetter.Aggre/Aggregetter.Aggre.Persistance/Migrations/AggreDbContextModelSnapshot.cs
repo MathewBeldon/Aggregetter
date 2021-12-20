@@ -57,10 +57,6 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("ArticleId");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProviderId");
-
                     b.ToTable("Articles");
                 });
 
@@ -127,39 +123,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("ProviderId");
 
-                    b.HasIndex("LanguageId");
-
                     b.ToTable("Providers");
-                });
-
-            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
-                {
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Provider", "Provider")
-                        .WithMany()
-                        .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Provider");
-                });
-
-            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Provider", b =>
-                {
-                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
                 });
 #pragma warning restore 612, 618
         }

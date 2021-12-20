@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList
+namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
 {
-    public class GetArticlePagedListQueryHandler : IRequestHandler<GetArticlePagedListQuery, IEnumerable<ArticlePagedListVm>>
+    public class GetArticlePagedListQueryHandler : IRequestHandler<GetArticlePagedListQuery, ArticlePagedListResponse>
     { 
         private readonly IBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
@@ -21,10 +21,12 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList
             _articleRepository = articleRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<ArticlePagedListVm>> Handle(GetArticlePagedListQuery request, CancellationToken cancellationToken)
+        public async Task<ArticlePagedListResponse> Handle(GetArticlePagedListQuery request, CancellationToken cancellationToken)
         {
             var result = await _articleRepository.GetPagedResponseAsync(request.page, cancellationToken);
-            return _mapper.Map<IEnumerable<ArticlePagedListVm>>(result);
+            var articlePagedListDto = _mapper.Map<List<ArticlePagedItemDto>>(result);
+
+            return new ArticlePagedListResponse(request.page, 20, articlePagedListDto);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
 using Aggregetter.Aggre.Application.Profiles;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
@@ -38,8 +38,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
                 page = 1
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<List<ArticlePagedListVm>>();
-            result.ShouldNotBeEmpty();
+            result.ShouldBeOfType<ArticlePagedListResponse>();
+            result.Data.ShouldNotBeEmpty();
         }
     }
 }

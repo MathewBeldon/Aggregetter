@@ -33,7 +33,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             {
                 var entity = await _context.Articles.SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
 
-                await CacheObject(articleSlug, entity, cancellationToken);
+                _ = Task.Run(() => CacheObject(articleSlug, entity, cancellationToken));
 
                 return entity;
             }

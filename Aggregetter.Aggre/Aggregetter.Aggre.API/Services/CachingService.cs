@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Aggregetter.Aggre.API.Services
 {
-    internal static class CachingService
+    internal static class CachingServiceRegistration
     {
         internal static IServiceCollection AddCachingService(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {            

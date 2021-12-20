@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public class ProviderDto
+    public sealed class ProviderDto
     {
         public Guid ProviderId { get; set; }
         public string Name { get; set; }

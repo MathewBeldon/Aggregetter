@@ -36,8 +36,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             {
                 var entity = await _context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
 
-                await CacheObject(id.ToString(), entity, cancellationToken);
-
+                Task.Run(() => CacheObject(id.ToString(), entity, cancellationToken));
                 return entity;
             }
 
@@ -81,6 +80,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
 
             var entitySerialised = JsonConvert.SerializeObject(entity);
             var entityEncoded = Encoding.UTF8.GetBytes(entitySerialised);
+            await _cache.RemoveAsync(key, cancellationToken);
             await _cache.SetAsync(key, entityEncoded, options, cancellationToken);
         }
     }

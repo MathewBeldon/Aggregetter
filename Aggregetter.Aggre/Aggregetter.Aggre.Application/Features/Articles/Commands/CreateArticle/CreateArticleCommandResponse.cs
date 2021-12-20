@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    public sealed class CreateArticleCommandResponse : BaseResponse
+    public sealed class CreateArticleCommandResponse : BaseResponse<CreateArticleDto>
     {
         public CreateArticleCommandResponse() : base() { }
-
-        public CreateArticleDto Article { get; set; }
     }
 }

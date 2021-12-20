@@ -44,7 +44,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
             articleDetailsVm.Category = _mapper.Map<CategoryDto>(category);
             articleDetailsVm.Provider.Language = _mapper.Map<LanguageDto>(language);
 
-            return articleDetailsVm;            
+            return articleDetailsVm;
         }
     }
 }

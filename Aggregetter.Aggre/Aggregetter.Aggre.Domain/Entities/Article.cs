@@ -12,11 +12,9 @@ namespace Aggregetter.Aggre.Domain.Entities
 
         [ForeignKey(nameof(Provider))]
         public Guid ProviderId { get; set; }
-        public Provider Provider { get; set; }
 
         [ForeignKey(nameof(Category))]
         public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
 
         [Column(TypeName = "tinytext")]
         public string TranslatedTitle { get; set; }

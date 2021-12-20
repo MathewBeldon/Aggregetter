@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Persistance
 {
-    public class AggreDbContext : DbContext
+    public sealed class AggreDbContext : DbContext
     {
         public AggreDbContext(DbContextOptions<AggreDbContext> options)
            : base(options)

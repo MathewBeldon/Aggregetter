@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleList;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using System;
@@ -17,7 +17,7 @@ namespace Aggregetter.Aggre.Application.Profiles
         {
             #region GetArticleDetails
 
-            CreateMap<Article, ArticlePagedListVm>();
+            CreateMap<Article, ArticlePagedItemDto>();
             CreateMap<Article, ArticleDetailsVm>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Language, LanguageDto>();

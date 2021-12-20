@@ -16,6 +16,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
         public string Endpoint { get; set; }
         public string ArticleSlug { get; set; }
         public DateTime CreatedDateUtc { get; set; }
+
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime ModifiedDateUtc { get; set; }
         public ProviderDto Provider { get; set; }

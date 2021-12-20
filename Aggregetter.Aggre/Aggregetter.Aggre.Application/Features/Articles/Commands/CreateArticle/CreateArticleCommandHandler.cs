@@ -3,10 +3,7 @@ using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +44,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
             {
                 var article = _mapper.Map<Article>(request);
                 var response = await _articleRepository.AddAsync(article, cancellationToken);
-                createArticleCommandResponse.Article = _mapper.Map<CreateArticleDto>(response);
+                createArticleCommandResponse.Data = _mapper.Map<CreateArticleDto>(response);
 
                 return createArticleCommandResponse;
             }
