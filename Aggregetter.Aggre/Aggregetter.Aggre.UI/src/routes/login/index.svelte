@@ -34,7 +34,6 @@
 	}
 </script>
 
-
 <svelte:head>
 	<title>Sign up</title>
 </svelte:head>
@@ -67,6 +66,7 @@
         </div>
 	</form>
 </section>
+
 <style>
 	
 	* { box-sizing:border-box; }
