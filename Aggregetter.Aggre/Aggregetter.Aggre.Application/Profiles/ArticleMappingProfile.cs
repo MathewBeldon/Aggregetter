@@ -11,27 +11,25 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Profiles
 {
-    public class MappingProfile : Profile
+    public sealed class ArticleMappingProfile : Profile
     {
-        public MappingProfile()
+        public ArticleMappingProfile()
         {
-            #region GetArticleDetails
-
+            #region GetArticlePagedList
             CreateMap<Article, ArticlePagedItemDto>();
+            #endregion GetArticlePagedList
+
+            #region GetArticleDetails           
             CreateMap<Article, ArticleDetailsVm>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Language, LanguageDto>();
             CreateMap<Provider, ProviderDto>();
-
             #endregion GetArticleDetails
 
             #region CreateArticle
-
             CreateMap<Article, CreateArticleDto>().ReverseMap();
             CreateMap<Article, CreateArticleCommand>().ReverseMap();
-
             #endregion CreateArticle
-
         }
     }
 }

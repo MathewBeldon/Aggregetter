@@ -24,7 +24,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
 
             var configurationProvider = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<MappingProfile>();
+                cfg.AddProfile<ArticleMappingProfile>();
             });
 
             _mapper = configurationProvider.CreateMapper();

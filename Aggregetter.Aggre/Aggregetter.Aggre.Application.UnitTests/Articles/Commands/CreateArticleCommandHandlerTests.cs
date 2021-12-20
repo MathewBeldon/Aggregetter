@@ -25,7 +25,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Commands
 
             var mappingProfile = new MapperConfiguration(config =>
             {
-                config.AddProfile<MappingProfile>();
+                config.AddProfile<ArticleMappingProfile>();
             });
 
             _mapper = mappingProfile.CreateMapper();
