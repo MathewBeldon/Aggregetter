@@ -61,7 +61,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                     var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
 
-
                     dataContext.Database.EnsureCreated();
                     identityContext.Database.EnsureCreated();
 

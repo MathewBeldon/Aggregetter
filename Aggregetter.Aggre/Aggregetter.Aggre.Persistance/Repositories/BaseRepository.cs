@@ -32,22 +32,26 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             if (queryEncoded is null)
             {
                 var entity = await _context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
-
-                Task.Run(() => CacheObject(id.ToString(), entity, cancellationToken));
+                _ = Task.Run(() => CacheObject(id.ToString(), EncodeObject(entity), cancellationToken));
                 return entity;
             }
 
             return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(queryEncoded));
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
-        }
-
         public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
-            return (await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken));
+            var key = $"{typeof(T).Name}-{page}-{pageSize}";
+            var queryEncoded = await _cache.GetAsync(key, cancellationToken);
+
+            if (queryEncoded is null)
+            {
+                var entity = await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
+                _ = Task.Run(() => CacheObject(key, EncodeObject(entity), cancellationToken));
+                return entity;
+            }
+
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(Encoding.UTF8.GetString(queryEncoded));
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
@@ -69,15 +73,21 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             throw new NotImplementedException();
         }
 
-        protected async Task CacheObject(string key, T entity, CancellationToken cancellationToken)
+        protected byte[] EncodeObject(object obj)
+        {
+            if (obj is null) throw new ArgumentNullException(nameof(obj));
+
+            var entitySerialised = JsonConvert.SerializeObject(obj);
+            return Encoding.UTF8.GetBytes(entitySerialised);
+        }
+
+        protected async Task CacheObject(string key, byte[] serialiseEntity, CancellationToken cancellationToken)
         {
             var options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(1));
-
-            var entitySerialised = JsonConvert.SerializeObject(entity);
-            var entityEncoded = Encoding.UTF8.GetBytes(entitySerialised);
+            
             await _cache.RemoveAsync(key, cancellationToken);
-            await _cache.SetAsync(key, entityEncoded, options, cancellationToken);
+            await _cache.SetAsync(key, serialiseEntity, options, cancellationToken);
         }
     }
 }

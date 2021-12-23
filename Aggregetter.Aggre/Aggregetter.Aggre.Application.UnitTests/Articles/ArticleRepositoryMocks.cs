@@ -38,8 +38,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles
 
             var mockArticleRepository = new Mock<IArticleRepository>();
 
-            mockArticleRepository.Setup(repo => repo.GetAllAsync(CancellationToken.None)).ReturnsAsync(articles);
-
             mockArticleRepository.Setup(repo => repo.IsArticleEndpointUniqueAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string endpoint, CancellationToken cancellationToken) =>
                 {
