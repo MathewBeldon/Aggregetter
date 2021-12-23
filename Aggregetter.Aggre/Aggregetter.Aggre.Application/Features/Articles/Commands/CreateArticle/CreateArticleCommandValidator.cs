@@ -1,16 +1,9 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Domain.Entities;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    public sealed class CreateArticleCommandValidator : AbstractValidator<CreateArticleCommand>
+    internal sealed class CreateArticleCommandValidator : AbstractValidator<CreateArticleCommand>
     {
         readonly IArticleRepository _articleRepository;
 

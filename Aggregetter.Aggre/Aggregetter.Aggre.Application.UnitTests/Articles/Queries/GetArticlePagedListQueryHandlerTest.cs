@@ -38,7 +38,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
                 page = 1
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<ArticlePagedListResponse>();
+            result.ShouldBeOfType<GetArticlePagedListQueryResponse>();
             result.Data.ShouldNotBeEmpty();
         }
     }

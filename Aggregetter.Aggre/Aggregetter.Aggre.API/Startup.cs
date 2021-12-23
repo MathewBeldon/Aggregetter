@@ -2,6 +2,7 @@ using Aggregetter.Aggre.API.Services;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
+using Aggregetter.Aggre.Application.Requests;
 using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Persistance;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,9 @@ namespace Aggregetter.Aggre.API
             services.AddControllers();
             services.AddScoped<ILoggedInUserService, LoggedInUserService>();
             services.AddCachingService(Configuration, Environment);
+
+            var pagedRequest = new PagedRequest();
+            Configuration.Bind("Defaults:DEFAULT_PAGE_SIZE", pagedRequest);
 
             services.AddRouting(options => {
                 options.LowercaseUrls = true;

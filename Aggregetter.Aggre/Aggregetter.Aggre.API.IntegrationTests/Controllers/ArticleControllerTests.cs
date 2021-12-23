@@ -57,7 +57,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
-            var firstArticle = JsonConvert.DeserializeObject<ArticlePagedListResponse>(articlesFirstPageString).Data.FirstOrDefault();
+            var firstArticle = JsonConvert.DeserializeObject<GetArticlePagedListQueryResponse>(articlesFirstPageString).Data.FirstOrDefault();
 
             var response = await _client.GetAsync("/api/article/" + firstArticle?.ArticleSlug);
 

@@ -57,10 +57,10 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles
                     return article;
                 });
 
-            mockArticleRepository.Setup(repo => repo.GetPagedResponseAsync(It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
-                (int page, CancellationToken cancellationToken) =>
+            mockArticleRepository.Setup(repo => repo.GetPagedResponseAsync(It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
+                (int page, int pageSize, CancellationToken cancellationToken) =>
                 {
-                    return articles.Skip((page - 1) * 20).Take(20).ToList();
+                    return articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 });
 
             return mockArticleRepository;

@@ -18,14 +18,11 @@ namespace Aggregetter.Aggre.Persistance.Repositories
     {
         protected readonly AggreDbContext _context;
         protected readonly IDistributedCache _cache;
-        private readonly IConfiguration _configuration;
         public BaseRepository(AggreDbContext context, 
-            IDistributedCache cache,
-            IConfiguration configuration)
+            IDistributedCache cache)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -48,9 +45,8 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
-            int pageSize = int.Parse(_configuration["Defaults:PageSize"]);
             return (await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken));
         }
 

@@ -16,7 +16,7 @@ namespace Aggregetter.Aggre.Application.Profiles
         public ArticleMappingProfile()
         {
             #region GetArticlePagedList
-            CreateMap<Article, ArticlePagedItemDto>();
+            CreateMap<Article, GetArticlePagedItemDto>();
             #endregion GetArticlePagedList
 
             #region GetArticleDetails           

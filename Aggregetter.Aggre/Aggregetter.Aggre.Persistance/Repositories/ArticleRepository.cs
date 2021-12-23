@@ -16,7 +16,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
 {
     public sealed class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
-        public ArticleRepository(AggreDbContext context, IDistributedCache cache, IConfiguration configuration) : base (context, cache, configuration)
+        public ArticleRepository(AggreDbContext context, IDistributedCache cache) : base (context, cache)
         {
         }
 

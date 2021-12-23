@@ -20,6 +20,7 @@ namespace Aggregetter.Aggre.Application.Responses
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
+            if (data is null) Success = false;
         }
     }
 }
