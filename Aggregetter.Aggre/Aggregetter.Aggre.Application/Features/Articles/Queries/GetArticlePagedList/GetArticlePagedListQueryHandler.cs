@@ -34,7 +34,6 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
 
             if (validationResult.IsValid)
             {
-
                 var response = await _articleRepository.GetPagedResponseAsync(request.page, request.pageSize, cancellationToken);
                 var getArticlePagedItemList = _mapper.Map<List<GetArticlePagedItemDto>>(response);
 

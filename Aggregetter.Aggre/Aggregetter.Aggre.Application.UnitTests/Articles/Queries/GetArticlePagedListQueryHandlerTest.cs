@@ -1,6 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
 using Aggregetter.Aggre.Application.Profiles;
+using Aggregetter.Aggre.Application.UnitTests.Base;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using FluentValidation;
@@ -19,13 +20,15 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;
-        private readonly Mock<IValidator<GetArticlePagedListQuery>> _validator;
+        private readonly Mock<AbstractValidator<GetArticlePagedListQuery>> _validator;
         private readonly Mock<IConfiguration> _configuration;
+
+        private readonly GetArticlePagedListQueryHandler _handler;
 
         public GetArticlePagedListQueryHandlerTests()
         {
             _mockArticleRepository = ArticleRepositoryMocks.GetArticleRepository();
-            _validator = new Mock<IValidator<GetArticlePagedListQuery>>();
+            _validator = ValidatorMocks.GetValidator<GetArticlePagedListQuery>();
             _configuration = new Mock<IConfiguration>();
 
             var configurationProvider = new MapperConfiguration(cfg =>
@@ -34,18 +37,37 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
             });
 
             _mapper = configurationProvider.CreateMapper();
+
+            _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _validator.Object, _configuration.Object);
+
         }
 
-        [Fact]
-        public async Task GetArticlePagedListTest()
+        [Theory]
+        [InlineData(10)]
+        [InlineData(20)]
+        public async Task GetArticlePagedListQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
-            var handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _validator.Object, _configuration.Object);
-            var result = await handler.Handle(new GetArticlePagedListQuery(){
-                page = 1
+            var result = await _handler.Handle(new GetArticlePagedListQuery(){
+                page = 1,
+                pageSize = pageSize
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlePagedListQueryResponse>();
-            result.Data.ShouldNotBeEmpty();
+            result.Data.Count.ShouldBe(pageSize);
+        }
+
+        [Fact]
+        public async Task GetArticlePagedListQueryHandler_OutOfBoundsPage_NoResults()
+        {
+            var result = await _handler.Handle(new GetArticlePagedListQuery()
+            {
+                page = 10,
+                pageSize = 20
+            }, CancellationToken.None);
+
+            result.ShouldBeOfType<GetArticlePagedListQueryResponse>();
+            result.Message.ShouldBe("Page contains no data");
+            result.Data.ShouldBeEmpty();
         }
     }
 }
