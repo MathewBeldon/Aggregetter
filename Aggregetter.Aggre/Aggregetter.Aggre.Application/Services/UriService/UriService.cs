@@ -28,7 +28,7 @@ namespace Aggregetter.Aggre.Application.Services.UriService
 
             var lastPageNumber = Math.Ceiling((double)recordCount / pageRequest.PageSize);
             string nextPage = string.Empty;
-            if (pageRequest.Page + 1 < lastPageNumber)
+            if (pageRequest.Page + 1 <= lastPageNumber)
             {
                 nextPage = QueryHelpers.AddQueryString(_urlWithEndpoint, "pageSize", (pageRequest.PageSize).ToString());
                 nextPage = QueryHelpers.AddQueryString(nextPage, "page", (pageRequest.Page + 1).ToString());

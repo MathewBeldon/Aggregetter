@@ -51,7 +51,9 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
                     FirstPage = pagedUris.FirstUri,
                     PreviousPage = pagedUris.PreviousUri,
                     NextPage = pagedUris.NextUri,
-                    LastPage = pagedUris.LastUri
+                    LastPage = pagedUris.LastUri,
+                    TotalRecords = response.Total,
+                    TotalPages = (int)Math.Ceiling((double)response.Total / request.PagedRequest.PageSize),
                 };
             }
 
