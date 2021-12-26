@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Articles.Commands
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands
 {
     public class CreateArticleCommandHandlerTests
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Articles
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 {
     public class ArticleRepositoryMocks
     {
@@ -58,7 +58,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles
             mockArticleRepository.Setup(repo => repo.GetPagedResponseAsync(It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
                 (int page, int pageSize, CancellationToken cancellationToken) =>
                 {
-                    return articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    return (articles.Skip((page - 1) * pageSize).Take(pageSize).ToList(), articles.Count);
                 });
 
             return mockArticleRepository;

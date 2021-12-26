@@ -25,6 +25,11 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
+        public Task<int> GetCount()
+        {
+            return _context.Articles.CountAsync();
+        }
+
         public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var queryEncoded = await _cache.GetAsync(id.ToString(), cancellationToken);
@@ -39,19 +44,20 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(queryEncoded));
         }
 
-        public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken)
+        public async Task<(IEnumerable<T>, int)> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
             var key = $"{typeof(T).Name}-{page}-{pageSize}";
             var queryEncoded = await _cache.GetAsync(key, cancellationToken);
 
             if (queryEncoded is null)
             {
+                var total = await _context.Articles.CountAsync();
                 var entity = await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
-                _ = Task.Run(() => CacheObject(key, EncodeObject(entity), cancellationToken));
-                return entity;
+                _ = Task.Run(() => CacheObject(key, EncodeObject((entity, total)), cancellationToken));
+                return (entity, total);
             }
 
-            return JsonConvert.DeserializeObject<IEnumerable<T>>(Encoding.UTF8.GetString(queryEncoded));
+            return JsonConvert.DeserializeObject<(IEnumerable<T>, int)>(Encoding.UTF8.GetString(queryEncoded));
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)

@@ -1,7 +1,9 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
 using Aggregetter.Aggre.Application.Profiles;
-using Aggregetter.Aggre.Application.UnitTests.Base;
+using Aggregetter.Aggre.Application.Requests;
+using Aggregetter.Aggre.Application.Services.UriService;
+using Aggregetter.Aggre.Application.UnitTests.Features.Base;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using FluentValidation;
@@ -14,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries
 {
     public class GetArticlePagedListQueryHandlerTests
     {
@@ -22,6 +24,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
         private readonly Mock<IArticleRepository> _mockArticleRepository;
         private readonly Mock<AbstractValidator<GetArticlePagedListQuery>> _validator;
         private readonly Mock<IConfiguration> _configuration;
+        private readonly Mock<IUriService> _uriService;
 
         private readonly GetArticlePagedListQueryHandler _handler;
 
@@ -30,6 +33,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
             _mockArticleRepository = ArticleRepositoryMocks.GetArticleRepository();
             _validator = ValidatorMocks.GetValidator<GetArticlePagedListQuery>();
             _configuration = new Mock<IConfiguration>();
+            _uriService = new Mock<IUriService>();
 
             var configurationProvider = new MapperConfiguration(cfg =>
             {
@@ -38,7 +42,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _validator.Object, _configuration.Object);
+            _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _validator.Object, _configuration.Object, _uriService.Object);
 
         }
 
@@ -48,8 +52,10 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
         public async Task GetArticlePagedListQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
             var result = await _handler.Handle(new GetArticlePagedListQuery(){
-                page = 1,
-                pageSize = pageSize
+                PagedRequest = new PagedRequest {
+                    Page = 1,
+                    PageSize = pageSize
+                }
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlePagedListQueryResponse>();
@@ -61,8 +67,11 @@ namespace Aggregetter.Aggre.Application.UnitTests.Articles.Queries
         {
             var result = await _handler.Handle(new GetArticlePagedListQuery()
             {
-                page = 10,
-                pageSize = 20
+                PagedRequest = new PagedRequest
+                {
+                    Page = 10,
+                    PageSize = 20
+                }
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlePagedListQueryResponse>();

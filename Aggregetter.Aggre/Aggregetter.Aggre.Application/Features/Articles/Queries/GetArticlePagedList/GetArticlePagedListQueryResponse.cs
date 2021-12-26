@@ -9,7 +9,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
 {
     public class GetArticlePagedListQueryResponse : PagedResponse<List<GetArticlePagedItemDto>>
     {
-        public GetArticlePagedListQueryResponse(int pageNumber, int pageSize, List<GetArticlePagedItemDto> data) : base(pageNumber, pageSize, data)
+        public GetArticlePagedListQueryResponse(List<GetArticlePagedItemDto> data = default(List<GetArticlePagedItemDto>)) : base(data)
         {
             if (!(data?.Count > 0)) Message = "Page contains no data"; 
         }

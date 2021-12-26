@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Base
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
 {
     public class ValidatorMocks
     {

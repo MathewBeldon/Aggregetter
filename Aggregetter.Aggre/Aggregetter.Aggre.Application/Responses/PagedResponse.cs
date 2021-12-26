@@ -16,10 +16,8 @@ namespace Aggregetter.Aggre.Application.Responses
         public int TotalRecords { get; set; }
         public Uri NextPage { get; set; }
         public Uri PreviousPage { get; set; }
-        public PagedResponse(int pageNumber, int pageSize, T data) : base(data)
+        public PagedResponse(T data) : base(data)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
             if (data is null) Success = false;
         }
     }

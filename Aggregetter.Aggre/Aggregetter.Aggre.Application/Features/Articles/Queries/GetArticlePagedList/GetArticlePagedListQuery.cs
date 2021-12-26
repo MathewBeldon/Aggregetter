@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Aggregetter.Aggre.Application.Requests;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
 {
     public sealed class GetArticlePagedListQuery : IRequest<GetArticlePagedListQueryResponse>
     {
-        public int page { get; set; }
-        public int pageSize { get; set; }
+        public PagedRequest PagedRequest { get; set; }
     }
 }

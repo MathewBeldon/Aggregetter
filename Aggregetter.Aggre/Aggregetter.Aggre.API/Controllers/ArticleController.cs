@@ -29,8 +29,7 @@ namespace Aggregetter.Aggre.API.Controllers
         {
             var articleListPagedResponse = await _mediator.Send(new GetArticlePagedListQuery
             {
-                page = pagedRequest.Page,
-                pageSize = pagedRequest.PageSize
+                PagedRequest = pagedRequest,
             });
             return Ok(articleListPagedResponse);
         }
