@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Pipelines.Caching
+namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
 {
     public class CachingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
     {

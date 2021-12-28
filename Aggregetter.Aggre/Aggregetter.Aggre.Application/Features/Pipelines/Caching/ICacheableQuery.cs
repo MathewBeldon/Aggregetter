@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Pipelines.Caching
+namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
 {
     public interface ICacheableQuery
     {

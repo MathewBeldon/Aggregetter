@@ -1,8 +1,6 @@
 using Aggregetter.Aggre.API.Services;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Requests;
 using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Persistance;
 using Microsoft.AspNetCore.Builder;
@@ -12,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
-using System.Text;
 
 namespace Aggregetter.Aggre.API
 {

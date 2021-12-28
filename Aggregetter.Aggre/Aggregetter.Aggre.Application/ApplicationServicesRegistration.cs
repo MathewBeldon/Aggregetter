@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Pipelines.Caching;
+﻿using Aggregetter.Aggre.Application.Features.Pipelines.Caching;
 using Aggregetter.Aggre.Application.Services.UriService;
 using Aggregetter.Aggre.Application.Settings;
 using FluentValidation;
