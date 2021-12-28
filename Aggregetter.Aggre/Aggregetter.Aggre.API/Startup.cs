@@ -31,15 +31,12 @@ namespace Aggregetter.Aggre.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerService();
-            services.AddApplicationService();
+            services.AddApplicationService(Configuration);
             services.AddPersistanceServices(Configuration);
             services.AddIdentityServices(Configuration);
             services.AddControllers();
             services.AddScoped<ILoggedInUserService, LoggedInUserService>();
             services.AddCachingService(Configuration, Environment);
-
-            var pagedRequest = new PagedRequest();
-            Configuration.Bind("Defaults:DEFAULT_PAGE_SIZE", pagedRequest);
 
             services.AddRouting(options => {
                 options.LowercaseUrls = true;
@@ -59,9 +56,10 @@ namespace Aggregetter.Aggre.API
             {
                 app.UseDeveloperExceptionPage(); 
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
+                app.UseSwaggerUI(o =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aggregetter API");
+                    o.DisplayRequestDuration();
+                    o.SwaggerEndpoint("/swagger/v1/swagger.json", "Aggregetter API");
                 });
             }
 

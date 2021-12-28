@@ -1,21 +1,22 @@
-﻿using Aggregetter.Aggre.Application.Requests;
+﻿using Aggregetter.Aggre.Application.Pipelines.Caching;
 using Aggregetter.Aggre.Application.Services.UriService;
+using Aggregetter.Aggre.Application.Settings;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using System.Linq;
 using System.Reflection;
 
 namespace Aggregetter.Aggre.Application
 {
     public static class ApplicationServicesRegistration
     {
-        public static IServiceCollection AddApplicationService(this IServiceCollection services)
+        public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehavior<,>));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddSingleton<IUriService>(o =>
             {
@@ -24,7 +25,9 @@ namespace Aggregetter.Aggre.Application
                 var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
                 return new UriService(uri);
             });
-            
+
+            services.Configure<CacheSettings>(configuration.GetSection("CacheSettings"));
+
             return services;
         }
     }

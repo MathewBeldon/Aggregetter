@@ -16,7 +16,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
 {
     public sealed class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
-        public ArticleRepository(AggreDbContext context, IDistributedCache cache) : base (context, cache)
+        public ArticleRepository(AggreDbContext context) : base (context)
         {
         }
 
@@ -27,18 +27,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
 
         public async Task<Article> GetArticleBySlugAsync(string articleSlug, CancellationToken cancellationToken)
         {
-            var queryEncoded = await _cache.GetAsync(articleSlug, cancellationToken);
+            var entity = await _context.Articles.SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
 
-            if (queryEncoded is null)
-            {
-                var entity = await _context.Articles.SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
-
-                _ = Task.Run(() => CacheObject(articleSlug, EncodeObject(entity), cancellationToken));
-
-                return entity;
-            }
-
-            return JsonConvert.DeserializeObject<Article>(Encoding.UTF8.GetString(queryEncoded));
+            return entity;            
         }
     }
 }
