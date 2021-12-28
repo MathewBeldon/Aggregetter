@@ -16,12 +16,10 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
     public class CachingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
     {
         private readonly IDistributedCache _cache;
-        private readonly ILogger _logger;
         private readonly CacheSettings _settings;
-        public CachingPipelineBehavior(IDistributedCache cache, ILogger<TResponse> logger, IOptions<CacheSettings> settings)
+        public CachingPipelineBehavior(IDistributedCache cache, IOptions<CacheSettings> settings)
         {
             _cache = cache;
-            _logger = logger;
             _settings = settings.Value;
         }
 
@@ -29,14 +27,24 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
         {
             TResponse response;
             if (request.Bypass) return await next();
-            async Task<TResponse> GetResponseAndAddToCache()
+            
+            var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
+            if (cachedResponse != null)
+            {
+                return JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse));                
+            }
+
+            return await GetResponseAndAddToCacheAsync();
+
+            async Task<TResponse> GetResponseAndAddToCacheAsync()
             {
                 response = await next();
 
                 var absoluteExpiration = request.AbsoluteExpiration is null ? TimeSpan.FromSeconds(_settings.AbsoluteExpiration) : request.AbsoluteExpiration;
                 var slidingExpiration = request.SlidingExpiration is null ? TimeSpan.FromSeconds(_settings.SlidingExpiration) : request.SlidingExpiration;
 
-                var options = new DistributedCacheEntryOptions { 
+                var options = new DistributedCacheEntryOptions
+                {
                     AbsoluteExpirationRelativeToNow = absoluteExpiration,
                     SlidingExpiration = slidingExpiration
                 };
@@ -47,18 +55,6 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
 
                 return response;
             }
-            var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
-            if (cachedResponse != null)
-            {
-                response = JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse));
-                _logger.LogInformation($"Fetched from Cache -> '{request.Key}'.");
-            }
-            else
-            {
-                response = await GetResponseAndAddToCache();
-                _logger.LogInformation($"Added to Cache -> '{request.Key}'.");
-            }
-            return response;
         }
     }
 }

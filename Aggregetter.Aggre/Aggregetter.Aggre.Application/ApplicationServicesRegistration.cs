@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Features.Pipelines.Caching;
+using Aggregetter.Aggre.Application.Features.Pipelines.Validation;
 using Aggregetter.Aggre.Application.Services.UriService;
 using Aggregetter.Aggre.Application.Settings;
 using FluentValidation;
@@ -16,6 +17,7 @@ namespace Aggregetter.Aggre.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehavior<,>));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddSingleton<IUriService>(o =>
