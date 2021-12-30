@@ -42,7 +42,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _validator.Object, _configuration.Object, _uriService.Object);
+            _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _uriService.Object);
 
         }
 

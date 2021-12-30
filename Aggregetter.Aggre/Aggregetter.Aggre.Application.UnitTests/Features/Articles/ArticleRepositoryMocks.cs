@@ -58,7 +58,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
             mockArticleRepository.Setup(repo => repo.GetPagedResponseAsync(It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
                 (int page, int pageSize, CancellationToken cancellationToken) =>
                 {
-                    return (articles.Skip((page - 1) * pageSize).Take(pageSize).ToList(), articles.Count);
+                    return (articles.Skip((page - 1) * pageSize).Take(pageSize).ToList());
                 });
 
             return mockArticleRepository;
