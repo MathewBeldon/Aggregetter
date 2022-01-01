@@ -28,32 +28,25 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPage_Success()
         {
-            var articlesDefaultPage = await _client.GetAsync("/api/article/");
-            articlesDefaultPage.EnsureSuccessStatusCode();
-
-            var articlesFirstPage = await _client.GetAsync("/api/article/1");
+            var articlesFirstPage = await _client.GetAsync("/api/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/article/2");
+            var articlesSecondPage = await _client.GetAsync("/api/article?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
-            var articlesDefaultPageString = await articlesDefaultPage.Content.ReadAsStringAsync();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
             var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
 
 
-            articlesDefaultPageString.ShouldNotBeNull();
             articlesFirstPageString.ShouldNotBeNull();
             articlesSecondPageString.ShouldNotBeNull();
-
-            articlesDefaultPageString.ShouldContain(articlesFirstPageString);
-            articlesDefaultPageString.ShouldNotContain(articlesSecondPageString);
+            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
         }
 
         [Fact]
         public async Task GetArticleDetails_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/article/1");
+            var articlesFirstPage = await _client.GetAsync("/api/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
