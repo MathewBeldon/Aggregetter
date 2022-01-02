@@ -101,7 +101,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         {
             var login = await AuthenticationHelper.LoginBasicUserAsync(_client);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
-            var createArticleCommand = new CreateArticleCommand()
+
+            var firstArticleCommand = new CreateArticleCommand()
             {
                 CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
                 ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
@@ -110,16 +111,27 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
                 Endpoint = "Taken/Endpoint",
-                ArticleSlug = "original-title"
-            };
-
-            var json = JsonConvert.SerializeObject(createArticleCommand);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var firstPost = await _client.PostAsync("/api/article", content);
+                ArticleSlug = "taken-title"
+            };            
+            var firstArticleJson = JsonConvert.SerializeObject(firstArticleCommand);
+            var firstArticleContent = new StringContent(firstArticleJson, Encoding.UTF8, "application/json");
+            var firstPost = await _client.PostAsync("/api/article", firstArticleContent);
             firstPost.EnsureSuccessStatusCode();
 
-            var duplictePost = await _client.PostAsync("/api/article", content);
+            var duplicateEndpointArticleCommand = new CreateArticleCommand()
+            {
+                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
+                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
+                OriginalTitle = "Original Title",
+                TranslatedTitle = "Translated Title",
+                OriginalBody = "Original Body",
+                TranslatedBody = "Translated Body",
+                Endpoint = "Taken/Endpoint",
+                ArticleSlug = "taken2-title"
+            };
+            var duplicateEndpointArticleJson = JsonConvert.SerializeObject(duplicateEndpointArticleCommand);
+            var duplicateEndpointArticleContent = new StringContent(duplicateEndpointArticleJson, Encoding.UTF8, "application/json");
+            var duplictePost = await _client.PostAsync("/api/article", duplicateEndpointArticleContent);
             duplictePost.StatusCode.ShouldBe(System.Net.HttpStatusCode.InternalServerError);
         }
     }
