@@ -13,12 +13,12 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 
             RuleFor(article => article.Endpoint)
                 .MustAsync(async (endpoint, cancellationToken) => {
-                    return await _articleRepository.IsArticleEndpointUniqueAsync(endpoint, cancellationToken);
+                    return !await _articleRepository.ArticleEndpointExistsAsync(endpoint, cancellationToken);
                 }).WithMessage("An article with this endpoint exists already");
 
             RuleFor(article => article.ArticleSlug)
                 .MustAsync(async (articleSlug, cancellationToken) => {
-                    return await _articleRepository.IsArticleEndpointUniqueAsync(articleSlug, cancellationToken);
+                    return !await _articleRepository.ArticleSlugExistsAsync(articleSlug, cancellationToken);
                 }).WithMessage("An article with this slug exists already");
 
             RuleFor(article => article.OriginalTitle)

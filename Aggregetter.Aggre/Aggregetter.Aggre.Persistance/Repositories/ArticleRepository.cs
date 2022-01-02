@@ -20,9 +20,14 @@ namespace Aggregetter.Aggre.Persistance.Repositories
         {
         }
 
-        public async Task<bool> IsArticleEndpointUniqueAsync(string endpoint, CancellationToken cancellationToken)
+        public async Task<bool> ArticleEndpointExistsAsync(string endpoint, CancellationToken cancellationToken)
         {
-            return !await _context.Articles.AnyAsync(article => article.Endpoint == endpoint, cancellationToken);
+            return await _context.Articles.AnyAsync(article => article.Endpoint == endpoint, cancellationToken);
+        }
+
+        public async Task<bool> ArticleSlugExistsAsync(string articleSlug, CancellationToken cancellationToken)
+        {
+            return await _context.Articles.AnyAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
         }
 
         public async Task<Article> GetArticleBySlugAsync(string articleSlug, CancellationToken cancellationToken)
