@@ -95,6 +95,5 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             Assert.IsType<CreateArticleCommandResponse>(result);
             Assert.NotNull(result?.Data.ArticleId);
         }
-
     }
 }

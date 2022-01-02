@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    internal sealed class CreateArticleCommandValidator : AbstractValidator<CreateArticleCommand>
+    public sealed class CreateArticleCommandValidator : AbstractValidator<CreateArticleCommand>
     {
         readonly IArticleRepository _articleRepository;
 

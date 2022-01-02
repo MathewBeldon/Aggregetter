@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class GetArticleDetailsQueryValidation : AbstractValidator<GetArticleDetailsQuery>
+    public sealed class GetArticleDetailsQueryValidator : AbstractValidator<GetArticleDetailsQuery>
     {
-        public GetArticleDetailsQueryValidation()
+        public GetArticleDetailsQueryValidator()
         {
             RuleFor(ad => ad.ArticleSlug)
                 .NotEmpty()

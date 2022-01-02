@@ -26,8 +26,8 @@ TranslatedTitle: {TranslatedTitle},
 OriginalTitle: {OriginalTitle},
 TranslatedBody: {TranslatedBody},
 OriginalBody: {OriginalBody},
-Endpoint: {Endpoint}";
-
+Endpoint: {Endpoint},
+ArticleSlug: {ArticleSlug}";
         }
     }
 }

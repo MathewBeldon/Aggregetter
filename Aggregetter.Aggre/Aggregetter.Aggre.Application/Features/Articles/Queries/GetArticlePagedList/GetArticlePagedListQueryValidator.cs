@@ -2,9 +2,9 @@
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
 {
-    public sealed class GetArticlePagedListQueryValidation : AbstractValidator<GetArticlePagedListQuery>
+    public sealed class GetArticlePagedListQueryValidator : AbstractValidator<GetArticlePagedListQuery>
     {
-        public GetArticlePagedListQueryValidation()
+        public GetArticlePagedListQueryValidator()
         {
             RuleFor(pr => pr.PagedRequest.PageSize)
                 .InclusiveBetween(1, 20)

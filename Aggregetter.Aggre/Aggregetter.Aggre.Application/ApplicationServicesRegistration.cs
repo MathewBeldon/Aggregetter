@@ -18,8 +18,8 @@ namespace Aggregetter.Aggre.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehavior<,>));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehavior<,>));
             services.AddSingleton<IUriService>(o =>
             {
                 var accessor = o.GetRequiredService<IHttpContextAccessor>();
