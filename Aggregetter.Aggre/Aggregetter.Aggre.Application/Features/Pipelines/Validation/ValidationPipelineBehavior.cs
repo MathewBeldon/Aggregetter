@@ -17,7 +17,7 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Validation
             _validator = validator;
         }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
-        {            
+        {
             var context = new ValidationContext<TRequest>(request);
             var validationResults = await _validator.ValidateAsync(context, cancellationToken);
 
