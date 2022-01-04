@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public class GetArticleDetailsQuery : IRequest<ArticleDetailsVm>, ICacheableQuery
+    public sealed class GetArticleDetailsQuery : IRequest<ArticleDetailsVm>, ICacheableQuery
     {
         public string ArticleSlug { get; set; }
         public string Key => $"{ArticleSlug}";

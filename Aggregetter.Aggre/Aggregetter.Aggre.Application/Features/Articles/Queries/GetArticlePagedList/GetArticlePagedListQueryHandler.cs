@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
 {
-    public class GetArticlePagedListQueryHandler : IRequestHandler<GetArticlePagedListQuery, GetArticlePagedListQueryResponse>
+    public sealed class GetArticlePagedListQueryHandler : IRequestHandler<GetArticlePagedListQuery, GetArticlePagedListQueryResponse>
     { 
         private readonly IBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;

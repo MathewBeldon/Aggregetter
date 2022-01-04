@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
 {
-    public class GetArticlePagedListQueryResponse : PagedResponse<List<GetArticlePagedItemDto>>
+    public sealed class GetArticlePagedListQueryResponse : PagedResponse<List<GetArticlePagedItemDto>>
     {
         public GetArticlePagedListQueryResponse(List<GetArticlePagedItemDto> data = default(List<GetArticlePagedItemDto>)) : base(data)
         {

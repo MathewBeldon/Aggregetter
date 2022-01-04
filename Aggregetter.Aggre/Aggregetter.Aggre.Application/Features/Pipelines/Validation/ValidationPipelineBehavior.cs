@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Pipelines.Validation
 {
-    public class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly IValidator<TRequest> _validator;
         public ValidationPipelineBehaviour(IValidator<TRequest> validator)

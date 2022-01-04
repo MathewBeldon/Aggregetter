@@ -38,10 +38,20 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 
             var mockArticleRepository = new Mock<IArticleRepository>();
 
-            mockArticleRepository.Setup(repo => repo.IsArticleEndpointUniqueAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
+            mockArticleRepository.Setup(repo => repo.ArticleEndpointExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string endpoint, CancellationToken cancellationToken) =>
                 {
                     if (!articles.Any(article => article.Endpoint == endpoint))
+                    {
+                        return true;
+                    }
+                    return false;
+                });
+
+            mockArticleRepository.Setup(repo => repo.ArticleSlugExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
+                (string articleSlug, CancellationToken cancellationToken) =>
+                {
+                    if (!articles.Any(article => article.ArticleSlug == articleSlug))
                     {
                         return true;
                     }
