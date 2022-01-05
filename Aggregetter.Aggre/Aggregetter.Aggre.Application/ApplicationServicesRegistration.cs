@@ -29,6 +29,7 @@ namespace Aggregetter.Aggre.Application
             });
 
             services.Configure<CacheSettings>(configuration.GetSection("CacheSettings"));
+            services.Configure<PagedSettings>(configuration.GetSection("PagedSettings"));
 
             return services;
         }
