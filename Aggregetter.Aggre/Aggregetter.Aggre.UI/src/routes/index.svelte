@@ -23,7 +23,7 @@
 	export let pages;
 
 
-	$: p = +$page.query.get('p') || 1;
+	$: p = $page.query.get('p') || 1;
 </script>
 
 <svelte:head>
@@ -43,24 +43,8 @@
 	<div class="container page">
 		<div class="row">
 			<div class="col-md-9">
-				<div class="feed-toggle">
-					<ul class="nav nav-pills outline-active">
-
-						{#if $session.user}
-							<li class="nav-item">
-								<a href="/?tab=feed" rel="prefetch" class="nav-link">
-									Your Feed
-								</a>
-							</li>
-						{:else}
-							<li class="nav-item">
-								<a href="/login" rel="prefetch" class="nav-link">Sign in to see your Feed </a>
-							</li>
-						{/if}
-					</ul>
-				</div>
 				<ArticleList {articles} />
-				<Pagination {pages} {p} href={(p) => `/?&page=${p}`} />
+				<Pagination {pages} {p} href={(p) => `?page=${p}`} />
 			</div>
 
 			

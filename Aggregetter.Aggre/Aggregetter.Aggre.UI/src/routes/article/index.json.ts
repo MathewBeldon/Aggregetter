@@ -5,13 +5,13 @@ export async function get({ query, locals }) {
 	const page = +query.get('page') || 1;
 
 	const articles = await api.get(
-		`article/${page}/${page_size}`,
+		`article?page=${page}&pageSize=${page_size}`,
 		locals.user && locals.user.token
 	);
 	return {
 		body: {
 			articles,
-			pages: Math.ceil(page_size)
+			pages: Math.ceil(articles.totalPages)
 		}
 	};
 }

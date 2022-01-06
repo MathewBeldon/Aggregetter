@@ -1,7 +1,6 @@
 <script>
 	export let article;
 	export let user;
-	console.log(article);
 	async function toggle_favorite() {
 		// optimistic UI
 		// if (article.favorited) {
