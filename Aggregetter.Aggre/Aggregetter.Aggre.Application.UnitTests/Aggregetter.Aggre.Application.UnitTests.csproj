@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Aggregetter.Aggre.Application\Aggregetter.Aggre.Application.csproj" />
+    <ProjectReference Include="..\Aggregetter.Aggre.Persistance\Aggregetter.Aggre.Persistance.csproj" />
   </ItemGroup>
 
 </Project>
