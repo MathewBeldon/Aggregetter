@@ -43,7 +43,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries
             _mapper = configurationProvider.CreateMapper();
 
             _handler = new GetArticlePagedListQueryHandler(_mockArticleRepository.Object, _mapper, _uriService.Object);
-
         }
 
         [Theory]
@@ -69,7 +68,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries
             {
                 PagedRequest = new PagedRequest
                 {
-                    Page = 10,
+                    Page = 999,
                     PageSize = 20
                 }
             }, CancellationToken.None);

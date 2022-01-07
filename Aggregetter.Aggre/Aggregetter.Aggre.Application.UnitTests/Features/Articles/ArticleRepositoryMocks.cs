@@ -10,13 +10,14 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 {
     public class ArticleRepositoryMocks
     {
+        public static List<Article> articles = new List<Article>();
+
         public static Mock<IArticleRepository> GetArticleRepository()
         {
             var languageId = Guid.Parse("6AB570BD015E48F1A522F9067168C92B");
             var categoryId = Guid.Parse("0763EBF37CC443A3B3AFD7F94109934C");
             var providerId = Guid.Parse("03867E6157024CBF9403716F4F900519");
 
-            var articles = new List<Article>();
 
             for (int i = 0; i < 100; i++)
             {
@@ -41,7 +42,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
             mockArticleRepository.Setup(repo => repo.ArticleEndpointExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string endpoint, CancellationToken cancellationToken) =>
                 {
-                    if (!articles.Any(article => article.Endpoint == endpoint))
+                    if (articles.Any(article => article.Endpoint == endpoint))
                     {
                         return true;
                     }
@@ -51,7 +52,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
             mockArticleRepository.Setup(repo => repo.ArticleSlugExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string articleSlug, CancellationToken cancellationToken) =>
                 {
-                    if (!articles.Any(article => article.ArticleSlug == articleSlug))
+                    if (articles.Any(article => article.ArticleSlug == articleSlug))
                     {
                         return true;
                     }
