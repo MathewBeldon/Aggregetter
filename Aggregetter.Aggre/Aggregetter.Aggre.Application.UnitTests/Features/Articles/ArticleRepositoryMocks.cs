@@ -10,14 +10,13 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 {
     public class ArticleRepositoryMocks
     {
-        public static List<Article> articles = new List<Article>();
-
         public static Mock<IArticleRepository> GetArticleRepository()
         {
+            List<Article> articles = new List<Article>();
+
             var languageId = Guid.Parse("6AB570BD015E48F1A522F9067168C92B");
             var categoryId = Guid.Parse("0763EBF37CC443A3B3AFD7F94109934C");
             var providerId = Guid.Parse("03867E6157024CBF9403716F4F900519");
-
 
             for (int i = 0; i < 100; i++)
             {
