@@ -16,9 +16,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
             baseRepositoryMocks.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(
                 (Guid id, CancellationToken cancellationToken) =>
                 {
-                    if (id == ExistingId)
-                        return new T();
-                    return null;
+                    return id == ExistingId ? new T() : null;
                 });
             return baseRepositoryMocks;
         }
