@@ -3,18 +3,15 @@ using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Profiles;
 using AutoMapper;
 using Moq;
-using System;
 using Shouldly;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.CreateArticle
 {
-    public class CreateArticleCommandHandlerTests
+    public sealed class CreateArticleCommandHandlerTests
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;

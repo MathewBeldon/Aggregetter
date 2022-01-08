@@ -1,18 +1,16 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
+using Aggregetter.Aggre.Application.UnitTests.Features.Base;
+using Aggregetter.Aggre.Domain.Entities;
 using Moq;
+using Shouldly;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Shouldly;
 using Xunit;
-using Aggregetter.Aggre.Domain.Entities;
-using Aggregetter.Aggre.Application.UnitTests.Features.Base;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.CreateArticle
 {
     public sealed class CreateArticleCommandValidatorTests
     {
