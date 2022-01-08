@@ -14,7 +14,7 @@ using Xunit;
 using Shouldly;
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
-    public class ArticleControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public sealed class ArticleControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
         private HttpClient _client;

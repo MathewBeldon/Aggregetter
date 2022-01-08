@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Aggregetter.Aggre.API.Attributes
 {
-    public class AuthoriseAttribute : AuthorizeAttribute
+    public sealed class AuthoriseAttribute : AuthorizeAttribute
     {
         public AuthoriseAttribute(params Role[] roles)
         {

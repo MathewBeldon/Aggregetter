@@ -4,7 +4,7 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Services.UriService
 {
-    public class UriService : IUriService
+    public sealed class UriService : IUriService
     {
         private readonly string _baseUrl;
         public UriService(string baseUrl)

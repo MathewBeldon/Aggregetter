@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
 {
-    public class ValidatorMocks
+    public sealed class ValidatorMocks
     {
         public static Mock<AbstractValidator<T>> GetValidator<T>()
         {

@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 {
-    public class ArticleRepositoryMocks
+    public sealed class ArticleRepositoryMocks
     {
         public static Mock<IArticleRepository> GetArticleRepository()
         {

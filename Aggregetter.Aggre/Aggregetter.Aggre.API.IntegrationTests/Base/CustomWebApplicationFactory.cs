@@ -14,7 +14,7 @@ using System.Net.Http;
 
 namespace Aggregetter.Aggre.API.IntegrationTests.Base
 {
-    public class CustomWebApplicationFactory<TStartup> :
+    public sealed class CustomWebApplicationFactory<TStartup> :
         WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)

@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
-    public class AccountControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public sealed class AccountControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
         private readonly HttpClient _client;

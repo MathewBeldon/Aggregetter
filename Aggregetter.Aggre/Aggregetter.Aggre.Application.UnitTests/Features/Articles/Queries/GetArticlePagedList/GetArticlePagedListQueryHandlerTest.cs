@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetArticlePagedList
 {
-    public class GetArticlePagedListQueryHandlerTests
+    public sealed class GetArticlePagedListQueryHandlerTests
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;

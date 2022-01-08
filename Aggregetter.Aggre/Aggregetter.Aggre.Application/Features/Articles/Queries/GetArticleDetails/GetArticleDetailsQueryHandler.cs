@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQuery, ArticleDetailsVm>
+    public sealed class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQuery, ArticleDetailsVm>
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IBaseRepository<Provider> _providerRepository;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Services
 {
-    public class LoggedInUserService : ILoggedInUserService
+    public sealed class LoggedInUserService : ILoggedInUserService
     {
         public LoggedInUserService(IHttpContextAccessor httpContextAccessor)
         {
