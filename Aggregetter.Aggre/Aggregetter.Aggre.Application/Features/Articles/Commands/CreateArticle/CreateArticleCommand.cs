@@ -9,8 +9,8 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
     public sealed class CreateArticleCommand : IRequest<CreateArticleCommandResponse>
     {
-        public Guid ProviderId { get; set; }
-        public Guid CategoryId { get; set; }
+        public int ProviderId { get; set; }
+        public int CategoryId { get; set; }
         public string TranslatedTitle { get; set; }
         public string OriginalTitle { get; set; }
         public string TranslatedBody { get; set; }

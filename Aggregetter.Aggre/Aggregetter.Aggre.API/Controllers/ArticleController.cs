@@ -31,16 +31,16 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("{articleSlug}", Name = "Details"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ArticleDetailsVm>> DetailsAsync(string articleSlug)
+        public async Task<ActionResult<GetArticleDetailsQueryResponse>> DetailsAsync(string articleSlug)
         {
-            var articleDetailsVm = await _mediator.Send(new GetArticleDetailsQuery()
+            var getArticleDetailsQueryResponse = await _mediator.Send(new GetArticleDetailsQuery()
             {
                 ArticleSlug = articleSlug
             });
-            return Ok(articleDetailsVm);
+            return Ok(getArticleDetailsQueryResponse);
         }
 
-        [ HttpPost(Name = "Create")]
+        [HttpPost(Name = "Create")]
         public async Task<ActionResult<CreateArticleCommandResponse>> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
         {
             return Ok(await _mediator.Send(createArticleCommand));

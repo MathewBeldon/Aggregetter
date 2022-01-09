@@ -58,9 +58,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var responseString = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ArticleDetailsVm>(responseString);
+            var result = JsonConvert.DeserializeObject<GetArticleDetailsQueryResponse>(responseString);
 
-            Assert.IsType<ArticleDetailsVm>(result);
+            Assert.IsType<GetArticleDetailsQueryResponse>(result);
             Assert.NotNull(result);
         }
 
@@ -71,8 +71,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
             var createArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
-                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
+                CategoryId = 1,
+                ProviderId = 1,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
@@ -104,8 +104,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var firstArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
-                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
+                CategoryId = 1,
+                ProviderId = 1,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
@@ -120,8 +120,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var duplicateEndpointArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
-                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
+                CategoryId = 1,
+                ProviderId = 1,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",

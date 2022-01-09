@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class ArticleDetailsVm
+    public sealed class ArticleDetailsDto
     {        
         public string TranslatedTitle { get; set; }
         public string OriginalTitle { get; set; }

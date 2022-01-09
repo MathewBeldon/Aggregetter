@@ -34,11 +34,10 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
         [Fact]
         public async Task Handle_ValidArticle_AddedToArticleRepository()
         {
-
             var createArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.Parse("0763EBF37CC443A3B3AFD7F94109934C"),
-                ProviderId = Guid.Parse("03867E6157024CBF9403716F4F900519"),
+                CategoryId = 1,
+                ProviderId = 1,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",

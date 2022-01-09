@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -16,9 +17,10 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "Articles",
                 columns: table => new
                 {
-                    ArticleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProviderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     TranslatedTitle = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OriginalTitle = table.Column<string>(type: "tinytext", nullable: true)
@@ -36,7 +38,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Articles", x => x.ArticleId);
+                    table.PrimaryKey("PK_Articles", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -44,7 +46,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -52,7 +55,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -60,7 +63,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "Languages",
                 columns: table => new
                 {
-                    LanguageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -68,7 +72,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Languages", x => x.LanguageId);
+                    table.PrimaryKey("PK_Languages", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -76,8 +80,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "Providers",
                 columns: table => new
                 {
-                    ProviderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    LanguageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "tinytext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BaseAddress = table.Column<string>(type: "tinytext", nullable: true)
@@ -87,7 +92,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Providers", x => x.ProviderId);
+                    table.PrimaryKey("PK_Providers", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }

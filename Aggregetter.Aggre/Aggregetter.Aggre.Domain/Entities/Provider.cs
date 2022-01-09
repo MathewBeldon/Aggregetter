@@ -7,11 +7,8 @@ namespace Aggregetter.Aggre.Domain.Entities
 {
     public sealed class Provider : BaseEntity
     {
-        [Key]
-        public Guid ProviderId { get; set; }
-
         [ForeignKey(nameof(Language))]
-        public Guid LanguageId { get; set; }
+        public int LanguageId { get; set; }
 
         [Column(TypeName = "tinytext")]
         public string Name { get; set; }

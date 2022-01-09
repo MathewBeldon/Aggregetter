@@ -1,9 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using MediatR;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

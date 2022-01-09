@@ -1,9 +1,6 @@
 ﻿using Aggregetter.Aggre.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,10 +14,10 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var language = new Language()
             {
-                LanguageId = Guid.Parse("222569EDAC4041E6A4E9D73EC8B08483"),
+                Id = 1,
                 Name = "Latin",
             };
-            var languageResult = await context.Languages.SingleOrDefaultAsync(x => x.LanguageId == language.LanguageId);
+            var languageResult = await context.Languages.SingleOrDefaultAsync(l => l.Id == language.Id);
             if (languageResult is null)
             {
                 await context.Languages.AddAsync(language);
@@ -28,10 +25,10 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var category = new Category()
             {
-                CategoryId = Guid.Parse("9DDC7BE923AB47B3A2E9A9B2559FC87C"),
+                Id = 1,
                 Name = "Old News",
             };
-            var categoryResult = await context.Categories.SingleOrDefaultAsync(x => x.CategoryId == category.CategoryId);
+            var categoryResult = await context.Categories.SingleOrDefaultAsync(c => c.Id == category.Id);
             if (categoryResult is null)
             {
                 await context.Categories.AddAsync(category);
@@ -39,12 +36,12 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var provider = new Provider()
             {
-                ProviderId = Guid.Parse("7C87846121614769B2D181B7A7038D8F"),
-                LanguageId = language.LanguageId,
-                Name = "Roman news",
-                BaseAddress = "google.com",
+                Id = 1,
+                LanguageId = language.Id,
+                Name = "Latin news",
+                BaseAddress = "lorem.example",
             };
-            var providerResult = await context.Providers.SingleOrDefaultAsync(x => x.ProviderId == provider.ProviderId);
+            var providerResult = await context.Providers.SingleOrDefaultAsync(p => p.Id == provider.Id);
             if (providerResult is null)
             {
                 await context.Providers.AddAsync(provider);
@@ -54,9 +51,9 @@ namespace Aggregetter.Aggre.Persistance.Seed
             {
                 var article = new Article
                 {
-                    ArticleId = Guid.NewGuid(),
-                    CategoryId = category.CategoryId,
-                    ProviderId = provider.ProviderId,
+                    Id = i + 1,
+                    CategoryId = category.Id,
+                    ProviderId = provider.Id,
                     OriginalBody = "Lorem Ipsum" + i,
                     TranslatedBody = "Dummy Text" + i,
                     OriginalTitle = "Lorem" + i,
@@ -65,7 +62,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
                     ArticleSlug = "lorem-ipsum-" + i
                 };
 
-                var articleResult = await context.Articles.SingleOrDefaultAsync(x => x.Endpoint == article.Endpoint);
+                var articleResult = await context.Articles.SingleOrDefaultAsync(a => a.Endpoint == article.Endpoint);
                 if (articleResult is null)
                 {
                     await context.Articles.AddAsync(article);

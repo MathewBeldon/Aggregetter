@@ -14,29 +14,32 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
         {
             List<Article> articles = new List<Article>();
 
-            var languageId = Guid.Parse("6AB570BD015E48F1A522F9067168C92B");
-            var categoryId = Guid.Parse("0763EBF37CC443A3B3AFD7F94109934C");
-            var providerId = Guid.Parse("03867E6157024CBF9403716F4F900519");
-
             for (int i = 0; i < 100; i++)
             {
+                var date = DateTime.UtcNow;
                 articles.Add(new Article
                 {
-                    ArticleId = Guid.NewGuid(),
-                    CategoryId = categoryId,
-                    ProviderId = providerId,
+                    Id = i + 1,
+                    CategoryId = 1,
+                    ProviderId = 1,
                     OriginalTitle = "Lorem" + i,
                     TranslatedTitle = "Dummy" + i,
                     OriginalBody = "Lorem Ipsum" + i,
                     TranslatedBody = "Dummy Text" + i,
-                    CreatedDateUtc = DateTime.UtcNow,
-                    ModifiedDateUtc = DateTime.UtcNow,
+                    CreatedDateUtc = date,
+                    ModifiedDateUtc = date,
                     Endpoint = "Taken/Endpoint" + i,
                     ArticleSlug = "dummy-text" + i
                 });
             }
 
             var mockArticleRepository = new Mock<IArticleRepository>();
+
+            mockArticleRepository.Setup(repo => repo.GetArticleBySlugAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
+                (string articleSlug, CancellationToken cancellationToken) =>
+                {
+                    return articles.FirstOrDefault(a => a.ArticleSlug == articleSlug);
+                });
 
             mockArticleRepository.Setup(repo => repo.ArticleEndpointExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string endpoint, CancellationToken cancellationToken) =>

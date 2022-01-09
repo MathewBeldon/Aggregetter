@@ -8,7 +8,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 {
     public sealed class LanguageDto
     {
-        public Guid LanguageId { get; set; }
+        public int LanguageId { get; set; }
         public string Name { get; set; }
     }
 }

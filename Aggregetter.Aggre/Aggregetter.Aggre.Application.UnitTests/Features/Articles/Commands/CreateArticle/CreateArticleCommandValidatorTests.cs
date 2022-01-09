@@ -54,7 +54,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
         {
             var createArticleCommand = new CreateArticleCommand()
             {
-                CategoryId = Guid.NewGuid(),
+                CategoryId = -1,
                 ProviderId = BaseRepositoryMocks<Provider>.ExistingId,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
@@ -77,7 +77,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
             var createArticleCommand = new CreateArticleCommand()
             {
                 CategoryId = BaseRepositoryMocks<Category>.ExistingId,
-                ProviderId = Guid.NewGuid(),
+                ProviderId = -1,
                 OriginalTitle = "Original Title",
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",

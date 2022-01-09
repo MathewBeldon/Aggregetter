@@ -7,9 +7,6 @@ namespace Aggregetter.Aggre.Domain.Entities
 {
     public sealed class Category : BaseEntity
     {
-        [Key]
-        public Guid CategoryId { get; set; }
-
         [Column(TypeName = "tinytext")]
         public string Name { get; set; }
     }

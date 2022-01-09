@@ -7,14 +7,11 @@ namespace Aggregetter.Aggre.Domain.Entities
 {
     public sealed class Article : BaseEntity
     {
-        [Key]
-        public Guid ArticleId { get; set; }        
-
         [ForeignKey(nameof(Provider))]
-        public Guid ProviderId { get; set; }
+        public int ProviderId { get; set; }
 
         [ForeignKey(nameof(Category))]
-        public Guid CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         [Column(TypeName = "tinytext")]
         public string TranslatedTitle { get; set; }

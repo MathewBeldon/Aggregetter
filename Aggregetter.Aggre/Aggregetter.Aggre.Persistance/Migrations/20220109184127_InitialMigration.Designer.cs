@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20211216152609_InitialMigration")]
+    [Migration("20220109184127_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
                 {
-                    b.Property<Guid>("ArticleId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("ArticleSlug")
                         .HasColumnType("tinytext");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
@@ -48,8 +48,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<string>("OriginalTitle")
                         .HasColumnType("tinytext");
 
-                    b.Property<Guid>("ProviderId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");
@@ -57,16 +57,16 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<string>("TranslatedTitle")
                         .HasColumnType("tinytext");
 
-                    b.HasKey("ArticleId");
+                    b.HasKey("Id");
 
                     b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
@@ -77,16 +77,16 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("tinytext");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Language", b =>
                 {
-                    b.Property<Guid>("LanguageId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
@@ -97,16 +97,16 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("tinytext");
 
-                    b.HasKey("LanguageId");
+                    b.HasKey("Id");
 
                     b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Provider", b =>
                 {
-                    b.Property<Guid>("ProviderId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("BaseAddress")
                         .HasColumnType("tinytext");
@@ -114,8 +114,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
@@ -123,7 +123,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("tinytext");
 
-                    b.HasKey("ProviderId");
+                    b.HasKey("Id");
 
                     b.ToTable("Providers");
                 });

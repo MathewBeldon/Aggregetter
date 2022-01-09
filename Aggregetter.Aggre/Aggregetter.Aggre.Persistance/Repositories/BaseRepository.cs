@@ -22,7 +22,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return _context.Articles.CountAsync();
         }
 
-        public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await _context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
         }

@@ -7,9 +7,6 @@ namespace Aggregetter.Aggre.Domain.Entities
 {
     public sealed class Language : BaseEntity
     {
-        [Key]
-        public Guid LanguageId { get; set; }
-
         [Column(TypeName = "tinytext")]
         public string Name { get; set; }
     }

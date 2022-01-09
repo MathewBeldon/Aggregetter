@@ -2,16 +2,12 @@
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQuery, ArticleDetailsVm>
+    public sealed class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQuery, GetArticleDetailsQueryResponse>
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IBaseRepository<Provider> _providerRepository;
@@ -32,19 +28,19 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
             _mapper = mapper;
         }
 
-        public async Task<ArticleDetailsVm> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<GetArticleDetailsQueryResponse> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             var provider = await _providerRepository.GetByIdAsync(article.ProviderId, cancellationToken);
             var category = await _categoryRepository.GetByIdAsync(article.CategoryId, cancellationToken);
             var language = await _languageRepository.GetByIdAsync(provider.LanguageId, cancellationToken);
 
-            var articleDetailsVm = _mapper.Map<ArticleDetailsVm>(article);
-            articleDetailsVm.Provider = _mapper.Map<ProviderDto>(provider);
-            articleDetailsVm.Category = _mapper.Map<CategoryDto>(category);
-            articleDetailsVm.Provider.Language = _mapper.Map<LanguageDto>(language);
+            var articleDetails = _mapper.Map<ArticleDetailsDto>(article);
+            articleDetails.Provider = _mapper.Map<ProviderDto>(provider);
+            articleDetails.Category = _mapper.Map<CategoryDto>(category);
+            articleDetails.Provider.Language = _mapper.Map<LanguageDto>(language);
 
-            return articleDetailsVm;
+            return new GetArticleDetailsQueryResponse(articleDetails);
         }
     }
 }

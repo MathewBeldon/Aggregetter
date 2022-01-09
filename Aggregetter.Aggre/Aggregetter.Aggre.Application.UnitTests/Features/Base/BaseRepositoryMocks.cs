@@ -8,16 +8,17 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
 {
     public class BaseRepositoryMocks<T> where T : BaseEntity, new()
     {
-        public static Guid ExistingId = Guid.NewGuid();
+        public static int ExistingId = 1;
         public static Mock<IBaseRepository<T>> GetBaseRepositoryMocks()
         {
             var baseRepositoryMocks = new Mock<IBaseRepository<T>>();
 
-            baseRepositoryMocks.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-                (Guid id, CancellationToken cancellationToken) =>
+            baseRepositoryMocks.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+                (int id, CancellationToken cancellationToken) =>
                 {
-                    return id == ExistingId ? new T() : null;
+                    return id == ExistingId ? new T() {  Id = ExistingId } : null;
                 });
+
             return baseRepositoryMocks;
         }
     }
