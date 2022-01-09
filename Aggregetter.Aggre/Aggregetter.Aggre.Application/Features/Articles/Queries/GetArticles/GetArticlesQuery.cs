@@ -3,9 +3,9 @@ using Aggregetter.Aggre.Application.Requests;
 using MediatR;
 using System;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
+namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlePagedListQuery : IRequest<GetArticlePagedListQueryResponse>, ICacheableQuery
+    public sealed class GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableQuery
     {
         public PagedRequest PagedRequest { get; set; }
         public string Key => $"Article-{PagedRequest.Page}-{PagedRequest.PageSize}";

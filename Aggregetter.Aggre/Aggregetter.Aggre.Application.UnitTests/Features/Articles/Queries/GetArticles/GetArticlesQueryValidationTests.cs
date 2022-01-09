@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
+﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Aggregetter.Aggre.Application.Requests;
 using Aggregetter.Aggre.Application.Settings;
 using Microsoft.Extensions.Options;
@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 using Xunit;
 using Shouldly;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetArticlePagedList
+namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlePagedListQueryValidationTests
+    public sealed class GetArticlesQueryValidationTests
     {
-        private readonly GetArticlePagedListQueryValidator _validator;
+        private readonly GetArticlesQueryValidator _validator;
         private readonly IOptions<PagedSettings> _options;
 
         private const int PAGE_SIZE = 20;
-        public GetArticlePagedListQueryValidationTests()
+        public GetArticlesQueryValidationTests()
         {
             _options = Options.Create(new PagedSettings
             {
                 PageSize = PAGE_SIZE,
             });
 
-            _validator = new GetArticlePagedListQueryValidator(_options);
+            _validator = new GetArticlesQueryValidator(_options);
         }
 
 
@@ -36,7 +36,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(999, 1)]
         public async Task GetArticlePagedListQueryValidator_ValidPageRequest_IsValid(int page, int pageSize)
         {
-            var getArticlePagedListQuery = new GetArticlePagedListQuery
+            var getArticlePagedListQuery = new GetArticlesQuery
             {
                 PagedRequest = new PagedRequest
                 {
@@ -56,7 +56,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(0)]
         public async Task GetArticlePagedListQueryValidator_InvalidPageSize_IsNotValid(int pageSize)
         {
-            var getArticlePagedListQuery = new GetArticlePagedListQuery
+            var getArticlePagedListQuery = new GetArticlesQuery
             {
                 PagedRequest = new PagedRequest
                 {
@@ -76,7 +76,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(0)]
         public async Task GetArticlePagedListQueryValidator_InvalidPage_IsNotValid(int page)
         {
-            var getArticlePagedListQuery = new GetArticlePagedListQuery
+            var getArticlePagedListQuery = new GetArticlesQuery
             {
                 PagedRequest = new PagedRequest
                 {

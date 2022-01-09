@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Aggregetter.Aggre.Persistance\Aggregetter.Aggre.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Articles\Queries\GetArticleDetails\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
-            var firstArticle = JsonConvert.DeserializeObject<GetArticlePagedListQueryResponse>(articlesFirstPageString).Data.FirstOrDefault();
+            var firstArticle = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString).Data.FirstOrDefault();
 
             var response = await _client.GetAsync("/api/article/" + firstArticle?.ArticleSlug);
 

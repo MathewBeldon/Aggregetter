@@ -1,14 +1,10 @@
-﻿using Aggregetter.Aggre.API.Attributes;
-using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
+﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Aggregetter.Aggre.Application.Requests;
-using Aggregetter.Aggre.Identity.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -25,9 +21,9 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlePagedListQueryResponse>> PagedAsync([FromQuery] PagedRequest pagedRequest)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PagedRequest pagedRequest)
         {
-            var articleListPagedResponse = await _mediator.Send(new GetArticlePagedListQuery
+            var articleListPagedResponse = await _mediator.Send(new GetArticlesQuery
             {
                 PagedRequest = pagedRequest,
             });

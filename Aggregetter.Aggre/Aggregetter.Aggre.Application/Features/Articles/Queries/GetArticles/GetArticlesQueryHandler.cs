@@ -2,24 +2,21 @@
 using Aggregetter.Aggre.Application.Services.UriService;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
-using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList
+namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlePagedListQueryHandler : IRequestHandler<GetArticlePagedListQuery, GetArticlePagedListQueryResponse>
+    public sealed class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, GetArticlesQueryResponse>
     { 
         private readonly IBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
 
-        public GetArticlePagedListQueryHandler(IBaseRepository<Article> articleRepository, 
+        public GetArticlesQueryHandler(IBaseRepository<Article> articleRepository, 
             IMapper mapper,
             IUriService uriService)
         {
@@ -28,15 +25,15 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
             _uriService = uriService ?? throw new ArgumentNullException(nameof(uriService));
         }
 
-        public async Task<GetArticlePagedListQueryResponse> Handle(GetArticlePagedListQuery request, CancellationToken cancellationToken)
+        public async Task<GetArticlesQueryResponse> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {            
             var pagedResponse = await _articleRepository.GetPagedResponseAsync(request.PagedRequest.Page, request.PagedRequest.PageSize, cancellationToken);
-            var totalAricles = await _articleRepository.GetCount();
+            var totalArticles = await _articleRepository.GetCount();
 
-            var getArticlePagedItemList = _mapper.Map<List<GetArticlePagedItemDto>>(pagedResponse);
-            var pagedUris = _uriService.GetPagedUris(request.PagedRequest, "articles", totalAricles);
+            var getArticleList = _mapper.Map<List<ArticleDto>>(pagedResponse);
+            var pagedUris = _uriService.GetPagedUris(request.PagedRequest, "articles", totalArticles);
 
-            return new GetArticlePagedListQueryResponse(getArticlePagedItemList)
+            return new GetArticlesQueryResponse(getArticleList)
             {
                 PageSize = request.PagedRequest.PageSize,
                 PageNumber = request.PagedRequest.Page,
@@ -44,8 +41,8 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePage
                 PreviousPage = pagedUris.PreviousUri,
                 NextPage = pagedUris.NextUri,
                 LastPage = pagedUris.LastUri,
-                TotalRecords = totalAricles,
-                TotalPages = (int)Math.Ceiling((double)totalAricles / request.PagedRequest.PageSize),
+                TotalRecords = totalArticles,
+                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PagedRequest.PageSize),
             };            
         }
     }

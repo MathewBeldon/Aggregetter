@@ -1,12 +1,6 @@
-﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticlePagedList;
-using Aggregetter.Aggre.Domain.Entities;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
