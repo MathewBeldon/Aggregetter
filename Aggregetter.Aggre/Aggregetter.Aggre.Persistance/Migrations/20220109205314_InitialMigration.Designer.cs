@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20220109184127_InitialMigration")]
+    [Migration("20220109205314_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,19 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Providers");
+                });
+
+            modelBuilder.Entity("Aggregetter.Aggre.Domain.Links.ArticleCategory", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "CategoryId");
+
+                    b.ToTable("ArticleCategories");
                 });
 #pragma warning restore 612, 618
         }

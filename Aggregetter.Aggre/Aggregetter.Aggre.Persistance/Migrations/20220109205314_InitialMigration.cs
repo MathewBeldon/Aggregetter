@@ -14,6 +14,19 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ArticleCategories",
+                columns: table => new
+                {
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleCategories", x => new { x.ArticleId, x.CategoryId });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Articles",
                 columns: table => new
                 {
@@ -99,6 +112,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ArticleCategories");
+
             migrationBuilder.DropTable(
                 name: "Articles");
 

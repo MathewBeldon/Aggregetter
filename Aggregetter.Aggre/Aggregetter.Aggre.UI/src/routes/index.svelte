@@ -27,15 +27,14 @@
 </script>
 
 <svelte:head>
-	<title>Conduit</title>
+	<title>Aggregetter</title>
 </svelte:head>
 
 <div class="home-page">
 	{#if !$session.user}
 		<div class="banner">
 			<div class="container">
-				<h1 class="logo-font">conduit</h1>
-				<p>A place to share your knowledge.</p>
+				<h1 class="logo-font">Aggregetter</h1>
 			</div>
 		</div>
 	{/if}

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class ArticleDetailsDto
+    public sealed class GetArticleDetailsDto
     {        
         public string TranslatedTitle { get; set; }
         public string OriginalTitle { get; set; }
@@ -15,7 +15,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime ModifiedDateUtc { get; set; }
-        public ProviderDto Provider { get; set; }
-        public CategoryDto Category { get; set; }
+        public GetArticleDetailsProviderDto Provider { get; set; }
+        public GetArticleDetailsCategoryDto Category { get; set; }
     }
 }

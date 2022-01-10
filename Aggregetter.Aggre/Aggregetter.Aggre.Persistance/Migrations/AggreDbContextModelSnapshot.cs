@@ -125,6 +125,19 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.ToTable("Providers");
                 });
+
+            modelBuilder.Entity("Aggregetter.Aggre.Domain.Links.ArticleCategory", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "CategoryId");
+
+                    b.ToTable("ArticleCategories");
+                });
 #pragma warning restore 612, 618
         }
     }

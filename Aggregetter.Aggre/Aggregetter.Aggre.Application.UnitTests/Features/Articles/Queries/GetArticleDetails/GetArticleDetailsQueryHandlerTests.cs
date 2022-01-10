@@ -45,7 +45,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [Fact]
         public async Task GetArticleDetailsQueryHandler_ValidRequest_ValidResponse()
         {
-            var article = (await _mockArticleRepository.Object.GetPagedResponseAsync(1, 1, CancellationToken.None)).FirstOrDefault();
+            var article = (await _mockArticleRepository.Object.GetArticlesByPageAsync(1, 1, CancellationToken.None)).FirstOrDefault();
 
             var result = await _handler.Handle(new GetArticleDetailsQuery
             {
@@ -53,6 +53,15 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticleDetailsQueryResponse>();
+            result.Data.ArticleSlug.ShouldBe(article.ArticleSlug);
+            result.Data.Category.ShouldNotBeNull();
+            result.Data.CreatedDateUtc.ShouldBeGreaterThan(System.DateTime.MinValue);
+            result.Data.Endpoint.ShouldNotBeNull();
+            result.Data.OriginalBody.ShouldNotBeNull();
+            result.Data.OriginalTitle.ShouldNotBeNull();
+            result.Data.TranslatedBody.ShouldNotBeNull();
+            result.Data.TranslatedTitle.ShouldNotBeNull();
+            result.Success.ShouldBeTrue();
         }
     }
 }

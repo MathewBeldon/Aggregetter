@@ -35,10 +35,10 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
             var category = await _categoryRepository.GetByIdAsync(article.CategoryId, cancellationToken);
             var language = await _languageRepository.GetByIdAsync(provider.LanguageId, cancellationToken);
 
-            var articleDetails = _mapper.Map<ArticleDetailsDto>(article);
-            articleDetails.Provider = _mapper.Map<ProviderDto>(provider);
-            articleDetails.Category = _mapper.Map<CategoryDto>(category);
-            articleDetails.Provider.Language = _mapper.Map<LanguageDto>(language);
+            var articleDetails = _mapper.Map<GetArticleDetailsDto>(article);
+            articleDetails.Provider = _mapper.Map<GetArticleDetailsProviderDto>(provider);
+            articleDetails.Category = _mapper.Map<GetArticleDetailsCategoryDto>(category);
+            articleDetails.Provider.Language = _mapper.Map<GetArticleDetailsLanguageDto>(language);
 
             return new GetArticleDetailsQueryResponse(articleDetails);
         }

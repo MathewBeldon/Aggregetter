@@ -96,7 +96,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
         [Fact]
         public async Task CreateArticleCommandValidator_InvalidEndpoint_Fails()
         {
-            var takenEndpoint = (await _mockArticleRepository.Object.GetPagedResponseAsync(1, 1, CancellationToken.None)).FirstOrDefault().Endpoint;
+            var takenEndpoint = (await _mockArticleRepository.Object.GetArticlesByPageAsync(1, 1, CancellationToken.None)).FirstOrDefault().Endpoint;
             var createArticleCommand = new CreateArticleCommand()
             {
                 CategoryId = BaseRepositoryMocks<Category>.ExistingId,
@@ -119,7 +119,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
         [Fact]
         public async Task CreateArticleCommandValidator_InvalidArticleSlug_Fails()
         {
-            var takenArticleSlug = (await _mockArticleRepository.Object.GetPagedResponseAsync(1, 1, CancellationToken.None)).FirstOrDefault().ArticleSlug;
+            var takenArticleSlug = (await _mockArticleRepository.Object.GetArticlesByPageAsync(1, 1, CancellationToken.None)).FirstOrDefault().ArticleSlug;
             var createArticleCommand = new CreateArticleCommand()
             {
                 CategoryId = BaseRepositoryMocks<Category>.ExistingId,

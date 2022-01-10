@@ -11,14 +11,16 @@ namespace Aggregetter.Aggre.Application.Profiles
         public ArticleMappingProfile()
         {
             #region GetArticles
-            CreateMap<Article, Articles.ArticleDto>();
+            CreateMap<Article, Articles.GetArticlesDto>();
+            CreateMap<Category, Articles.GetArticlesCategoryDto>();
+            CreateMap<Provider, Articles.GetArticlesProviderDto>();
             #endregion GetArticles
 
             #region GetArticleDetails           
-            CreateMap<Article, ArticleDetails.ArticleDetailsDto> ();
-            CreateMap<Category, ArticleDetails.CategoryDto>();
-            CreateMap<Language, ArticleDetails.LanguageDto>();
-            CreateMap<Provider, ArticleDetails.ProviderDto>();
+            CreateMap<Article, ArticleDetails.GetArticleDetailsDto> ();
+            CreateMap<Category, ArticleDetails.GetArticleDetailsCategoryDto>();
+            CreateMap<Language, ArticleDetails.GetArticleDetailsLanguageDto>();
+            CreateMap<Provider, ArticleDetails.GetArticleDetailsProviderDto>();
             #endregion GetArticleDetails
 
             #region CreateArticle

@@ -1,5 +1,6 @@
 ﻿using Aggregetter.Aggre.Domain.Common;
 using Aggregetter.Aggre.Domain.Entities;
+using Aggregetter.Aggre.Domain.Links;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,14 @@ namespace Aggregetter.Aggre.Persistance
         public DbSet<Category> Categories { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Provider> Providers { get; set; }
+
+        public DbSet<ArticleCategory> ArticleCategories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ArticleCategory>()
+                .HasKey(nameof(ArticleCategory.ArticleId), nameof(ArticleCategory.CategoryId));
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {

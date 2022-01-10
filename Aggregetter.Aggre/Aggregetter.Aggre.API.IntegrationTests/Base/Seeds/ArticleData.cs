@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Domain.Entities;
+using Aggregetter.Aggre.Domain.Links;
 using Aggregetter.Aggre.Persistance;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -67,6 +68,18 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                 if (articleResult is null)
                 {
                     await context.Articles.AddAsync(article);
+                }
+
+                var articleCategory = new ArticleCategory
+                {
+                    ArticleId = article.Id,
+                    CategoryId = category.Id,
+                };
+
+                var articleCategoryResult = await context.ArticleCategories.SingleOrDefaultAsync(a => a.ArticleId == article.Id && a.CategoryId == category.Id);
+                if (articleResult is null)
+                {
+                    await context.ArticleCategories.AddAsync(articleCategory);
                 }
             }            
 
