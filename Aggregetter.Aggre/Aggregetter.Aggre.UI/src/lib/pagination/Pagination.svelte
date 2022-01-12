@@ -1,24 +1,37 @@
-<script>
-	export let pages;
-	export let p;
+<script lang="ts">
+	export let pageCount;
+	export let currentPage;
 	export let href;
 
-	let range;
-
-	// $: {
-	// 	range = [];
-	// 	for (let i = 1; i <= pages; ++i) {
-	// 		range.push(i);
-	// 	}
-	// }
+	let previous;
+	$: {
+		previous = [];
+		for (let i = currentPage; i > 0 && i > (currentPage - 3); --i) {
+			previous.push(i);
+		}
+	}
+	let next;
+	$: {
+		next = [];
+		for (let i = currentPage; i < pageCount && i < (currentPage + 3); ++i) {
+			next.push(i);
+		}
+	}	
 </script>
 
-{#if pages > 1}
+<p>{pageCount}</p>
+<p>{currentPage}</p>
+
+{#if pageCount > 1}
 	<nav>
 		<ul class="pagination">
-			<!-- {#each range as n}
-				<li class="page-item" class:active={n == p}><a class="page-link" href={href(n)}>{n}</a></li>
-			{/each} -->
+			{#each previous as n}
+				<li class="page-item" class:active={n == currentPage}><a class="page-link" href={href(n)}>{n}</a></li>
+			{/each}
+
+			{#each next as n}
+				<li class="page-item" class:active={n == currentPage}><a class="page-link" href={href(n)}>{n}</a></li>
+			{/each}
 		</ul>
 	</nav>
 {/if}

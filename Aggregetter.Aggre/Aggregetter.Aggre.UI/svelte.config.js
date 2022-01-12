@@ -1,4 +1,3 @@
-
 import auto from '@sveltejs/adapter-auto';
 
 export default {

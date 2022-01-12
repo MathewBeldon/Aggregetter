@@ -9,8 +9,9 @@
 	<div class="article-preview">No articles are here... yet.</div>
 {:else}
 	<div>
-		{#each articles.data as article (article.articleSlug)}
+		{#each articles.data as article}
 			<ArticlePreview {article} user={$session.user}/>
 		{/each}
 	</div>
 {/if}
+

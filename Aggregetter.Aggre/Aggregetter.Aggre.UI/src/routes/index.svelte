@@ -1,29 +1,27 @@
 <script context="module">
 	export async function load({ page, fetch }) {
-		const [{ articles, pages }] = await Promise.all([
+		const [{ articles }] = await Promise.all([
 			fetch(`/article.json?${page.query}`, { credentials: 'include' }).then((r) => r.json())
 		]);
 
 		return {
 			props: {
-				articles,
-				pages,
+				articles
 			}
 		};
 	}
 </script> 
 
-<script>
+<script lang="ts">
 	import { page, session } from '$app/stores';
 	import ArticleList from '$lib/article/ArticleList.svelte';
-	import Pagination from '$lib/Pagination/Pagination.svelte';
-
+	import Pagination from '$lib/pagination/Pagination.svelte';
 
 	export let articles;
-	export let pages;
 
-
-	$: p = $page.query.get('p') || 1;
+	const pageCount = articles.totalPages;
+	
+	$: currentPage = articles.pageNumber || 1;
 </script>
 
 <svelte:head>
@@ -43,10 +41,8 @@
 		<div class="row">
 			<div class="col-md-9">
 				<ArticleList {articles} />
-				<Pagination {pages} {p} href={(p) => `?page=${p}`} />
-			</div>
-
-			
+				<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />
+			</div>			
 		</div>
 	</div>
 </div>
