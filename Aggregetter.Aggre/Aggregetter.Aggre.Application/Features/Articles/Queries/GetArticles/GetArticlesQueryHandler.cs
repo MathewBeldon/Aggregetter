@@ -27,8 +27,8 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
-            var getArticlesRequest = await _articleRepository.GetArticlesByPageAsync(request.PagedRequest.Page, request.PagedRequest.PageSize, cancellationToken);
-            var totalArticles = await _articleRepository.GetCount();
+            var totalArticles = await _articleRepository.GetCount(cancellationToken);
+            var getArticlesRequest = await _articleRepository.GetArticlesByPageAsync(request.PagedRequest.Page, request.PagedRequest.PageSize, totalArticles, cancellationToken);
 
             var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
             var pagedUris = _uriService.GetPagedUris(request.PagedRequest, "articles", totalArticles);

@@ -17,11 +17,6 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Task<int> GetCount()
-        {
-            return _context.Articles.CountAsync();
-        }
-
         public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await _context.Set<T>().FindAsync(new object[] { id }, cancellationToken);

@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Domain.Links;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,7 +49,12 @@ namespace Aggregetter.Aggre.Persistance.Seed
                 await context.Providers.AddAsync(provider);
             }
 
-            for (int i = 0; i < 100; i++)
+            var articles = new List<Article>();
+            var articleCategories = new List<ArticleCategory>();
+
+            var offset = await context.Articles.CountAsync();
+            int batch = 0;
+            for (int i = offset; i < 1000000; i++)
             {
                 var article = new Article
                 {
@@ -60,27 +66,30 @@ namespace Aggregetter.Aggre.Persistance.Seed
                     OriginalTitle = "Lorem" + i,
                     TranslatedTitle = "Dummy" + i,
                     Endpoint = "Lorem/Endpoint" + i,
-                    ArticleSlug = "lorem-ipsum-" + i
+                    ArticleSlug = "lorem-ipsum" + i
                 };
-
-                var articleResult = await context.Articles.SingleOrDefaultAsync(a => a.Endpoint == article.Endpoint);
-                if (articleResult is null)
-                {
-                    await context.Articles.AddAsync(article);
-                }
+                articles.Add(article);
 
                 var articleCategory = new ArticleCategory
                 {
                     ArticleId = article.Id,
                     CategoryId = category.Id,
                 };
+                articleCategories.Add(articleCategory);
 
-                var articleCategoryResult = await context.ArticleCategories.SingleOrDefaultAsync(a => a.ArticleId == article.Id && a.CategoryId == category.Id);
-                if (articleResult is null)
+                if (batch++ > 100000)
                 {
-                    await context.ArticleCategories.AddAsync(articleCategory);
+                    batch = 0;
+                    context.Articles.AddRange(articles);
+                    context.ArticleCategories.AddRange(articleCategories);
+                    await context.SaveChangesAsync(CancellationToken.None);
+                    articles.Clear();
+                    articleCategories.Clear();
                 }
             }
+            context.Articles.AddRange(articles);
+            context.ArticleCategories.AddRange(articleCategories);
+            
 
             await context.SaveChangesAsync(CancellationToken.None);
         }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20220109205314_InitialMigration")]
+    [Migration("20220110220250_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,14 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatedDateUtc");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("ProviderId");
 
                     b.ToTable("Articles");
                 });
@@ -139,6 +147,25 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.HasKey("ArticleId", "CategoryId");
 
                     b.ToTable("ArticleCategories");
+                });
+
+            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
+                {
+                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Provider", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Provider");
                 });
 #pragma warning restore 612, 618
         }
