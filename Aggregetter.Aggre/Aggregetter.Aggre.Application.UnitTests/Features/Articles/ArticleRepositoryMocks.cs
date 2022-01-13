@@ -36,9 +36,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
             var mockArticleRepository = new Mock<IArticleRepository>();
 
             mockArticleRepository.Setup(repo => repo.GetCount(CancellationToken.None)).ReturnsAsync(
-                (string articleSlug, CancellationToken cancellationToken) =>
+                (CancellationToken cancellationToken) =>
                 {
-                    return articles.Count();
+                    return articles.Count;
                 });
 
             mockArticleRepository.Setup(repo => repo.GetArticleBySlugAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
