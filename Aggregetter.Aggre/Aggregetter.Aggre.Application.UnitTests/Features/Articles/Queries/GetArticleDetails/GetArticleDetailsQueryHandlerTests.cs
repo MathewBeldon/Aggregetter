@@ -45,7 +45,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [Fact]
         public async Task GetArticleDetailsQueryHandler_ValidRequest_ValidResponse()
         {
-            var article = (await _mockArticleRepository.Object.GetArticlesByPageAsync(1, 1, CancellationToken.None)).FirstOrDefault();
+            var totalArticles = await _mockArticleRepository.Object.GetCount(CancellationToken.None);
+            var article = (await _mockArticleRepository.Object.GetArticlesByPageAsync(1, 1, totalArticles, CancellationToken.None)).FirstOrDefault();
 
             var result = await _handler.Handle(new GetArticleDetailsQuery
             {

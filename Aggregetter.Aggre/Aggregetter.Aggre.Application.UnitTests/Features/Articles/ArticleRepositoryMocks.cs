@@ -35,6 +35,12 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
 
             var mockArticleRepository = new Mock<IArticleRepository>();
 
+            mockArticleRepository.Setup(repo => repo.GetCount(CancellationToken.None)).ReturnsAsync(
+                (string articleSlug, CancellationToken cancellationToken) =>
+                {
+                    return articles.Count();
+                });
+
             mockArticleRepository.Setup(repo => repo.GetArticleBySlugAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string articleSlug, CancellationToken cancellationToken) =>
                 {
@@ -68,8 +74,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                     return article;
                 });
 
-            mockArticleRepository.Setup(repo => repo.GetArticlesByPageAsync(It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
-                (int page, int pageSize, CancellationToken cancellationToken) =>
+            mockArticleRepository.Setup(repo => repo.GetArticlesByPageAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
+                (int page, int pageSize, int totalCount, CancellationToken cancellationToken) =>
                 {
                     return (articles.Skip((page - 1) * pageSize).Take(pageSize).ToList());
                 });

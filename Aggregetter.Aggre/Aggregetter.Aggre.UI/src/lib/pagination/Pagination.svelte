@@ -6,14 +6,14 @@
 	let previous;
 	$: {
 		previous = [];
-		for (let i = currentPage; i > 0 && i > (currentPage - 3); --i) {
+		for (let i = currentPage - 1; i > 0 && i > (currentPage - 3); --i) {
 			previous.push(i);
 		}
 	}
 	let next;
 	$: {
 		next = [];
-		for (let i = currentPage; i < pageCount && i < (currentPage + 3); ++i) {
+		for (let i = currentPage + 1; i < pageCount && i < (currentPage + 3); ++i) {
 			next.push(i);
 		}
 	}	

@@ -47,9 +47,10 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, category) => new Article
                       {
                           Id = article.Id,
+                          ArticleSlug = article.ArticleSlug,
                           ProviderId = article.ProviderId,
-                          OriginalTitle = article.OriginalTitle,
                           TranslatedTitle = article.TranslatedTitle,
+                          Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Name = category.Name,
@@ -61,8 +62,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          OriginalTitle = article.OriginalTitle,
+                          ArticleSlug = article.ArticleSlug,
                           TranslatedTitle = article.TranslatedTitle,
+                          Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Name = article.Category.Name,
@@ -70,6 +72,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Provider = new Provider
                           {
                               Name = provider.Name,
+                              BaseAddress = provider.BaseAddress
                           }
                       })
                 .AsNoTracking()

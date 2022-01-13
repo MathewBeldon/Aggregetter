@@ -2,7 +2,7 @@
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Aggregetter.Aggre.Application.Profiles;
 using Aggregetter.Aggre.Application.Requests;
-using Aggregetter.Aggre.Application.Services.UriService;
+using Aggregetter.Aggre.Application.Services.PaginationService;
 using AutoMapper;
 using Moq;
 using Shouldly;
@@ -16,14 +16,14 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;
-        private readonly Mock<IUriService> _uriService;
+        private readonly Mock<IPaginationService> _paginationService;
 
         private readonly GetArticlesQueryHandler _handler;
 
         public GetArticlesQueryHandlerTests()
         {
             _mockArticleRepository = ArticleRepositoryMocks.GetArticleRepository();
-            _uriService = new Mock<IUriService>();
+            _paginationService = new Mock<IPaginationService>();
 
             var configurationProvider = new MapperConfiguration(cfg =>
             {
@@ -32,7 +32,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticlesQueryHandler(_mockArticleRepository.Object, _mapper, _uriService.Object);
+            _handler = new GetArticlesQueryHandler(_mockArticleRepository.Object, _mapper, _paginationService.Object);
         }
 
         [Theory]

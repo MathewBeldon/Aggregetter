@@ -1,6 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Services.UriService;
-using Aggregetter.Aggre.Domain.Entities;
+using Aggregetter.Aggre.Application.Services.PaginationService;
 using AutoMapper;
 using MediatR;
 using System;
@@ -14,15 +13,15 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
     { 
         private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
-        private readonly IUriService _uriService;
+        private readonly IPaginationService _paginationService;
 
         public GetArticlesQueryHandler(IArticleRepository articleRepository, 
             IMapper mapper,
-            IUriService uriService)
+            IPaginationService paginationService)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _uriService = uriService ?? throw new ArgumentNullException(nameof(uriService));
+            _paginationService = paginationService ?? throw new ArgumentNullException(nameof(paginationService));
         }
 
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
@@ -31,16 +30,14 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
             var getArticlesRequest = await _articleRepository.GetArticlesByPageAsync(request.PagedRequest.Page, request.PagedRequest.PageSize, totalArticles, cancellationToken);
 
             var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
-            var pagedUris = _uriService.GetPagedUris(request.PagedRequest, "articles", totalArticles);
+            var pagedUris = _paginationService.GetPagedUris(request.PagedRequest, "articles", totalArticles);
 
             return new GetArticlesQueryResponse(getArticlesDtoList)
             {
                 PageSize = request.PagedRequest.PageSize,
                 PageNumber = request.PagedRequest.Page,
-                FirstPage = pagedUris.FirstUri,
-                PreviousPage = pagedUris.PreviousUri,
-                NextPage = pagedUris.NextUri,
-                LastPage = pagedUris.LastUri,
+                HasPreviousPage = pagedUris.PreviousPage,
+                HasNextPage = pagedUris.NextPage,
                 TotalRecords = totalArticles,
                 TotalPages = (int)Math.Ceiling((double)totalArticles / request.PagedRequest.PageSize),
             };            
