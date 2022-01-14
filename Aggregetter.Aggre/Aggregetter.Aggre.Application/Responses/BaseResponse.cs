@@ -18,19 +18,19 @@ namespace Aggregetter.Aggre.Application.Responses
         {
             Success = true;
             Data = data;
-            Message = string.Empty;
+            Message = null;
             ValidationErrors = null;
         }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public T Data { get; set; }
+        public T Data { get; init; }
 
-        public bool Success { get; set; }
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Message { get; set; }
+        public bool Success { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<string> ValidationErrors { get; set; }
+        public string Message { get; init; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<string> ValidationErrors { get; init; }
     }
 }

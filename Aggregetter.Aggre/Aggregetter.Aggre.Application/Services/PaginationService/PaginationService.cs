@@ -7,18 +7,10 @@ namespace Aggregetter.Aggre.Application.Services.PaginationService
     {
         public (bool PreviousPage, bool NextPage)  GetPagedUris(PagedRequest pageRequest, string endpoint, int recordCount)
         {
-            bool previousPage = false;
-            if (pageRequest.Page > 1)
-            {
-                previousPage = true;
-            }
+            bool previousPage = pageRequest.Page > 1;
 
             var lastPageNumber = Math.Ceiling((double)recordCount / pageRequest.PageSize);
-            bool nextPage = false;
-            if (pageRequest.Page + 1 <= lastPageNumber)
-            {
-                nextPage = true;
-            }
+            bool nextPage = pageRequest.Page + 1 <= lastPageNumber;
 
             return (previousPage, nextPage);
         }

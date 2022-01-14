@@ -20,12 +20,12 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 
         public async Task<CreateArticleCommandResponse> Handle(CreateArticleCommand request, CancellationToken cancellationToken)
         {
-            var createArticleCommandResponse = new CreateArticleCommandResponse();
             var article = _mapper.Map<Article>(request);
             var response = await _articleRepository.AddAsync(article, cancellationToken);
-            createArticleCommandResponse.Data = _mapper.Map<CreateArticleDto>(response);
+            
+            var createArticleDto = _mapper.Map<CreateArticleDto>(response);
 
-            return createArticleCommandResponse;
+            return new CreateArticleCommandResponse(createArticleDto);
         }
     }
 }
