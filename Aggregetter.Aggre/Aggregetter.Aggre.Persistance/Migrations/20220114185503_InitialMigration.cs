@@ -14,19 +14,6 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ArticleCategories",
-                columns: table => new
-                {
-                    ArticleId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArticleCategories", x => new { x.ArticleId, x.CategoryId });
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -98,7 +85,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Endpoint = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ArticleSlug = table.Column<string>(type: "tinytext", nullable: true)
+                    ArticleSlug = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -122,14 +109,14 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_ArticleSlug",
+                table: "Articles",
+                column: "ArticleSlug");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_CategoryId",
                 table: "Articles",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Articles_CreatedDateUtc",
-                table: "Articles",
-                column: "CreatedDateUtc");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_Id",
@@ -140,13 +127,25 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "IX_Articles_ProviderId",
                 table: "Articles",
                 column: "ProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Id",
+                table: "Categories",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_Id",
+                table: "Languages",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Providers_Id",
+                table: "Providers",
+                column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ArticleCategories");
-
             migrationBuilder.DropTable(
                 name: "Articles");
 

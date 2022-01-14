@@ -1,11 +1,11 @@
 ﻿using Aggregetter.Aggre.Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aggregetter.Aggre.Domain.Entities
 {
-    [Index(nameof(CreatedDateUtc))]
-    [Index(nameof(Id))]
+    [Index(nameof(ArticleSlug))]
     public sealed class Article : BaseEntity
     {
         [ForeignKey(nameof(Provider))]
@@ -31,7 +31,8 @@ namespace Aggregetter.Aggre.Domain.Entities
         [Column(TypeName = "text")]
         public string Endpoint { get; set; }
 
-        [Column(TypeName = "tinytext")]
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
         public string ArticleSlug { get; set; }
     }
 }

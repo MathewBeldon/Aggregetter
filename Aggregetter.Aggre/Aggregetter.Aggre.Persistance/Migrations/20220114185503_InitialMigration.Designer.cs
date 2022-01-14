@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20220110220250_InitialMigration")]
+    [Migration("20220114185503_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ArticleSlug")
-                        .HasColumnType("tinytext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -59,9 +60,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ArticleSlug");
 
-                    b.HasIndex("CreatedDateUtc");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Id");
 
@@ -87,6 +88,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.ToTable("Categories");
                 });
 
@@ -106,6 +109,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
 
                     b.ToTable("Languages");
                 });
@@ -133,20 +138,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.ToTable("Providers");
-                });
-
-            modelBuilder.Entity("Aggregetter.Aggre.Domain.Links.ArticleCategory", b =>
-                {
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArticleId", "CategoryId");
-
-                    b.ToTable("ArticleCategories");
                 });
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>

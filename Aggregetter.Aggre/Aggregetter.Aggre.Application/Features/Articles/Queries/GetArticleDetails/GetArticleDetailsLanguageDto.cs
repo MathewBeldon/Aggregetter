@@ -2,7 +2,7 @@
 {
     public sealed class GetArticleDetailsLanguageDto
     {
-        public int LanguageId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

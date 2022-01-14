@@ -1,13 +1,10 @@
 ﻿using Aggregetter.Aggre.Application.Settings;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Text.Json;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +26,7 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
             if (request.Bypass) return await next();
             
             var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
-            if (cachedResponse != null)
+            if (cachedResponse is not null)
             {
                 return JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse));                
             }
@@ -51,7 +48,7 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
 
                 var serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(response));
 
-                await _cache.SetAsync(request.Key, serializedData, options, cancellationToken);
+                _ = Task.Run(() => _cache.SetAsync(request.Key, serializedData, options, cancellationToken));
 
                 return response;
             }

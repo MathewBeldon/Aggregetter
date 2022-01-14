@@ -3,13 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Persistance.Seed
 {
-    public static class AddArticles
+    public sealed class AddDataButFast
     {
         public static async Task InitiliseAsync(AggreDbContext context, ILogger logger)
         {
@@ -69,7 +72,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync()).Id;
             int batch = 0;
-            for (int i = articleOffset; i < 15000000; i++)
+            for (int i = 0; i < 15000000; i++)
             {
                 var article = new Article
                 {
@@ -87,13 +90,21 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
                 if (batch++ > 10000)
                 {
-                    logger.Information("Adding 10000 records");
+                    logger.Information("building 100000 records");
+                                        
+                    using (var writer = new StreamWriter(@"C:\src\articles.csv", append: true))
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach (var a in articles)
+                        {
+                            sb.AppendLine($"{a.Id},{a.ProviderId},{a.CategoryId},{a.TranslatedTitle},{a.OriginalTitle},{a.TranslatedBody},{a.OriginalBody},{a.Endpoint},{a.ArticleSlug},{a.CreatedDateUtc},{a.ModifiedDateUtc}");
+                        }
+                        logger.Information($"writing 100000 records");
+
+                        await writer.WriteLineAsync(sb.ToString());
+                    }
+                    logger.Information($"written 100000 records, total {i}");
                     batch = 0;
-                    context.Articles.AddRange(articles);
-                    context.ChangeTracker.DetectChanges();
-                    await context.SaveChangesAsync(CancellationToken.None);
-                    articles.Clear();
-                    logger.Information($"Added 10000 records, total {i}");
                 }
             }
             context.Articles.AddRange(articles);

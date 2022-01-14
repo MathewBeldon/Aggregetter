@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Aggregetter.Aggre.Domain.Common
 {
+    [Index(nameof(Id))]
     public class BaseEntity
     {
         [Key]
