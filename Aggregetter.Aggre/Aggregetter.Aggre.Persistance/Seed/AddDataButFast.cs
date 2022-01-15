@@ -70,46 +70,41 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var articles = new List<Article>();
 
+            var originalBody = $"Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно. Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв. Той използва речник от над 200 латински думи, комбинирани по подходящ начин като изречения, за да генерират истински Lorem Ipsum пасажи. Оттук следва, че генерираният Lorem Ipsum пасаж не съдържа повторения, смущаващи, нецензурни и всякакви неподходящи думи.";
+            var translatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
+            
+            
+            const string query = $"SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;INSERT INTO articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
+
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync()).Id;
             int batch = 0;
-            for (int i = 0; i < 15000000; i++)
+            StringBuilder sb = new StringBuilder(query);
+            for (int i = articleOffset; i < 20000000; i++)
             {
-                var article = new Article
-                {
-                    Id = i + 1,
-                    CategoryId = rnd.Next(1, MinSeed),
-                    ProviderId = rnd.Next(1, MinSeed),
-                    OriginalBody = $"Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно. Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв. Той използва речник от над 200 латински думи, комбинирани по подходящ начин като изречения, за да генерират истински Lorem Ipsum пасажи. Оттук следва, че генерираният Lorem Ipsum пасаж не съдържа повторения, смущаващи, нецензурни и всякакви неподходящи думи. {i}",
-                    TranslatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. {i}",
-                    OriginalTitle = $"Какво е Lorem Ipsum? {i}",
-                    TranslatedTitle = $"What is Lorem Ipsum? {i}",
-                    Endpoint = $"Lorem/Endpoint{i}",
-                    ArticleSlug = $"lorem-ipsum{i}"
-                };
-                articles.Add(article);
+                var categoryId = rnd.Next(1, MinSeed);
+                var providerId = rnd.Next(1, MinSeed);
+                var originalTitle = $"Какво е Lorem Ipsum?{i}";
+                var translatedTitle = $"What is Lorem Ipsum?{i}";
+                var endpoint = $"Lorem/Endpoint{i}";
+                var articleSlug = $"lorem-ipsum{i}";
 
-                if (batch++ > 10000)
+                sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','{translatedBody}','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
+                if (++batch < 5000)
                 {
-                    logger.Information("building 100000 records");
-                                        
-                    using (var writer = new StreamWriter(@"C:\src\articles.csv", append: true))
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var a in articles)
-                        {
-                            sb.AppendLine($"{a.Id},{a.ProviderId},{a.CategoryId},{a.TranslatedTitle},{a.OriginalTitle},{a.TranslatedBody},{a.OriginalBody},{a.Endpoint},{a.ArticleSlug},{a.CreatedDateUtc},{a.ModifiedDateUtc}");
-                        }
-                        logger.Information($"writing 100000 records");
-
-                        await writer.WriteLineAsync(sb.ToString());
-                    }
-                    logger.Information($"written 100000 records, total {i}");
+                    sb.Append(",");
+                }
+                else 
+                {
+                    sb.Append(";COMMIT;SET unique_checks=1;SET foreign_key_checks=1;");
+                    logger.Information("writing 500 records");
+                    await context.Database.ExecuteSqlRawAsync(sb.ToString());
+                    logger.Information($"written 500 records, total {i}");
+                    sb = new StringBuilder(query);
                     batch = 0;
                 }
             }
             context.Articles.AddRange(articles);
 
-            await context.SaveChangesAsync(CancellationToken.None);
         }
     }
 }
