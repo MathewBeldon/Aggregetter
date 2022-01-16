@@ -9,6 +9,7 @@ namespace Aggregetter.Aggre.Domain.Entities
     {
         [ForeignKey(nameof(Language))]
         public int LanguageId { get; set; }
+        public Language Language { get; set; }
 
         [Column(TypeName = "tinytext")]
         public string Name { get; set; }

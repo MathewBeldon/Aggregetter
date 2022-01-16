@@ -30,7 +30,92 @@ namespace Aggregetter.Aggre.Persistance.Repositories
 
         public async Task<Article> GetArticleBySlugAsync(string articleSlug, CancellationToken cancellationToken)
         {
-            var entity = await _context.Articles.SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
+            var entity = await _context.Articles
+                .Join(_context.Categories,
+                      article => article.CategoryId,
+                      category => category.Id,
+                      (article, category) => new Article
+                      {
+                          Id = article.Id,
+                          ProviderId = article.ProviderId,
+                          TranslatedTitle = article.TranslatedTitle,
+                          OriginalTitle = article.OriginalTitle,
+                          TranslatedBody = article.TranslatedBody,
+                          OriginalBody = article.OriginalBody,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                          CreatedDateUtc = article.CreatedDateUtc,
+                          ModifiedDateUtc = article.ModifiedDateUtc,
+                          Category = new Category
+                          {
+                              Id = category.Id,
+                              Name = category.Name,                              
+                          }
+                      }
+                )
+                .Join(_context.Providers,
+                      article => article.ProviderId,
+                      provider => provider.Id,
+                      (article, provider) => new Article
+                      {
+                          Id = article.Id,
+                          ProviderId = article.ProviderId,
+                          TranslatedTitle = article.TranslatedTitle,
+                          OriginalTitle = article.OriginalTitle,
+                          TranslatedBody = article.TranslatedBody,
+                          OriginalBody = article.OriginalBody,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                          CreatedDateUtc = article.CreatedDateUtc,
+                          ModifiedDateUtc = article.ModifiedDateUtc,
+                          Category = new Category
+                          {
+                              Id = article.Category.Id,
+                              Name = article.Category.Name,
+                          },
+                          Provider = new Provider
+                          {
+                              Id = provider.Id,
+                              LanguageId = provider.LanguageId,
+                              Name = provider.Name,
+                              BaseAddress = provider.BaseAddress
+                          }
+                      }
+                )
+                .Join(_context.Languages,
+                      article => article.Provider.LanguageId,
+                      language => language.Id,
+                      (article, language) => new Article
+                      {
+                          Id = article.Id,
+                          ProviderId = article.ProviderId,
+                          TranslatedTitle = article.TranslatedTitle,
+                          OriginalTitle = article.OriginalTitle,
+                          TranslatedBody = article.TranslatedBody,
+                          OriginalBody = article.OriginalBody,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                          CreatedDateUtc = article.CreatedDateUtc,
+                          ModifiedDateUtc = article.ModifiedDateUtc,
+                          Category = new Category
+                          {
+                              Id = article.Category.Id,
+                              Name = article.Category.Name,
+                          },
+                          Provider = new Provider
+                          {
+                              Id = article.Provider.Id,
+                              Name = article.Provider.Name,
+                              BaseAddress = article.Provider.BaseAddress,
+                              Language = new Language
+                              {
+                                  Id = language.Id,
+                                  Name = language.Name
+                              }                              
+                          }
+                      }
+                )
+                .SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
 
             return entity;            
         }
@@ -47,23 +132,25 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, category) => new Article
                       {
                           Id = article.Id,
-                          ArticleSlug = article.ArticleSlug,
                           ProviderId = article.ProviderId,
                           TranslatedTitle = article.TranslatedTitle,
+                          ArticleSlug = article.ArticleSlug,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Name = category.Name,
                           }
-                      })
+                      }
+                )
                 .Join(_context.Providers,
                       article => article.ProviderId,
                       provider => provider.Id,
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          ArticleSlug = article.ArticleSlug,
+                          ProviderId = article.ProviderId,
                           TranslatedTitle = article.TranslatedTitle,
+                          ArticleSlug = article.ArticleSlug,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {

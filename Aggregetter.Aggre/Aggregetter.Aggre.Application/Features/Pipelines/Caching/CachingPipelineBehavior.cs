@@ -30,7 +30,6 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
             var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
             if (cachedResponse is not null)
             {
-                var str = Encoding.ASCII.GetString(cachedResponse);
                 return JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse));                
             }
 
@@ -55,8 +54,6 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
                     WriteIndented = true
                 };
 
-                var ser = JsonSerializer.Serialize(response, optionss);
-                var deser = JsonSerializer.Deserialize<TResponse>(ser);
                 var serializedData = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(response));
 
                 _ = Task.Run(() => _cache.SetAsync(request.Key, serializedData, options, cancellationToken));

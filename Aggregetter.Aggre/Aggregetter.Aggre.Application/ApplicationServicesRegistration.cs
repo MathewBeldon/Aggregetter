@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Aggregetter.Aggre.Application
 {
@@ -23,6 +24,7 @@ namespace Aggregetter.Aggre.Application
 
             services.Configure<CacheSettings>(configuration.GetSection("CacheSettings"));
             services.Configure<PagedSettings>(configuration.GetSection("PagedSettings"));
+            //services.Configure<JsonSerializerOptions>
 
             return services;
         }
