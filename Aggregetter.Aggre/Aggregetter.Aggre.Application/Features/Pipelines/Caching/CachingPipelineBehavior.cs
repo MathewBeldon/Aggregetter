@@ -16,10 +16,13 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
     {
         private readonly IDistributedCache _cache;
         private readonly CacheSettings _settings;
-        public CachingPipelineBehavior(IDistributedCache cache, IOptions<CacheSettings> settings)
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
+        public CachingPipelineBehavior(IDistributedCache cache, IOptions<CacheSettings> settings,
+            JsonSerializerOptions jsonSerializerOptions)
         {
-            _cache = cache;
-            _settings = settings.Value;
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            _settings = settings.Value ?? throw new ArgumentNullException(nameof(settings.Value));
+            _jsonSerializerOptions = jsonSerializerOptions ?? throw new ArgumentNullException(nameof(jsonSerializerOptions));
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -30,7 +33,7 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
             var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
             if (cachedResponse is not null)
             {
-                return JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse));                
+                return JsonSerializer.Deserialize<TResponse>(Encoding.UTF8.GetString(cachedResponse), options: _jsonSerializerOptions);                
             }
 
             return await GetResponseAndAddToCacheAsync();
@@ -48,13 +51,7 @@ namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
                     SlidingExpiration = slidingExpiration
                 };
 
-                var optionss = new JsonSerializerOptions
-                {
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                    WriteIndented = true
-                };
-
-                var serializedData = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(response));
+                var serializedData = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response, options: _jsonSerializerOptions));
 
                 _ = Task.Run(() => _cache.SetAsync(request.Key, serializedData, options, cancellationToken));
 
