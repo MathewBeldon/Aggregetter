@@ -31,8 +31,9 @@ namespace Aggregetter.Aggre.API
             services.AddPersistanceServices(Configuration);
             services.AddIdentityServices(Configuration);
             services.AddControllers();
-            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+            services.AddScoped<ILoggedInUserService, LoggedInUserServiceRegistration>();
             services.AddCachingService(Configuration, Environment);
+            services.AddFeatureFlagService(Configuration);
 
             services.AddRouting(options => {
                 options.LowercaseUrls = true;

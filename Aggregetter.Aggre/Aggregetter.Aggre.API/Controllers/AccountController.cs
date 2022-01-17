@@ -2,10 +2,8 @@
 using Aggregetter.Aggre.Application.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Serilog;
+using Microsoft.FeatureManagement.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -43,6 +41,7 @@ namespace Aggregetter.Aggre.API.Controllers
             return Ok();
         }
 
+        [FeatureGate("Registration")]
         [HttpPost("register")]
         [ApiConventionMethod(typeof(DefaultApiConventions),
                              nameof(DefaultApiConventions.Post))]

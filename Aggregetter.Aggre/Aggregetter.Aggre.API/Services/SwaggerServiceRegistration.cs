@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Aggregetter.Aggre.API.Services
 {
-    internal static class SwaggerService
+    internal static class SwaggerServiceRegistration
     {
         internal static IServiceCollection AddSwaggerService(this IServiceCollection services)
         {
