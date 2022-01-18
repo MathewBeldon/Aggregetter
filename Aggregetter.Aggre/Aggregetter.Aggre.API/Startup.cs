@@ -1,3 +1,4 @@
+using Aggregetter.Aggre.API.Middleware;
 using Aggregetter.Aggre.API.Services;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
@@ -68,6 +69,8 @@ namespace Aggregetter.Aggre.API
             app.UseAuthentication();
             app.UseAuthorization();  
             app.UseCors("Open");
+
+            app.UseCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {
