@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
+using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using MediatR;
@@ -21,8 +22,9 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
 
         public async Task<GetArticleDetailsQueryResponse> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
         {
-            var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
-
+            var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken) ??
+                throw new RecordNotFoundException(request.ArticleSlug);
+            
             var articleDetails = _mapper.Map<GetArticleDetailsDto>(article);
 
             return new GetArticleDetailsQueryResponse(articleDetails);

@@ -1,4 +1,4 @@
-const base = 'https://localhost:5001/api';
+const base = 'https://localhost:5001/api/v1';
 
 async function send({ method, path, data, token }) {
 	const opts = { method, headers: {}, body: null };

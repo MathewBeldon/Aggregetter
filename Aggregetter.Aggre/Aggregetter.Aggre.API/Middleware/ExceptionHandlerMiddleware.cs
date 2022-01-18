@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Aggregetter.Aggre.Application.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;
@@ -42,17 +43,17 @@ namespace Aggregetter.Aggre.API.Middleware
                     httpStatusCode = HttpStatusCode.BadRequest;
                     result = JsonSerializer.Serialize(validationException.Errors);
                     break;
-                case Exception ex:
+                case RecordNotFoundException recordNotFoundException:
+                    httpStatusCode = HttpStatusCode.NotFound;
+                    result = JsonSerializer.Serialize(new { recordNotFound = recordNotFoundException.Message });
+                    break;
+                default:
                     httpStatusCode = HttpStatusCode.BadRequest;
+                    result = JsonSerializer.Serialize(new { error = exception.Message });
                     break;
             }
 
             context.Response.StatusCode = (int)httpStatusCode;
-
-            if (result == string.Empty)
-            {
-                result = JsonSerializer.Serialize(new { error = exception.Message });
-            }
 
             return context.Response.WriteAsync(result);
         }

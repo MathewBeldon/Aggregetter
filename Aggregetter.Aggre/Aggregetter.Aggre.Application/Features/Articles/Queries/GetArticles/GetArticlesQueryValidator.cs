@@ -10,7 +10,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
         {
             RuleFor(pr => pr.PaginationRequest.PageSize)
                 .InclusiveBetween(1, settings.Value.PageSize)
-                .WithMessage($"<pageSize> should be within 1 and {settings.Value.PageSize}");
+                .WithMessage($"Page size should be between 1 and {settings.Value.PageSize}");
 
             RuleFor(pr => pr.PaginationRequest.Page)
                 .GreaterThan(0)
