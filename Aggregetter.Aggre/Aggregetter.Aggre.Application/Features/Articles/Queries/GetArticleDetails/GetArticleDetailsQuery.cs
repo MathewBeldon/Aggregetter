@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Features.Pipelines.Caching;
+﻿using Aggregetter.Aggre.Application.Pipelines.Caching;
 using MediatR;
 using System;
 

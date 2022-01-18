@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
-using Aggregetter.Aggre.Application.Requests;
+using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public sealed class ArticleController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,11 +22,11 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PagedRequest pagedRequest)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
             var articleListPagedResponse = await _mediator.Send(new GetArticlesQuery
             {
-                PagedRequest = pagedRequest,
+                PaginationRequest = paginationRequest,
             });
             return Ok(articleListPagedResponse);
         }

@@ -1,14 +1,10 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
-using Aggregetter.Aggre.Application.Requests;
+using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Settings;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Shouldly;
 using System.Threading.Tasks;
 using Xunit;
-using Shouldly;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetArticles
 {
@@ -38,7 +34,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PagedRequest = new PagedRequest
+                PaginationRequest = new PaginationRequest
                 {
                     Page = page,
                     PageSize = pageSize,
@@ -58,7 +54,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PagedRequest = new PagedRequest
+                PaginationRequest = new PaginationRequest
                 {
                     Page = 1,
                     PageSize = pageSize,
@@ -78,7 +74,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PagedRequest = new PagedRequest
+                PaginationRequest = new PaginationRequest
                 {
                     Page = page,
                     PageSize = PAGE_SIZE,

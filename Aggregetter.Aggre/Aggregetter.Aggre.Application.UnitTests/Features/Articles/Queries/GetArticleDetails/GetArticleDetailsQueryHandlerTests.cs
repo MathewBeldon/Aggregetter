@@ -1,8 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Profiles;
-using Aggregetter.Aggre.Application.UnitTests.Features.Base;
-using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
 using Moq;
 using Shouldly;
@@ -17,9 +15,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;
-        private readonly Mock<IBaseRepository<Category>> _mockCategoryRepository;
-        private readonly Mock<IBaseRepository<Provider>> _mockProviderRepository;
-        private readonly Mock<IBaseRepository<Language>> _mockLanguageRepository;
 
 
         private readonly GetArticleDetailsQueryHandler _handler;
@@ -27,10 +22,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         public GetArticleDetailsQueryHandlerTests()
         {
             _mockArticleRepository = ArticleRepositoryMocks.GetArticleRepository();
-            _mockCategoryRepository = BaseRepositoryMocks<Category>.GetBaseRepositoryMocks();
-            _mockProviderRepository = BaseRepositoryMocks<Provider>.GetBaseRepositoryMocks();
-            _mockLanguageRepository = BaseRepositoryMocks<Language>.GetBaseRepositoryMocks();
-
 
             var configurationProvider = new MapperConfiguration(cfg =>
             {
@@ -39,7 +30,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticleDetailsQueryHandler(_mockArticleRepository.Object, _mockProviderRepository.Object, _mockCategoryRepository.Object, _mockLanguageRepository.Object, _mapper);
+            _handler = new GetArticleDetailsQueryHandler(_mockArticleRepository.Object, _mapper);
         }
 
         [Fact]

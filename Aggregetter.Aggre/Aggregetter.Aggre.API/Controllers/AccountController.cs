@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public sealed class AccountController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
@@ -21,16 +22,12 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpPost("authenticate")]
-        [ApiConventionMethod(typeof(DefaultApiConventions),
-                             nameof(DefaultApiConventions.Post))]
         public async Task<ActionResult<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request)
         {
             return Ok(await _authenticationService.AuthenticateAsync(request));
         }
 
         [HttpPost("deauthenticate")]
-        [ApiConventionMethod(typeof(DefaultApiConventions),
-                             nameof(DefaultApiConventions.Get))]
         public async Task<ActionResult> DeauthenticateAsync(string returnUrl = null)
         {
             await _authenticationService.DeauthenticateAsync();
@@ -43,8 +40,6 @@ namespace Aggregetter.Aggre.API.Controllers
 
         [FeatureGate("Registration")]
         [HttpPost("register")]
-        [ApiConventionMethod(typeof(DefaultApiConventions),
-                             nameof(DefaultApiConventions.Post))]
         public async Task<ActionResult<RegistrationResponse>> RegisterAsync(RegistrationRequest request)
         {
             if (ModelState.IsValid)

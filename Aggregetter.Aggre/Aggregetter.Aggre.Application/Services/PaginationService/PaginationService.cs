@@ -1,11 +1,11 @@
-﻿using Aggregetter.Aggre.Application.Requests;
+﻿using Aggregetter.Aggre.Application.Models.Pagination;
 using System;
 
 namespace Aggregetter.Aggre.Application.Services.PaginationService
 {
     public sealed class PaginationService : IPaginationService
     {
-        public (bool PreviousPage, bool NextPage)  GetPagedUris(PagedRequest pageRequest, string endpoint, int recordCount)
+        public (bool PreviousPage, bool NextPage)  GetPagedUris(PaginationRequest pageRequest, string endpoint, int recordCount)
         {
             bool previousPage = pageRequest.Page > 1;
 

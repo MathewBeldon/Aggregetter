@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Responses;
+﻿using Aggregetter.Aggre.Application.Models.Base;
 using System.Text.Json.Serialization;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails

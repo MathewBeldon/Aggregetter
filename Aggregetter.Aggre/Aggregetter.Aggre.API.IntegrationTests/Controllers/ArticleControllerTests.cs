@@ -3,15 +3,13 @@ using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using Shouldly;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Shouldly;
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
     public sealed class ArticleControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -26,12 +24,12 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetArticlesByPage_Success()
+        public async Task GetArticlesByPage_v1_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/article?pagesize=20&page=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/article?pagesize=20&page=2");
+            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
@@ -44,15 +42,15 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetArticleDetails_Success()
+        public async Task GetArticleDetails_v1_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/article?pagesize=20&page=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
             var firstArticle = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString).Data.FirstOrDefault();
 
-            var response = await _client.GetAsync("/api/article/" + firstArticle?.ArticleSlug);
+            var response = await _client.GetAsync("/api/v1/article/" + firstArticle?.ArticleSlug);
 
             response.EnsureSuccessStatusCode();
 
@@ -65,9 +63,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task PostArticle_Success()
+        public async Task PostArticle_v1_Success()
         {
-            var login = await AuthenticationHelper.LoginBasicUserAsync(_client);
+            var login = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
             var createArticleCommand = new CreateArticleCommand()
             {
@@ -84,7 +82,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var json = JsonConvert.SerializeObject(createArticleCommand);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/article", content);
+            var response = await _client.PostAsync("/api/v1/article", content);
 
             response.EnsureSuccessStatusCode();
 
@@ -97,9 +95,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task PostArticle_ValidationError_DuplicateEndpoint()
+        public async Task PostArticle_v1_ValidationError_DuplicateEndpoint()
         {
-            var login = await AuthenticationHelper.LoginBasicUserAsync(_client);
+            var login = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
 
             var firstArticleCommand = new CreateArticleCommand()
@@ -115,7 +113,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             };            
             var firstArticleJson = JsonConvert.SerializeObject(firstArticleCommand);
             var firstArticleContent = new StringContent(firstArticleJson, Encoding.UTF8, "application/json");
-            var firstPost = await _client.PostAsync("/api/article", firstArticleContent);
+            var firstPost = await _client.PostAsync("/api/v1/article", firstArticleContent);
             firstPost.EnsureSuccessStatusCode();
 
             var duplicateEndpointArticleCommand = new CreateArticleCommand()
@@ -131,7 +129,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             };
             var duplicateEndpointArticleJson = JsonConvert.SerializeObject(duplicateEndpointArticleCommand);
             var duplicateEndpointArticleContent = new StringContent(duplicateEndpointArticleJson, Encoding.UTF8, "application/json");
-            var duplictePost = await _client.PostAsync("/api/article", duplicateEndpointArticleContent);
+            var duplictePost = await _client.PostAsync("/api/v1/article", duplicateEndpointArticleContent);
             duplictePost.StatusCode.ShouldBe(System.Net.HttpStatusCode.InternalServerError);
         }
     }

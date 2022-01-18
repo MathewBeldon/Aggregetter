@@ -8,11 +8,11 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
     {
         public GetArticlesQueryValidator(IOptions<PagedSettings> settings)
         {
-            RuleFor(pr => pr.PagedRequest.PageSize)
+            RuleFor(pr => pr.PaginationRequest.PageSize)
                 .InclusiveBetween(1, settings.Value.PageSize)
                 .WithMessage($"<pageSize> should be within 1 and {settings.Value.PageSize}");
 
-            RuleFor(pr => pr.PagedRequest.Page)
+            RuleFor(pr => pr.PaginationRequest.Page)
                 .GreaterThan(0)
                 .WithMessage("<page> should be greater than 0");
         }

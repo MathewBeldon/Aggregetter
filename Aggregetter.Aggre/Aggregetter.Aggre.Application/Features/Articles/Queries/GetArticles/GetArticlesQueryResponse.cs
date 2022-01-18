@@ -1,9 +1,9 @@
-﻿using Aggregetter.Aggre.Application.Responses;
+﻿using Aggregetter.Aggre.Application.Models.Pagination;
 using System.Collections.Generic;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlesQueryResponse : PagedResponse<List<GetArticlesDto>>
+    public sealed class GetArticlesQueryResponse : PaginationResponse<List<GetArticlesDto>>
     {
         public GetArticlesQueryResponse(List<GetArticlesDto> data = default(List<GetArticlesDto>)) : base(data)
         {

@@ -4,13 +4,11 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Features.Pipelines.Caching
+namespace Aggregetter.Aggre.Application.Pipelines.Caching
 {
     public sealed class CachingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
     {

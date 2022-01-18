@@ -1,13 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Features.Pipelines.Validation
+namespace Aggregetter.Aggre.Application.Pipelines.Validation
 {
     public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

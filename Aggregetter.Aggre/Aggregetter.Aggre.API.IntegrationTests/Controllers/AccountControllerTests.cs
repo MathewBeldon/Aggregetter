@@ -24,7 +24,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task PostAccount_Register_Success()
+        public async Task PostAccount_v1_Register_Success()
         {
             var registrationRequest = new RegistrationRequest()
             {
@@ -35,7 +35,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var json = JsonConvert.SerializeObject(registrationRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("/api/account/register", content);
+            var response = await _client.PostAsync("/api/v1/account/register", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RegistrationResponse>(responseString);
@@ -45,9 +45,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task PostAccount_Authenticate_Success()
+        public async Task PostAccount_v1_Authenticate_Success()
         {
-            var result = await AuthenticationHelper.LoginBasicUserAsync(_client);            
+            var result = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);            
 
             Assert.IsType<AuthenticationResponse>(result);
             Assert.NotNull(result?.UserId);
