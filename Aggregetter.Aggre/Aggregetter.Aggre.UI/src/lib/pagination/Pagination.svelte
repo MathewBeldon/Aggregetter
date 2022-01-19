@@ -19,19 +19,37 @@
 	}	
 </script>
 
-<p>{pageCount}</p>
-<p>{currentPage}</p>
-
 {#if pageCount > 1}
-	<nav>
-		<ul class="pagination">
-			{#each previous as n}
-				<li class="page-item" class:active={n == currentPage}><a class="page-link" href={href(n)}>{n}</a></li>
-			{/each}
-
-			{#each next as n}
-				<li class="page-item" class:active={n == currentPage}><a class="page-link" href={href(n)}>{n}</a></li>
-			{/each}
-		</ul>
-	</nav>
+	<div class="pagination">
+		<a href="{href(1)}">&laquo;</a>
+		{#each previous.reverse() as n}
+			<a href={href(n)}>{n}</a>
+		{/each}
+			<a class="active">{currentPage}</a>
+		{#each next as n}
+			<a href={href(n)}>{n}</a>
+		{/each}
+		<a href="{href(pageCount)}">&raquo;</a>
+	</div>
 {/if}
+
+<style>
+	.pagination {
+		display: inline;
+	}
+
+	.pagination a {
+		color: var(--primary-color);
+		float: left;
+		padding: 8px 16px;
+		text-decoration: none;
+		transition: background-color .3s;
+	}
+
+	.pagination a.active {
+		background-color: var(--primary-color);
+		color: var(--off-white);
+	}
+
+</style>
+
