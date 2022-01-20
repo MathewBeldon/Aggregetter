@@ -15,7 +15,7 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
 	import ArticleList from '$lib/article/ArticleList.svelte';
-	import Pagination from '$lib/pagination/Pagination.svelte';
+	import Pagination from '$lib/pages/Pagination.svelte';
 
 	export let articles;
 
@@ -30,19 +30,11 @@
 
 <div class="home-page">
 	{#if !$session.user}
-		<div class="banner">
-			<div class="container">
-				<h1 class="logo-font">Aggregetter</h1>
-			</div>
-		</div>
+		<h1 class="logo-font">Aggregetter</h1>
 	{/if}
 
-	<div class="container page">
-		<div class="row">
-			<div class="col-md-9">
-				<ArticleList {articles} />
-				<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />
-			</div>			
-		</div>
+	<div>
+		<ArticleList {articles} />
+		<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />
 	</div>
 </div>

@@ -3,7 +3,8 @@
     public sealed class GetArticlesDto
     {
         public string ArticleSlug { get; set; }
-        public string TranslatedTitle { get; set; }        
+        public string TranslatedTitle { get; set; }      
+        public string Endpoint { get; set; }
         public GetArticlesCategoryDto Category { get; set; }
         public GetArticlesProviderDto Provider { get; set; }        
     }

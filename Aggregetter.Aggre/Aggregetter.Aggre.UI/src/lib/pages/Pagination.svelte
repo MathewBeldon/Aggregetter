@@ -13,7 +13,7 @@
 	let next;
 	$: {
 		next = [];
-		for (let i = currentPage + 1; i < pageCount && i < (currentPage + 3); ++i) {
+		for (let i = currentPage + 1; i <= pageCount && i < (currentPage + 3); ++i) {
 			next.push(i);
 		}
 	}	
@@ -35,7 +35,9 @@
 
 <style>
 	.pagination {
-		display: inline;
+		display: inline-block;
+		margin: auto;
+		width: 100%;
 	}
 
 	.pagination a {
@@ -51,5 +53,14 @@
 		color: var(--off-white);
 	}
 
+	.pagination a:hover {
+		background-color:  var(--tertiary-color);
+		color: var(--off-white-light);
+	}
+
+	.pagination a.active:hover {
+		background-color: var(--primary-color);
+		color: var(--off-white);
+	}
 </style>
 
