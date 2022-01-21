@@ -23,7 +23,7 @@
 
 	async function submit(event) {
 		const response = await post(`auth/login`, { email, password });
-
+		
 		// TODO handle network errors
 		errors = response.errors;
 		console.log('res' + response);
