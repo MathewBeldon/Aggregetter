@@ -68,18 +68,19 @@ namespace Aggregetter.Aggre.Persistance.Seed
                 }
             }
 
+            _ = await context.SaveChangesAsync(CancellationToken.None);
+
             var articles = new List<Article>();
 
             var originalBody = $"Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно. Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв. Той използва речник от над 200 латински думи, комбинирани по подходящ начин като изречения, за да генерират истински Lorem Ipsum пасажи. Оттук следва, че генерираният Lorem Ipsum пасаж не съдържа повторения, смущаващи, нецензурни и всякакви неподходящи думи.";
             var translatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
-            
-            
+                                   
             const string query = $"SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;INSERT INTO articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
 
-            var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync()).Id;
+            var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
             StringBuilder sb = new StringBuilder(query);
-            for (int i = articleOffset; i < 20000000; i++)
+            for (int i = articleOffset; i < 2000000; i++)
             {
                 var categoryId = rnd.Next(1, MinSeed);
                 var providerId = rnd.Next(1, MinSeed);
@@ -96,15 +97,14 @@ namespace Aggregetter.Aggre.Persistance.Seed
                 else 
                 {
                     sb.Append(";COMMIT;SET unique_checks=1;SET foreign_key_checks=1;");
-                    logger.Information("writing 500 records");
+                    logger.Information("writing 5000 records");
                     await context.Database.ExecuteSqlRawAsync(sb.ToString());
-                    logger.Information($"written 500 records, total {i}");
+                    logger.Information($"written 5000 records, total {i}");
                     sb = new StringBuilder(query);
                     batch = 0;
                 }
             }
             context.Articles.AddRange(articles);
-
         }
     }
 }

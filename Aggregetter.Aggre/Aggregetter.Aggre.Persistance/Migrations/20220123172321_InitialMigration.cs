@@ -64,6 +64,12 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Providers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Providers_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -83,7 +89,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OriginalBody = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Endpoint = table.Column<string>(type: "text", nullable: true)
+                    Endpoint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ArticleSlug = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -119,6 +125,11 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_Endpoint",
+                table: "Articles",
+                column: "Endpoint");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_Id",
                 table: "Articles",
                 column: "Id");
@@ -142,6 +153,11 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "IX_Providers_Id",
                 table: "Providers",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Providers_LanguageId",
+                table: "Providers",
+                column: "LanguageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -150,13 +166,13 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
-                name: "Languages");
-
-            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Providers");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
         }
     }
 }

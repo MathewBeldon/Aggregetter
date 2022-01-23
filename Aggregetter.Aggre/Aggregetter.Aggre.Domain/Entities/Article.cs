@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Aggregetter.Aggre.Domain.Entities
 {
     [Index(nameof(ArticleSlug))]
+    [Index(nameof(Endpoint))]
     public sealed class Article : BaseEntity
     {
         [ForeignKey(nameof(Provider))]
@@ -27,8 +28,9 @@ namespace Aggregetter.Aggre.Domain.Entities
 
         [Column(TypeName = "text")]
         public string OriginalBody { get; set; }
-        
-        [Column(TypeName = "text")]
+
+        [MaxLength(255)]
+        [Column(TypeName = "varchar(255)")]
         public string Endpoint { get; set; }
 
         [MaxLength(255)]

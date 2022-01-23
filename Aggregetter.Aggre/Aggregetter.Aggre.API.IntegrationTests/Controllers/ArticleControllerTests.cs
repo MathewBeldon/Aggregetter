@@ -2,8 +2,11 @@
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
+using FluentValidation;
+using FluentValidation.Results;
 using Newtonsoft.Json;
 using Shouldly;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -130,7 +133,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var duplicateEndpointArticleJson = JsonConvert.SerializeObject(duplicateEndpointArticleCommand);
             var duplicateEndpointArticleContent = new StringContent(duplicateEndpointArticleJson, Encoding.UTF8, "application/json");
             var duplictePost = await _client.PostAsync("/api/v1/article", duplicateEndpointArticleContent);
-            duplictePost.StatusCode.ShouldBe(System.Net.HttpStatusCode.InternalServerError);
+            var duplicatePostString = await duplictePost.Content.ReadAsStringAsync();
+            var duplicatePostResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(duplicatePostString);
+
+            duplicatePostResult.First().AttemptedValue.ShouldBe(duplicateEndpointArticleCommand.Endpoint);
         }
     }
 }

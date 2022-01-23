@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Caching
 {
-    public sealed class CachingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
+    public sealed class CachingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
     {
         private readonly IDistributedCache _cache;
         private readonly CacheSettings _settings;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
-        public CachingPipelineBehavior(IDistributedCache cache, IOptions<CacheSettings> settings,
+        public CachingPipelineBehaviour(IDistributedCache cache, IOptions<CacheSettings> settings,
             JsonSerializerOptions jsonSerializerOptions)
         {
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));

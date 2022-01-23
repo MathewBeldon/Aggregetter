@@ -36,7 +36,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Endpoint")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
@@ -61,6 +62,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.HasIndex("ArticleSlug");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Endpoint");
 
                     b.HasIndex("Id");
 
@@ -138,6 +141,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasIndex("Id");
 
+                    b.HasIndex("LanguageId");
+
                     b.ToTable("Providers");
                 });
 
@@ -158,6 +163,17 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Provider", b =>
+                {
+                    b.HasOne("Aggregetter.Aggre.Domain.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
                 });
 #pragma warning restore 612, 618
         }

@@ -148,7 +148,6 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          ProviderId = article.ProviderId,
                           TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
                           Endpoint = article.Endpoint,
