@@ -52,9 +52,11 @@ namespace Aggregetter.Aggre.Persistance
             {
                 return;
             }
-            
-            _currentTransaction = Database.BeginTransaction(IsolationLevel.ReadCommitted);
-            
+
+            if (!Database.IsInMemory())
+            {
+                _currentTransaction = Database.BeginTransaction(IsolationLevel.ReadCommitted);
+            }            
         }
 
         public void CommitTransaction()

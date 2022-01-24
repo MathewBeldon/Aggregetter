@@ -77,7 +77,27 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
             mockArticleRepository.Setup(repo => repo.GetArticlesByPageAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(),  It.IsAny<CancellationToken>())).ReturnsAsync(
                 (int page, int pageSize, int totalCount, CancellationToken cancellationToken) =>
                 {
-                    return (articles.Skip((page - 1) * pageSize).Take(pageSize).ToList());
+                    var articleList = articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                    foreach(var article in articleList)
+                    {
+                        article.Category = new Category()
+                        {
+                            Id = article.CategoryId,
+                            Name = "CategoryName",
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+
+                        article.Provider = new Provider()
+                        {
+                            Id = article.ProviderId,
+                            Name = "ProviderName",
+                            BaseAddress = "base.address.examplex",
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+                    }
+
+                    return articleList;
                 });
 
             return mockArticleRepository;
