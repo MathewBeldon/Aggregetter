@@ -41,11 +41,11 @@ namespace Aggregetter.Aggre.API.Middleware
             {
                 case ValidationException validationException:
                     httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.Errors);
+                    result = JsonSerializer.Serialize(new { errors = validationException.Errors });
                     break;
                 case RecordNotFoundException recordNotFoundException:
                     httpStatusCode = HttpStatusCode.NotFound;
-                    result = JsonSerializer.Serialize(new { recordNotFound = recordNotFoundException.Message });
+                    result = JsonSerializer.Serialize(new { error = recordNotFoundException.Message });
                     break;
                 default:
                     httpStatusCode = HttpStatusCode.BadRequest;

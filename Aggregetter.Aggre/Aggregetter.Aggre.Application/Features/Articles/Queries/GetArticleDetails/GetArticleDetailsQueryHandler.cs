@@ -23,7 +23,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
         public async Task<GetArticleDetailsQueryResponse> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken) ??
-                throw new RecordNotFoundException(request.ArticleSlug);
+                throw new RecordNotFoundException($"Article {request.ArticleSlug}");
             
             var articleDetails = _mapper.Map<GetArticleDetailsDto>(article);
 
