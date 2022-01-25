@@ -2,7 +2,6 @@
 	import { session } from '$app/stores';
 	import ArticlePreview from './ArticlePreview.svelte';
 	export let articles;
-	console.log(articles.data);
 </script>
 
 {#if articles.length === 0}

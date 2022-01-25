@@ -29,10 +29,6 @@
 </svelte:head>
 
 <div class="home-page">
-	{#if !$session.user}
-		<h1 class="logo-font">Aggregetter</h1>
-	{/if}
-
 	<div>
 		<ArticleList {articles} />
 		<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />

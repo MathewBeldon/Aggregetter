@@ -11,7 +11,7 @@ async function send({ method, path, data, token }) {
 	if (token) {
 		opts.headers['Authorization'] = `Token ${token}`;
 	}
-
+	
 	return fetch(`${base}/${path}`, opts)
 		.then((r) => r.text())
 		.then((json) => {
