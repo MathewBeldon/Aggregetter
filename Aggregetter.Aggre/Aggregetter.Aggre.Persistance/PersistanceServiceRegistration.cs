@@ -17,9 +17,10 @@ namespace Aggregetter.Aggre.Persistance
             services.AddDbContext<AggreDbContext>(options =>            
                 options.UseMySql(configuration.GetConnectionString("AggreConnectionString"), serverVersion));
 
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehaviour<,>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));            
             services.AddScoped<IArticleRepository, ArticleRepository>();
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehaviour<,>));
 
             return services;
         }

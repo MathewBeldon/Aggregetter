@@ -19,9 +19,9 @@ namespace Aggregetter.Aggre.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehaviour<,>));
             services.AddSingleton<IPaginationService, PaginationService>();
             services.AddSingleton(new JsonSerializerOptions()
             {
