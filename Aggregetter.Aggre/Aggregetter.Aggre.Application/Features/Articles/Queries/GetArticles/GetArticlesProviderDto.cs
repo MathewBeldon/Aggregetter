@@ -2,9 +2,9 @@
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlesProviderDto
+    public sealed record GetArticlesProviderDto
     {
-        public string Name { get; set; }
-        public Uri BaseAddress { get; set; }
+        public string Name { get; init; }
+        public Uri BaseAddress { get; init; }
     }
 }

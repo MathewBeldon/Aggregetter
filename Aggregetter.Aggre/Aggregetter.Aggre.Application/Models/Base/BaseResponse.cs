@@ -5,11 +5,13 @@ namespace Aggregetter.Aggre.Application.Models.Base
 {
     public class BaseResponse<T>
     {
+        [JsonConstructor]
         public BaseResponse()
         {
             Success = true;
         }
 
+        [JsonConstructor]
         public BaseResponse(T data)
         {
             Success = true;

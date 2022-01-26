@@ -1,9 +1,9 @@
 ﻿namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class GetArticleDetailsProviderDto
+    public sealed record GetArticleDetailsProviderDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public GetArticleDetailsLanguageDto Language { get; set; }
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public GetArticleDetailsLanguageDto Language { get; init; }
     }
 }

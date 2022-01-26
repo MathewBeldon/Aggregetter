@@ -1,7 +1,7 @@
 ﻿namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
 {
-    public sealed class GetArticlesCategoryDto
+    public sealed record GetArticlesCategoryDto
     {
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

@@ -3,19 +3,19 @@ using System.Text.Json.Serialization;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class GetArticleDetailsDto
-    {        
-        public string TranslatedTitle { get; set; }
-        public string OriginalTitle { get; set; }
-        public string TranslatedBody { get; set; }
-        public string OriginalBody { get; set; }
-        public string Endpoint { get; set; }
-        public string ArticleSlug { get; set; }
-        public DateTime CreatedDateUtc { get; set; }
+    public sealed record GetArticleDetailsDto
+    {
+        public string TranslatedTitle { get; init; }
+        public string OriginalTitle { get; init; }
+        public string TranslatedBody { get; init; }
+        public string OriginalBody { get; init; }
+        public string Endpoint { get; init; }
+        public string ArticleSlug { get; init; }
+        public DateTime CreatedDateUtc { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DateTime ModifiedDateUtc { get; set; }
-        public GetArticleDetailsProviderDto Provider { get; set; }
-        public GetArticleDetailsCategoryDto Category { get; set; }
+        public DateTime ModifiedDateUtc { get; init; }
+        public GetArticleDetailsProviderDto Provider { get; init; }
+        public GetArticleDetailsCategoryDto Category { get; init; }
     }
 }

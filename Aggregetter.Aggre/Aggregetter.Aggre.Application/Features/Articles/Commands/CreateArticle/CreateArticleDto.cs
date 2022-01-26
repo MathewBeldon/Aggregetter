@@ -1,15 +1,15 @@
 ﻿namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    public sealed class CreateArticleDto
+    public sealed record CreateArticleDto
     {
-        public int ArticleId { get; set; }
-        public int ProviderId { get; set; }
-        public int CategoryId { get; set; }
-        public string TranslatedTitle { get; set; }
-        public string OriginalTitle { get; set; }
-        public string TranslatedBody { get; set; }
-        public string OriginalBody { get; set; }
-        public string Endpoint { get; set; }
-        public string ArticleSlug { get; set; }
+        public int ArticleId { get; init; }
+        public int ProviderId { get; init; }
+        public int CategoryId { get; init; }
+        public string TranslatedTitle { get; init; }
+        public string OriginalTitle { get; init; }
+        public string TranslatedBody { get; init; }
+        public string OriginalBody { get; init; }
+        public string Endpoint { get; init; }
+        public string ArticleSlug { get; init; }
     }
 }
