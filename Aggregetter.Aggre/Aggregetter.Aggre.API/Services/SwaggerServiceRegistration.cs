@@ -34,7 +34,6 @@ namespace Aggregetter.Aggre.API.Services
                           Scheme = "oauth2",
                           Name = "Bearer",
                           In = ParameterLocation.Header,
-
                         },
                         new List<string>()
                       }
@@ -44,7 +43,6 @@ namespace Aggregetter.Aggre.API.Services
                 {
                     Version = "v1",
                     Title = "Aggregetter API",
-
                 });
             });            
         }

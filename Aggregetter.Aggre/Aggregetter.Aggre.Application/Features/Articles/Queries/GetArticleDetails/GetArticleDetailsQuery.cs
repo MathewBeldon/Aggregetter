@@ -10,6 +10,5 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
         public string Key => $"{ArticleSlug}";
         public bool Bypass { get; set; }
         public TimeSpan? AbsoluteExpiration { get; set; }
-        public TimeSpan? SlidingExpiration { get; set; }
     }
 }

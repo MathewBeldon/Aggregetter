@@ -11,6 +11,5 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
         public string Key => $"Article-{PaginationRequest.Page}-{PaginationRequest.PageSize}";
         public bool Bypass { get; set; }
         public TimeSpan? AbsoluteExpiration { get; set; }
-        public TimeSpan? SlidingExpiration { get; set; }
     }
 }

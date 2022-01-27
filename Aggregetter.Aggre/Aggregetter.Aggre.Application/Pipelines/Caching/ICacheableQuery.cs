@@ -7,6 +7,5 @@ namespace Aggregetter.Aggre.Application.Pipelines.Caching
         string Key { get; }
         bool Bypass { get; }
         TimeSpan? AbsoluteExpiration { get; }
-        TimeSpan? SlidingExpiration { get; }
     }
 }

@@ -40,13 +40,11 @@ namespace Aggregetter.Aggre.Application.Pipelines.Caching
             {
                 response = await next();
 
-                var absoluteExpiration = request.AbsoluteExpiration is null ? TimeSpan.FromSeconds(_settings.AbsoluteExpiration) : request.AbsoluteExpiration;
-                var slidingExpiration = request.SlidingExpiration is null ? TimeSpan.FromSeconds(_settings.SlidingExpiration) : request.SlidingExpiration;
+                var absoluteExpiration = request.AbsoluteExpiration ?? TimeSpan.FromSeconds(_settings.AbsoluteExpiration);
 
                 var options = new DistributedCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = absoluteExpiration,
-                    SlidingExpiration = slidingExpiration
+                    AbsoluteExpirationRelativeToNow = absoluteExpiration
                 };
 
                 var serializedData = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response, options: _jsonSerializerOptions));

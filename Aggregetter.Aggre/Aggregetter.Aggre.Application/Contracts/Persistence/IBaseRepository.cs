@@ -9,6 +9,7 @@ namespace Aggregetter.Aggre.Application.Contracts.Persistence
 {
     public interface IBaseRepository<T> where T : class
     {
+        Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);
         Task<IEnumerable<T>> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken);
         Task<T> AddAsync(T entity, CancellationToken cancellationToken);

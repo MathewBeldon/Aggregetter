@@ -51,7 +51,7 @@ namespace Aggregetter.Aggre.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
                               IHostApplicationLifetime lifetime, IDistributedCache cache)
         {
-            //if (env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); 
                 app.UseSwagger();
