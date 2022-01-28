@@ -1,6 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,12 @@ namespace Aggregetter.Aggre.API.Controllers
                 PaginationRequest = paginationRequest,
             });
             return Ok(articleListPagedResponse);
+        }
+
+        [HttpGet("Category"), ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedByCategoryAsync([FromQuery] GetArticlesByCategoryQuery getArticleByCategoryQuery)
+        {
+            return Ok(await _mediator.Send(getArticleByCategoryQuery));
         }
 
         [HttpGet("{articleSlug}", Name = "Details"), ProducesResponseType(StatusCodes.Status200OK)]

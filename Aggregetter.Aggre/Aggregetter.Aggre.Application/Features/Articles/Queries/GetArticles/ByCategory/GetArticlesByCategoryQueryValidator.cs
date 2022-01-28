@@ -2,11 +2,11 @@
 using FluentValidation;
 using Microsoft.Extensions.Options;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
+namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory
 {
-    public sealed class GetArticlesQueryValidator : AbstractValidator<GetArticlesQuery>
+    public sealed class GetArticlesByCategoryQueryValidator : AbstractValidator<GetArticlesByCategoryQuery>
     {
-        public GetArticlesQueryValidator(IOptions<PagedSettings> settings)
+        public GetArticlesByCategoryQueryValidator(IOptions<PagedSettings> settings)
         {
             RuleFor(pr => pr.PaginationRequest.PageSize)
                 .InclusiveBetween(1, settings.Value.PageSize)

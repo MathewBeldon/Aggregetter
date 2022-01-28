@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Profiles;
 using Aggregetter.Aggre.Application.Services.PaginationService;
@@ -41,7 +41,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         public async Task GetArticlePagedListQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
             var result = await _handler.Handle(new GetArticlesQuery(){
-                PaginationRequest = new PaginationRequest {
+                PaginationRequest = new PaginationRequest
+                {
                     Page = 1,
                     PageSize = pageSize
                 }

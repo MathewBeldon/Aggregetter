@@ -3,7 +3,7 @@ using Aggregetter.Aggre.Application.Pipelines.Caching;
 using MediatR;
 using System;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles
+namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base
 {
     public sealed class GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableQuery
     {

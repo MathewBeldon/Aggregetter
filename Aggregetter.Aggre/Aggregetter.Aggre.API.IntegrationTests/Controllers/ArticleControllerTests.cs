@@ -1,8 +1,7 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
-using FluentValidation;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using FluentValidation.Results;
 using Newtonsoft.Json;
 using Shouldly;
