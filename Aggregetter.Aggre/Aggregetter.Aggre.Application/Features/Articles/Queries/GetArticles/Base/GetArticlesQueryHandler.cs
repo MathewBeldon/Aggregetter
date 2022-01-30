@@ -27,19 +27,19 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
             var totalArticles = await _articleRepository.GetCount(cancellationToken);
-            var getArticlesRequest = await _articleRepository.GetArticlesPagedAsync(request.PaginationRequest.Page, request.PaginationRequest.PageSize, totalArticles, cancellationToken);
+            var getArticlesRequest = await _articleRepository.GetArticlesPagedAsync(request.Page, request.PageSize, totalArticles, cancellationToken);
 
             var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
-            var pagedUris = _paginationService.GetPagedUris(request.PaginationRequest, "articles", totalArticles);
+            var pagedUris = _paginationService.GetPagedUris(request.PageSize, request.Page, totalArticles);
 
             return new GetArticlesQueryResponse(getArticlesDtoList)
             {
-                PageSize = request.PaginationRequest.PageSize,
-                PageNumber = request.PaginationRequest.Page,
+                PageSize = request.PageSize,
+                PageNumber = request.Page,
                 HasPreviousPage = pagedUris.PreviousPage,
                 HasNextPage = pagedUris.NextPage,
                 TotalRecords = totalArticles,
-                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PaginationRequest.PageSize),
+                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PageSize),
             };            
         }
     }

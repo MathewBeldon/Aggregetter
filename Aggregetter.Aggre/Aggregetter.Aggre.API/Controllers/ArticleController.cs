@@ -23,19 +23,25 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest, int? categoryId)
         {
-            var articleListPagedResponse = await _mediator.Send(new GetArticlesQuery
+            if (categoryId is not null)
             {
-                PaginationRequest = paginationRequest,
-            });
-            return Ok(articleListPagedResponse);
-        }
+                var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByCategoryQuery
+                {
+                    CategoryId = categoryId.Value,
+                    Page = paginationRequest.Page,
+                    PageSize = paginationRequest.PageSize
+                });
+                return Ok(articleByCategoryPagedResponse);
+            }
 
-        [HttpGet("Category"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedByCategoryAsync([FromQuery] GetArticlesByCategoryQuery getArticleByCategoryQuery)
-        {
-            return Ok(await _mediator.Send(getArticleByCategoryQuery));
+            var articlePagedResponse = await _mediator.Send(new GetArticlesQuery
+            {
+                Page = paginationRequest.Page,
+                PageSize = paginationRequest.PageSize
+            });
+            return Ok(articlePagedResponse);
         }
 
         [HttpGet("{articleSlug}", Name = "Details"), ProducesResponseType(StatusCodes.Status200OK)]

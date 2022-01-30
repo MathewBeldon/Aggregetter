@@ -27,19 +27,20 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.By
         public async Task<GetArticlesByCategoryQueryResponse> Handle(GetArticlesByCategoryQuery request, CancellationToken cancellationToken)
         {
             var totalArticles = await _articleRepository.GetCountByCategory(request.CategoryId, cancellationToken);
-            var getArticlesRequest = await _articleRepository.GetArticlesByCategoryPagedAsync(request.PaginationRequest.Page, request.PaginationRequest.PageSize, request.CategoryId, cancellationToken);
+            var getArticlesRequest = await _articleRepository.GetArticlesByCategoryPagedAsync(request.Page, request.PageSize, request.CategoryId, cancellationToken);
 
             var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
-            var pagedUris = _paginationService.GetPagedUris(request.PaginationRequest, "articles", totalArticles);
+            
+            var pagedUris = _paginationService.GetPagedUris(request.PageSize, request.Page, totalArticles);
 
             return new GetArticlesByCategoryQueryResponse(getArticlesDtoList)
             {                
-                PageSize = request.PaginationRequest.PageSize,
-                PageNumber = request.PaginationRequest.Page,
+                PageSize = request.PageSize,
+                PageNumber = request.Page,
                 HasPreviousPage = pagedUris.PreviousPage,
                 HasNextPage = pagedUris.NextPage,
                 TotalRecords = totalArticles,
-                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PaginationRequest.PageSize) - 1,
+                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PageSize) - 1,
             };
         }
     }

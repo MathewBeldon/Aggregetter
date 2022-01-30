@@ -41,11 +41,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         public async Task GetArticlePagedListQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
             var result = await _handler.Handle(new GetArticlesQuery(){
-                PaginationRequest = new PaginationRequest
-                {
-                    Page = 1,
-                    PageSize = pageSize
-                }
+                Page = 1,
+                PageSize = pageSize
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlesQueryResponse>();
@@ -57,11 +54,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var result = await _handler.Handle(new GetArticlesQuery()
             {
-                PaginationRequest = new PaginationRequest
-                {
-                    Page = 999,
-                    PageSize = 20
-                }
+                Page = 999,
+                PageSize = 20
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlesQueryResponse>();

@@ -4,7 +4,7 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails
 {
-    public sealed class GetArticleDetailsQuery : IRequest<GetArticleDetailsQueryResponse>, ICacheableQuery
+    public sealed class GetArticleDetailsQuery : IRequest<GetArticleDetailsQueryResponse>, ICacheableRequest
     {
         public string ArticleSlug { get; set; }
         public string Key => $"{ArticleSlug}";

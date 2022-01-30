@@ -34,11 +34,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PaginationRequest = new PaginationRequest
-                {
-                    Page = page,
-                    PageSize = pageSize,
-                }
+                Page = page,
+                PageSize = pageSize,
             };
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
@@ -54,11 +51,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PaginationRequest = new PaginationRequest
-                {
-                    Page = 1,
-                    PageSize = pageSize,
-                }
+                Page = 1,
+                PageSize = pageSize,
             };
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
@@ -74,11 +68,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         {
             var getArticlePagedListQuery = new GetArticlesQuery
             {
-                PaginationRequest = new PaginationRequest
-                {
-                    Page = page,
-                    PageSize = PAGE_SIZE,
-                }
+                Page = page,
+                PageSize = PAGE_SIZE,
             };
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);

@@ -4,7 +4,7 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategories
 {
-    public sealed record GetCategoriesQuery : IRequest<GetCategoriesQueryResponse>, ICacheableQuery
+    public sealed record GetCategoriesQuery : IRequest<GetCategoriesQueryResponse>, ICacheableRequest
     {
         public string Key => $"{nameof(GetCategoriesQuery)}";
 

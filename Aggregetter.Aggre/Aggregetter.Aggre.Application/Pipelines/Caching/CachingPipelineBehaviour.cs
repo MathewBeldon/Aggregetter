@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Caching
 {
-    public sealed class CachingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableQuery
+    public sealed class CachingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICacheableRequest
     {
         private readonly IDistributedCache _cache;
         private readonly CacheSettings _settings;
