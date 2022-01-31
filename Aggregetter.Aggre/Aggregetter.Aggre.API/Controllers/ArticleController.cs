@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +24,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest, int? categoryId)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest, int? categoryId, int? providerId)
         {
             if (categoryId is not null)
             {
@@ -34,6 +35,17 @@ namespace Aggregetter.Aggre.API.Controllers
                     PageSize = paginationRequest.PageSize
                 });
                 return Ok(articleByCategoryPagedResponse);
+            }
+
+            if (providerId is not null)
+            {
+                var articleByProviderPagedResponse = await _mediator.Send(new GetArticlesByProviderQuery
+                {
+                    ProviderId = providerId.Value,
+                    Page = paginationRequest.Page,
+                    PageSize = paginationRequest.PageSize
+                });
+                return Ok(articleByProviderPagedResponse);
             }
 
             var articlePagedResponse = await _mediator.Send(new GetArticlesQuery

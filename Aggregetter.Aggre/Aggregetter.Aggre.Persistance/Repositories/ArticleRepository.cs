@@ -19,9 +19,16 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return (await _context.Articles.OrderByDescending(o => o.Id).Take(1).SingleOrDefaultAsync(cancellationToken)).Id;
         }
 
+        //fix this
         public async Task<int> GetCountByCategory(int categoryId, CancellationToken cancellationToken)
         {
             return await _context.Articles.Where(a => a.CategoryId == categoryId).CountAsync(cancellationToken);
+        }
+
+        //and this
+        public async Task<int> GetCountByProvider(int providerId, CancellationToken cancellationToken)
+        {
+            return await _context.Articles.Where(a => a.ProviderId == providerId).CountAsync(cancellationToken);
         }
 
         public async Task<bool> ArticleEndpointExistsAsync(string endpoint, CancellationToken cancellationToken)
@@ -189,6 +196,67 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Id = article.Id,
                           CategoryId = article.CategoryId,
                           ProviderId = article.ProviderId,                          
+                          TranslatedTitle = article.TranslatedTitle,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                      }
+                )
+                .Join(_context.Categories,
+                      article => article.CategoryId,
+                      category => category.Id,
+                      (article, category) => new Article
+                      {
+                          Id = article.Id,
+                          ProviderId = article.ProviderId,
+                          TranslatedTitle = article.TranslatedTitle,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                          Category = new Category
+                          {
+                              Name = category.Name,
+                          }
+                      }
+                )
+                .Join(_context.Providers,
+                      article => article.ProviderId,
+                      provider => provider.Id,
+                      (article, provider) => new Article
+                      {
+                          Id = article.Id,
+                          TranslatedTitle = article.TranslatedTitle,
+                          ArticleSlug = article.ArticleSlug,
+                          Endpoint = article.Endpoint,
+                          Category = new Category
+                          {
+                              Name = article.Category.Name,
+                          },
+                          Provider = new Provider
+                          {
+                              Name = provider.Name,
+                              BaseAddress = provider.BaseAddress
+                          }
+                      })
+                .ToListAsync(cancellationToken);
+
+            return entity;
+        }
+
+        public async Task<List<Article>> GetArticlesByProviderPagedAsync(int page, int pageSize, int providerId, CancellationToken cancellationToken)
+        {
+            var entity = await _context.Articles
+                .OrderByDescending(x => x.Id)
+                .Where(a => a.ProviderId == providerId)
+                .Select(a => a.Id)
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .Join(_context.Articles,
+                      articleId => articleId,
+                      article => article.Id,
+                      (articleId, article) => new Article
+                      {
+                          Id = article.Id,
+                          CategoryId = article.CategoryId,
+                          ProviderId = article.ProviderId,
                           TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
                           Endpoint = article.Endpoint,

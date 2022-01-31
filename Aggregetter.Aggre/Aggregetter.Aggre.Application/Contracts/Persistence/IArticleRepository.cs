@@ -9,10 +9,13 @@ namespace Aggregetter.Aggre.Application.Contracts.Persistence
     {
         Task<int> GetCount(CancellationToken cancellationToken);
         Task<int> GetCountByCategory(int categoryId, CancellationToken cancellationToken);
+        Task<int> GetCountByProvider(int providerId, CancellationToken cancellationToken);
         Task<bool> ArticleEndpointExistsAsync(string endpoint, CancellationToken cancellationToken);
         Task<bool> ArticleSlugExistsAsync(string articleSlug, CancellationToken cancellationToken);
         Task<Article> GetArticleBySlugAsync(string slug, CancellationToken cancellationToken);
         Task<List<Article>> GetArticlesPagedAsync(int page, int pageSize, int totalCount, CancellationToken cancellationToken);
-        Task<List<Article>> GetArticlesByCategoryPagedAsync(int page, int pageSize, int totalCount, CancellationToken cancellationToken);
+        Task<List<Article>> GetArticlesByCategoryPagedAsync(int page, int pageSize, int categoryId, CancellationToken cancellationToken);
+        Task<List<Article>> GetArticlesByProviderPagedAsync(int page, int pageSize, int providerId, CancellationToken cancellationToken);
+
     }
 }
