@@ -13,34 +13,21 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
     { 
         private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
-        private readonly IPaginationService _paginationService;
 
         public GetArticlesQueryHandler(IArticleRepository articleRepository, 
-            IMapper mapper,
-            IPaginationService paginationService)
+            IMapper mapper)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _paginationService = paginationService ?? throw new ArgumentNullException(nameof(paginationService));
         }
 
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
-            var totalArticles = await _articleRepository.GetCount(cancellationToken);
-            var getArticlesRequest = await _articleRepository.GetArticlesPagedAsync(request.Page, request.PageSize, totalArticles, cancellationToken);
+            var articleCount = await _articleRepository.GetCount(cancellationToken);
+            var articleEntities = await _articleRepository.GetArticlesPagedAsync(request.Page, request.PageSize, articleCount, cancellationToken);
+            var articleDtos = _mapper.Map<List<GetArticlesDto>>(articleEntities);
 
-            var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
-            var pagedUris = _paginationService.GetPagedUris(request.PageSize, request.Page, totalArticles);
-
-            return new GetArticlesQueryResponse(getArticlesDtoList)
-            {
-                PageSize = request.PageSize,
-                PageNumber = request.Page,
-                HasPreviousPage = pagedUris.PreviousPage,
-                HasNextPage = pagedUris.NextPage,
-                TotalRecords = totalArticles,
-                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PageSize),
-            };            
+            return new GetArticlesQueryResponse(data: articleDtos, page: request.Page, pageSize: request.PageSize, recordCount: articleCount);          
         }
     }
 }

@@ -16,14 +16,12 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
     {
         private readonly IMapper _mapper;
         private readonly Mock<IArticleRepository> _mockArticleRepository;
-        private readonly Mock<IPaginationService> _paginationService;
 
         private readonly GetArticlesQueryHandler _handler;
 
         public GetArticlesQueryHandlerTests()
         {
             _mockArticleRepository = ArticleRepositoryMocks.GetArticleRepository();
-            _paginationService = new Mock<IPaginationService>();
 
             var configurationProvider = new MapperConfiguration(cfg =>
             {
@@ -32,7 +30,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticlesQueryHandler(_mockArticleRepository.Object, _mapper, _paginationService.Object);
+            _handler = new GetArticlesQueryHandler(_mockArticleRepository.Object, _mapper);
         }
 
         [Theory]

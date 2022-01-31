@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Pipelines.Caching;
+using Aggregetter.Aggre.Application.Pipelines.Pagination;
 using Aggregetter.Aggre.Application.Pipelines.Validation;
 using Aggregetter.Aggre.Application.Services.PaginationService;
 using Aggregetter.Aggre.Application.Settings;
@@ -19,9 +20,13 @@ namespace Aggregetter.Aggre.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PaginationPipelineBehaviour<,>));
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
             services.AddSingleton<IPaginationService, PaginationService>();
             services.AddSingleton(new JsonSerializerOptions()
             {

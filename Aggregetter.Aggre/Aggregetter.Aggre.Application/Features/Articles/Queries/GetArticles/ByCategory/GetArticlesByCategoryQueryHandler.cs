@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Services.PaginationService;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using AutoMapper;
 using MediatR;
 using System;
@@ -9,39 +9,25 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory
 {
-    internal class GetArticlesByCategoryQueryHandler : IRequestHandler<GetArticlesByCategoryQuery, GetArticlesByCategoryQueryResponse>
+    internal class GetArticlesByCategoryQueryHandler : IRequestHandler<GetArticlesByCategoryQuery, GetArticlesQueryResponse>
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
-        private readonly IPaginationService _paginationService;
 
         public GetArticlesByCategoryQueryHandler(IArticleRepository articleRepository,
-            IMapper mapper,
-            IPaginationService paginationService)
+            IMapper mapper)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _paginationService = paginationService ?? throw new ArgumentNullException(nameof(paginationService));
         }
 
-        public async Task<GetArticlesByCategoryQueryResponse> Handle(GetArticlesByCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<GetArticlesQueryResponse> Handle(GetArticlesByCategoryQuery request, CancellationToken cancellationToken)
         {
-            var totalArticles = await _articleRepository.GetCountByCategory(request.CategoryId, cancellationToken);
-            var getArticlesRequest = await _articleRepository.GetArticlesByCategoryPagedAsync(request.Page, request.PageSize, request.CategoryId, cancellationToken);
+            var articleCount = await _articleRepository.GetCountByCategory(request.CategoryId, cancellationToken);            
+            var articleEntities = await _articleRepository.GetArticlesByCategoryPagedAsync(request.Page, request.PageSize, request.CategoryId, cancellationToken);
+            var articleDtos = _mapper.Map<List<GetArticlesDto>>(articleEntities);            
 
-            var getArticlesDtoList = _mapper.Map<List<GetArticlesDto>>(getArticlesRequest);
-            
-            var pagedUris = _paginationService.GetPagedUris(request.PageSize, request.Page, totalArticles);
-
-            return new GetArticlesByCategoryQueryResponse(getArticlesDtoList)
-            {                
-                PageSize = request.PageSize,
-                PageNumber = request.Page,
-                HasPreviousPage = pagedUris.PreviousPage,
-                HasNextPage = pagedUris.NextPage,
-                TotalRecords = totalArticles,
-                TotalPages = (int)Math.Ceiling((double)totalArticles / request.PageSize) - 1,
-            };
+            return new GetArticlesQueryResponse(data: articleDtos, page: request.Page, pageSize: request.PageSize, recordCount: articleCount);            
         }
     }
 }

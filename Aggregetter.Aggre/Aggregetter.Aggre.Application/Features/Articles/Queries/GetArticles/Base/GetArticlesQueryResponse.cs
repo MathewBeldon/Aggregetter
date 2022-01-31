@@ -5,9 +5,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
 {
     public sealed class GetArticlesQueryResponse : PaginationResponse<List<GetArticlesDto>>
     {
-        public GetArticlesQueryResponse(List<GetArticlesDto> data = default(List<GetArticlesDto>)) : base(data)
-        {
-            if (!(data?.Count > 0)) Message = "Page contains no data"; 
-        }
+        public GetArticlesQueryResponse(List<GetArticlesDto> data, int page,
+            int pageSize, int recordCount) : base(data, page, pageSize, recordCount) { }
     }
 }
