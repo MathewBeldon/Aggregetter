@@ -3,6 +3,7 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProviderAndCategory;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,10 +27,11 @@ namespace Aggregetter.Aggre.API.Controllers
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest, int? categoryId, int? providerId)
         {
-            if (categoryId is not null)
+            if (providerId is not null && categoryId is not null)
             {
-                var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByCategoryQuery
+                var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
                 {
+                    ProviderId = providerId.Value,
                     CategoryId = categoryId.Value,
                     Page = paginationRequest.Page,
                     PageSize = paginationRequest.PageSize
@@ -47,6 +49,17 @@ namespace Aggregetter.Aggre.API.Controllers
                 });
                 return Ok(articleByProviderPagedResponse);
             }
+
+            if (categoryId is not null)
+            {
+                var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByCategoryQuery
+                {
+                    CategoryId = categoryId.Value,
+                    Page = paginationRequest.Page,
+                    PageSize = paginationRequest.PageSize
+                });
+                return Ok(articleByCategoryPagedResponse);
+            }           
 
             var articlePagedResponse = await _mediator.Send(new GetArticlesQuery
             {
