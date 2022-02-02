@@ -69,6 +69,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.HasIndex("ProviderId");
 
+                    b.HasIndex("ProviderId", "CategoryId");
+
                     b.ToTable("Articles");
                 });
 

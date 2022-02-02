@@ -19,7 +19,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
             var currentTime = DateTime.UtcNow;
 
             Random rnd = new Random();
-            const int MinSeed = 100;
+            const int MinSeed = 500;
 
             var languageOffset = await context.Languages.CountAsync();
             for (int i = languageOffset; i < MinSeed; i++)
@@ -90,16 +90,16 @@ namespace Aggregetter.Aggre.Persistance.Seed
                 var articleSlug = $"lorem-ipsum{i}";
 
                 sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','{translatedBody}','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
-                if (++batch < 5000)
+                if (++batch < 1000)
                 {
                     sb.Append(",");
                 }
                 else 
                 {
                     sb.Append(";COMMIT;SET unique_checks=1;SET foreign_key_checks=1;");
-                    logger.Information("writing 5000 records");
+                    logger.Information("writing 1000 records");
                     await context.Database.ExecuteSqlRawAsync(sb.ToString());
-                    logger.Information($"written 5000 records, total {i}");
+                    logger.Information($"written 1000 records, total {i}");
                     sb = new StringBuilder(query);
                     batch = 0;
                 }

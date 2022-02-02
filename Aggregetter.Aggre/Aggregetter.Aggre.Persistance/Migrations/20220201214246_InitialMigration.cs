@@ -140,6 +140,11 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 column: "ProviderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_ProviderId_CategoryId",
+                table: "Articles",
+                columns: new[] { "ProviderId", "CategoryId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id",
                 table: "Categories",
                 column: "Id");

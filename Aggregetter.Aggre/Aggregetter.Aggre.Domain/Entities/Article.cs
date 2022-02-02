@@ -7,6 +7,9 @@ namespace Aggregetter.Aggre.Domain.Entities
 {
     [Index(nameof(ArticleSlug))]
     [Index(nameof(Endpoint))]
+    [Index(nameof(ProviderId), nameof(CategoryId))]
+    [Index(nameof(ProviderId))]
+    [Index(nameof(CategoryId))]
     public sealed class Article : BaseEntity
     {
         [ForeignKey(nameof(Provider))]

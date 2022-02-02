@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20220123172321_InitialMigration")]
+    [Migration("20220201214246_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,8 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                     b.HasIndex("Id");
 
                     b.HasIndex("ProviderId");
+
+                    b.HasIndex("ProviderId", "CategoryId");
 
                     b.ToTable("Articles");
                 });
