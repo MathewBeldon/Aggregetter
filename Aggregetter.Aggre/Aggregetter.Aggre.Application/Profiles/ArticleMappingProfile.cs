@@ -1,8 +1,8 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
-using ArticleDetails = Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Articles = Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
+using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
+using ArticleDetails = Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 
 namespace Aggregetter.Aggre.Application.Profiles
 {
@@ -11,9 +11,9 @@ namespace Aggregetter.Aggre.Application.Profiles
         public ArticleMappingProfile()
         {
             #region GetArticles
-            CreateMap<Article, Articles.GetArticlesDto>();
-            CreateMap<Category, Articles.GetArticlesCategoryDto>();
-            CreateMap<Provider, Articles.GetArticlesProviderDto>();
+            CreateMap<Article, GetArticlesDto>();
+            CreateMap<Category, GetArticlesCategoryDto>();
+            CreateMap<Provider, GetArticlesProviderDto>();
             #endregion GetArticles
 
             #region GetArticleDetails           

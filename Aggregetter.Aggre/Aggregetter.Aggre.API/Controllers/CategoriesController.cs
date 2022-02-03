@@ -1,5 +1,4 @@
 ﻿using Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategories;
-using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +10,16 @@ namespace Aggregetter.Aggre.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public sealed class CategoryController : ControllerBase
+    public sealed class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public CategoryController(IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpGet(Name = "All"), ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetCategoriesQueryResponse>> AllAsync()
         {
             var categoriesResponse = await _mediator.Send(new GetCategoriesQuery() {  AbsoluteExpiration = TimeSpan.FromSeconds(30) });

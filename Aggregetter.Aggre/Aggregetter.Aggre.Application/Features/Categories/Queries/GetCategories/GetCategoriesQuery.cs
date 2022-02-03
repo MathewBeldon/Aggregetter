@@ -7,9 +7,7 @@ namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategorie
     public sealed record GetCategoriesQuery : IRequest<GetCategoriesQueryResponse>, ICacheableRequest
     {
         public string Key => $"{nameof(GetCategoriesQuery)}";
-
         public bool Bypass { get; init; }
-
         public TimeSpan? AbsoluteExpiration { get; init; }
     }
 }

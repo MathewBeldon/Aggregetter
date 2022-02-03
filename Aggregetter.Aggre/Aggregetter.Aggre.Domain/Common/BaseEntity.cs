@@ -11,5 +11,8 @@ namespace Aggregetter.Aggre.Domain.Common
         public int Id { get; set; }
         public DateTime CreatedDateUtc { get; set; }
         public DateTime ModifiedDateUtc { get; set; }
+
+        //[Timestamp]
+        //public byte[] ConcurrencyToken { get; set; }
     }
 }

@@ -6,7 +6,8 @@ using System.Threading;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Pagination
 {
-    public sealed class PaginationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TResponse : IPaginationResponse
+    public sealed class PaginationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+                                                                                                                  where TResponse : IPaginationResponse
     {
         private readonly IPaginationService _paginationService;
 

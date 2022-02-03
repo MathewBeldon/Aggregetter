@@ -22,11 +22,11 @@ namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategorie
 
         public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.GetAllAsync(cancellationToken);
+            var categoryEntities = await _categoryRepository.GetAllAsync(cancellationToken);
 
-            var getCategoriesList = _mapper.Map<List<GetCategoriesDto>>(categories);
+            var categoriesDtos = _mapper.Map<List<GetCategoriesDto>>(categoryEntities);
 
-            return new GetCategoriesQueryResponse(getCategoriesList);
+            return new GetCategoriesQueryResponse(categoriesDtos);
         }
     }
 }

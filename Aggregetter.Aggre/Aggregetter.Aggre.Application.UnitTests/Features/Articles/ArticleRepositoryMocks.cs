@@ -92,7 +92,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                         {
                             Id = article.ProviderId,
                             Name = "ProviderName",
-                            BaseAddress = "base.address.examplex",
+                            BaseAddress = "base.address.example",
                             CreatedDateUtc = DateTime.UtcNow,
                         };
                     }
