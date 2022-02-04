@@ -56,7 +56,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
                     Id = i + 1,
                     LanguageId = rnd.Next(1, MinSeed),
                     Name = $"Latin news{i}",
-                    BaseAddress = $"lorem{i}.example",
+                    BaseAddress = new Uri($"lorem{i}.example"),
                 };
                 var providerResult = await context.Providers.SingleOrDefaultAsync(p => p.Id == provider.Id);
                 if (providerResult is null)

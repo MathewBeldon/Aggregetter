@@ -40,7 +40,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                 Id = 1,
                 LanguageId = language.Id,
                 Name = "Roman news",
-                BaseAddress = "base.address.example",
+                BaseAddress = new Uri("base.address.example"),
             };
             var providerResult = await context.Providers.SingleOrDefaultAsync(p => p.Id == provider.Id);
             if (providerResult is null)

@@ -2,6 +2,9 @@
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
+using System;
+using System.ComponentModel;
+using System.Globalization;
 using ArticleDetails = Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 
 namespace Aggregetter.Aggre.Application.Profiles
@@ -29,4 +32,6 @@ namespace Aggregetter.Aggre.Application.Profiles
             #endregion CreateArticle
         }
     }
+
+    
 }

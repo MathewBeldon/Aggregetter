@@ -14,6 +14,6 @@ namespace Aggregetter.Aggre.Domain.Entities
         public string Name { get; set; }
 
         [Column(TypeName = "tinytext")]
-        public string BaseAddress { get; set; }
+        public Uri BaseAddress { get; set; }
     }
 }
