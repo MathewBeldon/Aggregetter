@@ -2,8 +2,8 @@
 	export let pageCount;
 	export let currentPage;
 	export let href;
-
 	let previous;
+	
 	$: {
 		previous = [];
 		for (let i = currentPage - 1; i > 0 && i > (currentPage - 3); --i) {
@@ -36,7 +36,7 @@
 <style>
 	.pagination {
 		display: inline-block;
-		margin: auto;
+		margin: 20px auto;
 		width: 100%;
 	}
 

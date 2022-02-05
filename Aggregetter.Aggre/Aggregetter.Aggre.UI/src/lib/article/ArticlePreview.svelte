@@ -2,11 +2,11 @@
 	export let article;
 	export let user;
 </script>
-
 <div class="article-preview">
 	<a href="/article/{article.articleSlug}">
-		<p> {article.translatedTitle} | Category: {article.category.name} | Provider: {article.provider.name}  </p>
-		<a href="https://{article.provider.baseAddress}/{article.endpoint}">{article.provider.baseAddress}/{article.endpoint}</a>
+		<p> {article.translatedTitle} </p>
+		<p> Category: {article.category.name} Provider: {article.provider.name} </p>
+		<a href="{article.provider.baseAddress}{article.endpoint}">{article.provider.baseAddress}{article.endpoint}</a>
 	</a>
 </div>
 
@@ -16,7 +16,8 @@
 		background-color: var(--off-white);
 		margin: 3px;
 		padding: 10px;
-		border: solid 1px var(--primary-color);
+		border: solid 1px var(--secondary-color);
+		border-bottom: solid 2px var(--primary-color);
 	}
 
 	.article-preview a > p {

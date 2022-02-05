@@ -12,4 +12,8 @@
         <path d="M11 14C11.5523 14 12 14.4477 12 15V21H14V15C14 13.3431 12.6569 12 11 12H5C3.34315 12 2 13.3431 2 15V21H4V15C4 14.4477 4.44772 14 5 14H11Z" fill="currentColor" />
         <path d="M18 7H20V9H22V11H20V13H18V11H16V9H18V7Z" fill="currentColor" />
     </symbol>
+    <symbol id="gg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M15.6396 7.02527H12.0181V5.02527H19.0181V12.0253H17.0181V8.47528L12.1042 13.3892L10.6899 11.975L15.6396 7.02527Z" fill="currentColor" />
+        <path d="M10.9819 6.97473H4.98193V18.9747H16.9819V12.9747H14.9819V16.9747H6.98193V8.97473H10.9819V6.97473Z" fill="currentColor" />
+    </symbol>
 </svg>

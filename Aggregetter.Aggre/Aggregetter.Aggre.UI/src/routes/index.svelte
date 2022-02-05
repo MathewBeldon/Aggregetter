@@ -19,9 +19,9 @@
 
 	export let articles;
 
-	const pageCount = articles.totalPages;
+	const pageCount = articles.pageCount;
 	
-	$: currentPage = articles.pageNumber || 1;
+	$: currentPage = articles.page || 1;
 </script>
 
 <svelte:head>
