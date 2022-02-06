@@ -56,7 +56,7 @@
 				</li>
 				<li class="nav-item">
 					<a rel="prefetch" href="/" class="nav-link" on:click={logout}>
-						<svg class="icon"><use xlink:href="/icons.svg#gg-log-out"/></svg>Sign out
+						<svg class="icon"><use xlink:href="/svg//icons.svg#gg-log-out"/></svg>Sign out
 					</a>
 				</li>
 
