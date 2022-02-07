@@ -57,7 +57,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
             }, CancellationToken.None);
 
             result.ShouldBeOfType<GetArticlesQueryResponse>();
-            result.Message.ShouldBe("Page contains no data");
             result.Data.ShouldBeEmpty();
         }
     }
