@@ -5,6 +5,7 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using FluentValidation.Results;
 using Newtonsoft.Json;
 using Shouldly;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -25,6 +26,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             _client = _factory.CreateClient();
         }
 
+        #region GetArticlesByPage
+
         [Fact]
         public async Task GetArticlesByPage_v1_Success()
         {
@@ -42,6 +45,60 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesSecondPageString.ShouldNotBeNull();
             articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
         }
+
+        [Fact]
+        public async Task GetArticlesByPage_v1_InvalidPage_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public async Task GetArticlesByPage_v1_InvalidPageSize_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+        #endregion GetArticlesByPage
+
+        #region GetArticlesByPageByCategory
+
+        [Fact]
+        public async Task GetArticlesByPageByCategory_v1_Success()
+        {
+            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&categoryId=1");
+            articlesFirstPage.EnsureSuccessStatusCode();
+
+            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&categoryId=1");
+            articlesSecondPage.EnsureSuccessStatusCode();
+
+            var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
+            var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
+
+
+            articlesFirstPageString.ShouldNotBeNull();
+            articlesSecondPageString.ShouldNotBeNull();
+            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
+        }
+
+        #endregion GetArticlesByPageByCategory
 
         [Fact]
         public async Task GetArticleDetails_v1_Success()
