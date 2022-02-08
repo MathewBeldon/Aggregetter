@@ -29,21 +29,21 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         #region GetArticlesByPage
 
         [Fact]
-        public async Task GetArticlesByPage_v1_Success()
+        public async Task GetArticlesByPage_v1_ValidRequest_Success()
         {
             var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
-
             var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
             var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
-
+            var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
             articlesFirstPageString.ShouldNotBeNull();
             articlesSecondPageString.ShouldNotBeNull();
             articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
+            articlesResult.Success.ShouldBeTrue();
         }
 
         [Fact]
@@ -52,7 +52,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
-
             var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
 
             articlesResult.Count.ShouldBe(1);
@@ -67,7 +66,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
-
             var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
 
             articlesResult.Count.ShouldBe(1);
@@ -81,7 +79,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         #region GetArticlesByPageByCategory
 
         [Fact]
-        public async Task GetArticlesByPageByCategory_v1_Success()
+        public async Task GetArticlesByPageByCategory_v1_ValidRequest_Success()
         {
             var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&categoryId=1");
             articlesFirstPage.EnsureSuccessStatusCode();
@@ -92,22 +90,167 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
             var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
 
+            var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
             articlesFirstPageString.ShouldNotBeNull();
             articlesSecondPageString.ShouldNotBeNull();
             articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
+            articlesResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task GetArticlesByPageByCategory_v1_InvalidPage_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&categoryId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+
+        [Fact]
+        public async Task GetArticlesByPageByCategory_v1_InvalidPageSize_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&categoryId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
         }
 
         #endregion GetArticlesByPageByCategory
 
+        #region GetArticlesByPageByProvider
+
         [Fact]
-        public async Task GetArticleDetails_v1_Success()
+        public async Task GetArticlesByPageByProvider_v1_ValidRequest_Success()
+        {
+            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&providerId=1");
+            articlesFirstPage.EnsureSuccessStatusCode();
+
+            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&providerId=1");
+            articlesSecondPage.EnsureSuccessStatusCode();
+
+            var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
+            var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
+
+            articlesFirstPageString.ShouldNotBeNull();
+            articlesSecondPageString.ShouldNotBeNull();
+            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
+            articlesResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task GetArticlesByPageByProvider_v1_InvalidPage_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&providerId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+
+        [Fact]
+        public async Task GetArticlesByPageByProvider_v1_InvalidPageSize_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&providerId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+        #endregion GetArticlesByPageByProvider
+
+        #region GetArticlesByPageByProviderAndCategory
+
+        [Fact]
+        public async Task GetArticlesByPageByProviderAndCategory_v1_ValidRequest_Success()
+        {
+            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&providerId=1&categoryId=1");
+            articlesFirstPage.EnsureSuccessStatusCode();
+
+            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&providerId=1&categoryId=1");
+            articlesSecondPage.EnsureSuccessStatusCode();
+
+            var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
+            var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
+
+            articlesFirstPageString.ShouldNotBeNull();
+            articlesSecondPageString.ShouldNotBeNull();
+            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
+            articlesResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task GetArticlesByPageByProviderAndCategory_v1_InvalidPage_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&providerId=1&categoryId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+
+        [Fact]
+        public async Task GetArticlesByPageByProviderAndCategory_v1_InvalidPageSize_ValidationError()
+        {
+            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&providerId=1&categoryId=1");
+
+            var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
+
+            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+
+            articlesResult.Count.ShouldBe(1);
+            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
+            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
+            articlesResult.ShouldNotBeNull();
+        }
+
+        #endregion GetArticlesByPageByProviderAndCategory
+
+        #region GetArticleDetails
+
+        [Fact]
+        public async Task GetArticleDetails_v1_ValidRequest_Success()
         {
             var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
-            var firstArticle = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString).Data.FirstOrDefault();
+            var firstArticle = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString)?.Data.FirstOrDefault();
 
             var response = await _client.GetAsync("/api/v1/article/" + firstArticle?.ArticleSlug);
 
@@ -117,12 +260,17 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var result = JsonConvert.DeserializeObject<GetArticleDetailsQueryResponse>(responseString);
 
-            Assert.IsType<GetArticleDetailsQueryResponse>(result);
-            Assert.NotNull(result);
+            result.ShouldBeOfType<GetArticleDetailsQueryResponse>();
+            result.Success.ShouldBeTrue();
+            result.ShouldNotBeNull();
         }
 
+        #endregion GetArticleDetails
+
+        #region PostArticle
+
         [Fact]
-        public async Task PostArticle_v1_Success()
+        public async Task PostArticle_v1_ValidRequest_Success()
         {
             var login = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
@@ -149,8 +297,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var result = JsonConvert.DeserializeObject<CreateArticleCommandResponse>(responseString);
 
-            Assert.IsType<CreateArticleCommandResponse>(result);
-            Assert.NotNull(result?.Data.ArticleId);
+            result.ShouldBeOfType<CreateArticleCommandResponse>();
+            result.Data.ArticleId.ShouldBeGreaterThan(0);
         }
 
         [Fact]
@@ -194,5 +342,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             duplicatePostResult.First().AttemptedValue.ShouldBe(duplicateEndpointArticleCommand.Endpoint);
         }
+
+        #endregion PostArticle
     }
 }
