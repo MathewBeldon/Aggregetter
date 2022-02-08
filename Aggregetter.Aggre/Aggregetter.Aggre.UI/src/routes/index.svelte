@@ -29,8 +29,12 @@
 </svelte:head>
 
 <div class="home-page">
-	<div>
-		<ArticleList {articles} />
-		<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />
-	</div>
+	<ArticleList {articles} />
+	<Pagination {pageCount} {currentPage} href={(p) => `?page=${p}`} />	
 </div>
+
+<style>
+	.home-page {
+		background-color: red;
+	}
+</style>
