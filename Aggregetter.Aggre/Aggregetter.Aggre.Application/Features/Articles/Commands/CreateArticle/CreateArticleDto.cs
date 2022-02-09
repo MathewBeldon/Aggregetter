@@ -2,7 +2,7 @@
 {
     public sealed record CreateArticleDto
     {
-        public int ArticleId { get; init; }
+        public int Id { get; init; }
         public int ProviderId { get; init; }
         public int CategoryId { get; init; }
         public string TranslatedTitle { get; init; }

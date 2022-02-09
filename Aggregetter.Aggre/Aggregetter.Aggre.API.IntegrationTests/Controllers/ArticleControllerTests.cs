@@ -298,7 +298,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var result = JsonConvert.DeserializeObject<CreateArticleCommandResponse>(responseString);
 
             result.ShouldBeOfType<CreateArticleCommandResponse>();
-            result.Data.ArticleId.ShouldBeGreaterThan(0);
+            result.Data.Id.ShouldBeGreaterThan(0);
         }
 
         [Fact]

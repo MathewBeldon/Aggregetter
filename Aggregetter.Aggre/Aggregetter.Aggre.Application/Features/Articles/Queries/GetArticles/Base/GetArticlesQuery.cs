@@ -4,11 +4,11 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base
 {
-    public sealed class GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableRequest
+    public sealed record GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableRequest
     {
         public string Key => $"Article-{Page}-{PageSize}";
-        public bool Bypass { get; set; }
-        public TimeSpan? AbsoluteExpiration { get; set; }
+        public bool Bypass { get; init; }
+        public TimeSpan? AbsoluteExpiration { get; init; }
         public int Page { get; init; }
         public int PageSize { get; init; }
     }

@@ -52,7 +52,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
             {
                 var article = new Article
                 {
-                    Id = i + 1,
                     CategoryId = category.Id,
                     ProviderId = provider.Id,
                     OriginalBody = "Lorem Ipsum" + i,
