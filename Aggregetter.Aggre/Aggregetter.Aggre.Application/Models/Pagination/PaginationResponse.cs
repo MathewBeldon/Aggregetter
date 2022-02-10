@@ -4,7 +4,7 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Models.Pagination
 {
-    public class PaginationResponse<T> : BaseResponse<T>, IPaginationResponse
+    public class PaginationResponse<T> : ContentResponse<T>, IPaginationResponse
     {
         public int Page { get; private set; }
         public int PageSize { get; private set; }
@@ -14,6 +14,7 @@ namespace Aggregetter.Aggre.Application.Models.Pagination
         public bool HasNextPage { get; set; }
         public bool HasPreviousPage { get; set; }
 
+        public PaginationResponse() : base() { }
         public PaginationResponse(T data, int page, int pageSize, int recordCount) : base(data)
         {
             if (data is null) Success = false;

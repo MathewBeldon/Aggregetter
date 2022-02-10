@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    public sealed class CreateArticleCommandResponse : BaseResponse<CreateArticleDto>
+    public sealed class CreateArticleCommandResponse : ContentResponse<CreateArticleDto>
     {
         public CreateArticleCommandResponse() : base () { }
         public CreateArticleCommandResponse(CreateArticleDto data) : base(data) { }
