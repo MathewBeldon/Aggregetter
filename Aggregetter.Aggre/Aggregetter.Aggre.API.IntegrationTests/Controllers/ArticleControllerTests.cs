@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
+using Aggregetter.Aggre.Application.Models.Base;
 using FluentValidation.Results;
 using Newtonsoft.Json;
 using Shouldly;
@@ -52,12 +53,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         [Fact]
@@ -66,12 +65,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         #endregion GetArticlesByPage
@@ -105,12 +102,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
 
@@ -121,12 +116,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         #endregion GetArticlesByPageByCategory
@@ -160,12 +153,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
 
@@ -176,12 +167,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         #endregion GetArticlesByPageByProvider
@@ -215,12 +204,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.Page));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
 
@@ -231,12 +218,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
-            var articlesResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(articlesPageString) ?? throw new ArgumentNullException();
+            var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Count.ShouldBe(1);
-            articlesResult[0].PropertyName.ShouldBe(nameof(GetArticlesQuery.PageSize));
-            articlesResult[0].Severity.ShouldBe(FluentValidation.Severity.Error);
-            articlesResult.ShouldNotBeNull();
+            articlesResult.Success.ShouldBeFalse();
+            articlesResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         #endregion GetArticlesByPageByProviderAndCategory
@@ -338,9 +323,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var duplicateEndpointArticleContent = new StringContent(duplicateEndpointArticleJson, Encoding.UTF8, "application/json");
             var duplictePost = await _client.PostAsync("/api/v1/article", duplicateEndpointArticleContent);
             var duplicatePostString = await duplictePost.Content.ReadAsStringAsync();
-            var duplicatePostResult = JsonConvert.DeserializeObject<List<ValidationFailure>>(duplicatePostString);
+            var duplicatePostResult = JsonConvert.DeserializeObject<BaseResponse>(duplicatePostString) ?? throw new ArgumentNullException();
 
-            duplicatePostResult.First().AttemptedValue.ShouldBe(duplicateEndpointArticleCommand.Endpoint);
+            duplicatePostResult.Success.ShouldBeFalse();
+            duplicatePostResult.ValidationErrors.Count.ShouldBe(1);
         }
 
         #endregion PostArticle
