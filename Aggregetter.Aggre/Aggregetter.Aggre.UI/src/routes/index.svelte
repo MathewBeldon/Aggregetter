@@ -35,6 +35,5 @@
 
 <style>
 	.home-page {
-		background-color: red;
 	}
 </style>

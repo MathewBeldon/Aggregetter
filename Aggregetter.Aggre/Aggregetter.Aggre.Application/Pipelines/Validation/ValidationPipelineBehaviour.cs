@@ -1,16 +1,13 @@
 ﻿using Aggregetter.Aggre.Application.Models.Base;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Validation
 {
     public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest  : IRequest<TResponse>
-                                                                                                                  where TResponse : BaseResponse, new()
+                                                                                                                  where TResponse : BaseResponse
     {
         private readonly IValidator<TRequest> _validator;
         public ValidationPipelineBehaviour(IValidator<TRequest> validator)
