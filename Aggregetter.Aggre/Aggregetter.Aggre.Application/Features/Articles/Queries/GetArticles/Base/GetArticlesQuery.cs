@@ -4,7 +4,7 @@ using System;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base
 {
-    public sealed record GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableRequest
+    public sealed class GetArticlesQuery : IRequest<GetArticlesQueryResponse>, ICacheableRequest
     {
         public string Key => $"Article-{Page}-{PageSize}";
         public bool Bypass { get; init; }
