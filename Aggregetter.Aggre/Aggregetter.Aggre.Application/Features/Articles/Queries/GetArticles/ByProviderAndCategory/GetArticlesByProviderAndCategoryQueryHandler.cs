@@ -4,8 +4,6 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,14 +11,14 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.By
 {
     public sealed class GetArticlesByProviderAndCategoryQueryHandler : IRequestHandler<GetArticlesByProviderAndCategoryQuery, GetArticlesQueryResponse>
     {
-        private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
+        private readonly IArticleRepository _articleRepository;
 
-        public GetArticlesByProviderAndCategoryQueryHandler(IArticleRepository articleRepository,
-            IMapper mapper)
+        public GetArticlesByProviderAndCategoryQueryHandler(IMapper mapper,
+            IArticleRepository articleRepository)
         {
-            _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
         }
 
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesByProviderAndCategoryQuery request, CancellationToken cancellationToken)

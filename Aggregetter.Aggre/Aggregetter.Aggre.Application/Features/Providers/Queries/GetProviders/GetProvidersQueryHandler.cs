@@ -14,7 +14,8 @@ namespace Aggregetter.Aggre.Application.Features.Providers.Queries.GetProviders
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Provider> _providerRepository;
 
-        public GetProvidersQueryHandler(IMapper mapper, IBaseRepository<Provider> providerRepository)
+        public GetProvidersQueryHandler(IMapper mapper,
+            IBaseRepository<Provider> providerRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));

@@ -11,14 +11,14 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.By
 {
     internal class GetArticlesByProviderQueryHandler : IRequestHandler<GetArticlesByProviderQuery, GetArticlesQueryResponse>
     {
-        private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
+        private readonly IArticleRepository _articleRepository;
 
-        public GetArticlesByProviderQueryHandler(IArticleRepository articleRepository,
-            IMapper mapper)
+        public GetArticlesByProviderQueryHandler(IMapper mapper,
+            IArticleRepository articleRepository)
         {
-            _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
         }
 
         public async Task<GetArticlesQueryResponse> Handle(GetArticlesByProviderQuery request, CancellationToken cancellationToken)

@@ -1,8 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
-using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Profiles;
-using Aggregetter.Aggre.Application.Services.PaginationService;
 using AutoMapper;
 using Moq;
 using Shouldly;
@@ -30,7 +28,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             _mapper = configurationProvider.CreateMapper();
 
-            _handler = new GetArticlesQueryHandler(_mockArticleRepository.Object, _mapper);
+            _handler = new GetArticlesQueryHandler(_mapper, _mockArticleRepository.Object);
         }
 
         [Theory]
@@ -38,7 +36,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(20)]
         public async Task GetArticlePagedListQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
-            var result = await _handler.Handle(new GetArticlesQuery(){
+            var result = await _handler.Handle(new GetArticlesQuery()
+            {
                 Page = 1,
                 PageSize = pageSize
             }, CancellationToken.None);

@@ -14,8 +14,8 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
         private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
 
-        public GetArticlesQueryHandler(IArticleRepository articleRepository, 
-            IMapper mapper)
+        public GetArticlesQueryHandler(IMapper mapper,
+            IArticleRepository articleRepository)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

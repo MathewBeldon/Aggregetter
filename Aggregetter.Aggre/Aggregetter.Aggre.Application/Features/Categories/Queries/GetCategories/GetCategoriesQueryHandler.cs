@@ -14,7 +14,8 @@ namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategorie
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Category> _categoryRepository;
 
-        public GetCategoriesQueryHandler(IMapper mapper, IBaseRepository<Category> categoryRepository)
+        public GetCategoriesQueryHandler(IMapper mapper, 
+            IBaseRepository<Category> categoryRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
