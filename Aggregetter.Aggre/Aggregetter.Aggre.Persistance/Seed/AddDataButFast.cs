@@ -80,7 +80,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
             StringBuilder sb = new StringBuilder(query);
-            for (int i = articleOffset; i < 20000000; i++)
+            for (int i = articleOffset; i < 2000000; i++)
             {
                 var categoryId = rnd.Next(1, MinSeed);
                 var providerId = rnd.Next(1, MinSeed);

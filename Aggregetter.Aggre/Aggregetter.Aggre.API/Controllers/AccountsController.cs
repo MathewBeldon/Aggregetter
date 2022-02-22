@@ -11,11 +11,11 @@ namespace Aggregetter.Aggre.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public sealed class AccountController : Controller
+    public sealed class AccountsController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly ILogger<AccountController> _logger;
-        public AccountController(IAuthenticationService authenticationService, ILogger<AccountController> logger)
+        private readonly ILogger<AccountsController> _logger;
+        public AccountsController(IAuthenticationService authenticationService, ILogger<AccountsController> logger)
         {
             _authenticationService = authenticationService;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
