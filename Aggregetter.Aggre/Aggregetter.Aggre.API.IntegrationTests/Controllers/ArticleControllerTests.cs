@@ -32,9 +32,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPage_v1_ValidRequest_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/articles?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
-            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2");
+            var articlesSecondPage = await _client.GetAsync("/api/v1/articles?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
@@ -50,7 +50,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPage_v1_InvalidPage_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0");
+            var articlesPage = await _client.GetAsync("/api/v1/articles?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
@@ -62,7 +62,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPage_v1_InvalidPageSize_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
@@ -78,10 +78,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByCategory_v1_ValidRequest_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&categoryId=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/articles/category/1?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&categoryId=1");
+            var articlesSecondPage = await _client.GetAsync("/api/v1/articles/category/1?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
@@ -98,7 +98,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByCategory_v1_InvalidPage_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&categoryId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/category/1?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -112,7 +112,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByCategory_v1_InvalidPageSize_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&categoryId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/category/1?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -129,10 +129,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProvider_v1_ValidRequest_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&providerId=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/articles/provider/1?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&providerId=1");
+            var articlesSecondPage = await _client.GetAsync("/api/v1/articles/provider/1?pagesize=20&page=2&providerId=1");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
@@ -149,7 +149,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProvider_v1_InvalidPage_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&providerId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/provider/1?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -163,7 +163,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProvider_v1_InvalidPageSize_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&providerId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/provider/1?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -180,10 +180,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProviderAndCategory_v1_ValidRequest_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1&providerId=1&categoryId=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/articles/provider/1/category/1?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
 
-            var articlesSecondPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=2&providerId=1&categoryId=1");
+            var articlesSecondPage = await _client.GetAsync("/api/v1/articles/provider/1/category/1?pagesize=20&page=2");
             articlesSecondPage.EnsureSuccessStatusCode();
 
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
@@ -200,7 +200,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProviderAndCategory_v1_InvalidPage_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=0&providerId=1&categoryId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/provider/1/category/1?pagesize=20&page=0");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -214,7 +214,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticlesByPageByProviderAndCategory_v1_InvalidPageSize_ValidationError()
         {
-            var articlesPage = await _client.GetAsync("/api/v1/article?pagesize=200&page=1&providerId=1&categoryId=1");
+            var articlesPage = await _client.GetAsync("/api/v1/articles/provider/1/category/1?pagesize=200&page=1");
 
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
 
@@ -231,13 +231,13 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         [Fact]
         public async Task GetArticleDetails_v1_ValidRequest_Success()
         {
-            var articlesFirstPage = await _client.GetAsync("/api/v1/article?pagesize=20&page=1");
+            var articlesFirstPage = await _client.GetAsync("/api/v1/articles?pagesize=20&page=1");
             articlesFirstPage.EnsureSuccessStatusCode();
             var articlesFirstPageString = await articlesFirstPage.Content.ReadAsStringAsync();
 
             var firstArticle = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString)?.Data.FirstOrDefault();
 
-            var response = await _client.GetAsync("/api/v1/article/" + firstArticle?.ArticleSlug);
+            var response = await _client.GetAsync("/api/v1/articles/" + firstArticle?.ArticleSlug);
 
             response.EnsureSuccessStatusCode();
 
@@ -274,7 +274,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var json = JsonConvert.SerializeObject(createArticleCommand);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/v1/article", content);
+            var response = await _client.PostAsync("/api/v1/articles", content);
 
             response.EnsureSuccessStatusCode();
 
@@ -305,7 +305,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             };            
             var firstArticleJson = JsonConvert.SerializeObject(firstArticleCommand);
             var firstArticleContent = new StringContent(firstArticleJson, Encoding.UTF8, "application/json");
-            var firstPost = await _client.PostAsync("/api/v1/article", firstArticleContent);
+            var firstPost = await _client.PostAsync("/api/v1/articles", firstArticleContent);
             firstPost.EnsureSuccessStatusCode();
 
             var duplicateEndpointArticleCommand = new CreateArticleCommand()
@@ -321,7 +321,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             };
             var duplicateEndpointArticleJson = JsonConvert.SerializeObject(duplicateEndpointArticleCommand);
             var duplicateEndpointArticleContent = new StringContent(duplicateEndpointArticleJson, Encoding.UTF8, "application/json");
-            var duplictePost = await _client.PostAsync("/api/v1/article", duplicateEndpointArticleContent);
+            var duplictePost = await _client.PostAsync("/api/v1/articles", duplicateEndpointArticleContent);
             var duplicatePostString = await duplictePost.Content.ReadAsStringAsync();
             var duplicatePostResult = JsonConvert.DeserializeObject<BaseResponse>(duplicatePostString) ?? throw new ArgumentNullException();
 

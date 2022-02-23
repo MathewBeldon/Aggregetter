@@ -35,7 +35,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var json = JsonConvert.SerializeObject(registrationRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("/api/v1/account/register", content);
+            var response = await _client.PostAsync("/api/v1/accounts/register", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RegistrationResponse>(responseString);

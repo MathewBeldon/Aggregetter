@@ -19,7 +19,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
             var json = JsonConvert.SerializeObject(authenticationRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response =  await client.PostAsync($"/api/v{version}/account/authenticate", content);
+            var response =  await client.PostAsync($"/api/v{version}/accounts/authenticate", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var authenticationResponse = JsonConvert.DeserializeObject<AuthenticationResponse>(responseString);
@@ -34,7 +34,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
         public async static Task LogoutUserAsync(HttpClient client, int version)
         {
-            var response = await client.PostAsync($"/api/v{version}/account/deauthenticate", null);
+            var response = await client.PostAsync($"/api/v{version}/accounts/deauthenticate", null);
             response.EnsureSuccessStatusCode();
         }
     }
