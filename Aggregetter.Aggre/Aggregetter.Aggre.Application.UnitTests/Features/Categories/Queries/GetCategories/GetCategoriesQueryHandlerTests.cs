@@ -38,7 +38,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Categories.Queries.Ge
         {
             var result = await _handler.Handle(new GetCategoriesQuery(), CancellationToken.None);
 
-            result.ShouldBeOfType<GetCategoriesQueryResponse>();
+            result.ShouldBeOfType<GetProvidersQueryREsponse>();
             //result.Data.ShouldNotBeEmpty();
         }
     }

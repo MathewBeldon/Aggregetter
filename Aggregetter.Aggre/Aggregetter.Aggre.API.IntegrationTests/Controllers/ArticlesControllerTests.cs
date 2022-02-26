@@ -16,12 +16,12 @@ using System.Threading.Tasks;
 using Xunit;
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
-    public sealed class ArticleControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public sealed class ArticlesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
         private HttpClient _client;
 
-        public ArticleControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public ArticlesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();

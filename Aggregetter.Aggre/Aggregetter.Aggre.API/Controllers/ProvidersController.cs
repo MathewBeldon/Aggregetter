@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetCategoriesQueryResponse>> AllAsync()
+        public async Task<ActionResult<GetProvidersQueryREsponse>> AllAsync()
         {
             var providersResponse = await _mediator.Send(new GetProvidersQuery() { AbsoluteExpiration = TimeSpan.FromSeconds(30) });
             return Ok(providersResponse);
