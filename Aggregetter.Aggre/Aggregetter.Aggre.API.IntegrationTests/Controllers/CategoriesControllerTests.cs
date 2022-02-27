@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
-using Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategories;
+using Aggregetter.Aggre.Application.Features.Providers.Queries.GetProviders;
 using Newtonsoft.Json;
 using Shouldly;
 using System;
@@ -27,7 +27,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             categoriesResponse.EnsureSuccessStatusCode();
 
             var categoriesResponseString = await categoriesResponse.Content.ReadAsStringAsync();
-            var categoriesResponseObject = JsonConvert.DeserializeObject<GetProvidersQueryREsponse>(categoriesResponseString) ?? throw new ArgumentNullException();
+            var categoriesResponseObject = JsonConvert.DeserializeObject<GetProvidersQueryResponse>(categoriesResponseString) ?? throw new ArgumentNullException();
 
             categoriesResponseObject.ShouldNotBeNull();
             categoriesResponseObject.Data.Count.ShouldBeGreaterThan(0);

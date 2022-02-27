@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Domain.Common;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
@@ -17,6 +18,12 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Base
                 (int id, CancellationToken cancellationToken) =>
                 {
                     return id == ExistingId ? new T() {  Id = ExistingId } : null;
+                });
+
+            baseRepositoryMocks.Setup(repo => repo.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(
+                (CancellationToken cancellationToken) =>
+                {
+                    return new List<T> { new T() { Id = ExistingId } };
                 });
 
             return baseRepositoryMocks;
