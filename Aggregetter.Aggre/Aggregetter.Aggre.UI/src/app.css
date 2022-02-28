@@ -53,7 +53,7 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 }
 
 
-.button {
+button {
 	background: var(--tertiary-color);
 	-webkit-border-radius: 5;
 	-moz-border-radius: 5;
@@ -64,6 +64,13 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 	padding: 10px 20px 10px 20px;
 	text-decoration: none;
 	border: 0;
+	cursor: pointer;
+}
+
+  
+button:hover {
+	background: var(--primary-color);
+	text-decoration: none;
 }
 
 .container-form-button {
@@ -117,10 +124,6 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
 	float: right;
 	text-align: right;
 }
-  
-.button:hover {
-	background: var(--primary-color);
-	text-decoration: none;
-}
+
 
 

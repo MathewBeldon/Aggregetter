@@ -8,12 +8,7 @@
 		<div class="info-sub">
 			<a class="sub-title-provider" href="/">{article.provider.name}</a>
 			<div class="info-categories">
-				<a class="sub-title-category" href="/">{article.category.name}</a>
-				<a class="sub-title-category" href="/">{article.category.name}</a>
-				<a class="sub-title-category" href="/">{article.category.name}</a>
-				<a class="sub-title-category" href="/">{article.category.name}</a>
-				<a class="sub-title-category" href="/">{article.category.name}</a>
-
+				<a class="sub-title-category" href="/category/{article.category.id}">{article.category.name}</a>
 			</div>
 		</div>
 		<div class="info-link">

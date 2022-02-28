@@ -59,7 +59,7 @@
 	    <br><br>
 
 		<div class="container-form-button">
-          <button type="submit" name="button_submit" class="button">
+          <button type="submit" name="button_submit">
             <span>Login</span>
           </button>
         </div>
