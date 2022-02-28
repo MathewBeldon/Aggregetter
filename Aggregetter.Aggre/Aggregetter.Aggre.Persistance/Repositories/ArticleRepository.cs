@@ -156,6 +156,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = category.Id,
                               Name = category.Name,
                           }
                       }
@@ -171,10 +172,12 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = article.Category.Id,
                               Name = article.Category.Name,
                           },
                           Provider = new Provider
                           {
+                              Id = provider.Id,
                               Name = provider.Name,
                               BaseAddress = provider.BaseAddress
                           }
@@ -218,6 +221,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = category.Id,
                               Name = category.Name,
                           }
                       }
@@ -279,6 +283,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = category.Id,
                               Name = category.Name,
                           }
                       }
@@ -294,10 +299,12 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = article.Category.Id,
                               Name = article.Category.Name,
                           },
                           Provider = new Provider
                           {
+                              Id = provider.Id,
                               Name = provider.Name,
                               BaseAddress = provider.BaseAddress
                           }
@@ -340,6 +347,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = category.Id,
                               Name = category.Name,
                           }
                       }
@@ -355,10 +363,12 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
+                              Id = article.Category.Id,
                               Name = article.Category.Name,
                           },
                           Provider = new Provider
                           {
+                              Id = provider.Id,
                               Name = provider.Name,
                               BaseAddress = provider.BaseAddress
                           }
