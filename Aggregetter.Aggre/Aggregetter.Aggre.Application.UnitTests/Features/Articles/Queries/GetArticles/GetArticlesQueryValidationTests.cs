@@ -1,5 +1,4 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
-using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Settings;
 using Microsoft.Extensions.Options;
 using Shouldly;
