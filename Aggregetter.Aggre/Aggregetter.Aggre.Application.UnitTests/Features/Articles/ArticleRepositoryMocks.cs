@@ -41,12 +41,19 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                     return articles.Count;
                 });
 
+            mockArticleRepository.Setup(repo => repo.GetCountByCategory(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync(
+                (int categoryId, CancellationToken cancellationToken) =>
+                {
+                    return articles.Where(a => a.CategoryId == categoryId).Count();
+                });
+
             mockArticleRepository.Setup(repo => repo.GetArticleBySlugAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string articleSlug, CancellationToken cancellationToken) =>
                 {
                     return articles.FirstOrDefault(a => a.ArticleSlug == articleSlug);
                 });
 
+            
             mockArticleRepository.Setup(repo => repo.ArticleEndpointExistsAsync(It.IsAny<string>(), CancellationToken.None)).ReturnsAsync(
                 (string endpoint, CancellationToken cancellationToken) =>
                 {
@@ -80,6 +87,32 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                     var articleList = articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                     foreach(var article in articleList)
+                    {
+                        article.Category = new Category()
+                        {
+                            Id = article.CategoryId,
+                            Name = "CategoryName",
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+
+                        article.Provider = new Provider()
+                        {
+                            Id = article.ProviderId,
+                            Name = "ProviderName",
+                            BaseAddress = new Uri("https://base.address.example"),
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+                    }
+
+                    return articleList;
+                });
+
+            mockArticleRepository.Setup(repo => repo.GetArticlesByCategoryPagedAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), CancellationToken.None)).ReturnsAsync(
+                (int page, int pageSize, int categoryId, CancellationToken cancellationToken) =>
+                {
+                    var articleList = articles.Where(x => x.CategoryId == categoryId).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                    foreach (var article in articleList)
                     {
                         article.Category = new Category()
                         {
