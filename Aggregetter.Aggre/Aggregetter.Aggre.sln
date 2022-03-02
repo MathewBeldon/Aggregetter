@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aggregetter.Aggre.Identity"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aggregetter.Aggre.API.IntegrationTests", "Aggregetter.Aggre.API.IntegrationTests\Aggregetter.Aggre.API.IntegrationTests.csproj", "{75E3A4EB-6121-46C1-8392-80EC498F49EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggregetter.Aggre.Infrastructure", "Aggregetter.Aggre.Infrastructure\Aggregetter.Aggre.Infrastructure.csproj", "{BD8F646B-5AAF-494F-9162-C3E451869FC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{75E3A4EB-6121-46C1-8392-80EC498F49EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75E3A4EB-6121-46C1-8392-80EC498F49EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75E3A4EB-6121-46C1-8392-80EC498F49EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD8F646B-5AAF-494F-9162-C3E451869FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD8F646B-5AAF-494F-9162-C3E451869FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD8F646B-5AAF-494F-9162-C3E451869FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD8F646B-5AAF-494F-9162-C3E451869FC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{2EA1A958-9A50-4C05-85D5-770FAF8BFF3E} = {DA28029B-C849-4C1B-9F00-3268EBB1782B}
 		{5CD5DD71-62DA-4051-86C9-66C098B73800} = {E15AF22C-493E-47B3-A198-DB5BBC8B8459}
 		{75E3A4EB-6121-46C1-8392-80EC498F49EA} = {A4D1E504-0AF0-4F4D-8611-FEDE6EAA892A}
+		{BD8F646B-5AAF-494F-9162-C3E451869FC8} = {E15AF22C-493E-47B3-A198-DB5BBC8B8459}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0874BF4D-F046-42A4-8B61-6BA1067FF646}

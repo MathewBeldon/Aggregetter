@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Aggregetter.Aggre.Domain.Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Contracts.Persistence
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T> where T : BaseEntity
     {
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);
