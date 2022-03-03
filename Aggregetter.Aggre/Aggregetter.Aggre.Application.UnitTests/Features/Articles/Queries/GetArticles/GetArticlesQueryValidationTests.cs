@@ -13,6 +13,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         private readonly IOptions<PagedSettings> _options;
 
         private const int PAGE_SIZE = 20;
+
         public GetArticlesQueryValidationTests()
         {
             _options = Options.Create(new PagedSettings
@@ -22,7 +23,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             _validator = new GetArticlesQueryValidator(_options);
         }
-
 
         [Theory]
         [InlineData(1, 20)]

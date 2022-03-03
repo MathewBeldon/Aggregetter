@@ -80,7 +80,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
             StringBuilder sb = new StringBuilder(query);
-            for (int i = articleOffset; i < 2000000; i++)
+            for (int i = articleOffset; i < 20000000; i++)
             {
                 var categoryId = rnd.Next(1, MinSeed);
                 var providerId = rnd.Next(1, MinSeed);
@@ -89,7 +89,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
                 var endpoint = $"Lorem/Endpoint{i}";
                 var articleSlug = $"lorem-ipsum{i}";
 
-                sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','{translatedBody}','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
+                sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
                 if (++batch < 1000)
                 {
                     sb.Append(",");

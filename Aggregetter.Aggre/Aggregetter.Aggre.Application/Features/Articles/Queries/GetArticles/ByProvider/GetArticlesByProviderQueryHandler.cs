@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider
 {
-    internal class GetArticlesByProviderQueryHandler : IRequestHandler<GetArticlesByProviderQuery, GetArticlesQueryResponse>
+    public sealed class GetArticlesByProviderQueryHandler : IRequestHandler<GetArticlesByProviderQuery, GetArticlesQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly IArticleRepository _articleRepository;
