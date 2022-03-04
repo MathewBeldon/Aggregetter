@@ -133,6 +133,59 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                     return articleList;
                 });
 
+            mockArticleRepository.Setup(repo => repo.GetArticlesByProviderPagedAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), CancellationToken.None)).ReturnsAsync(
+                (int page, int pageSize, int providerId, CancellationToken cancellationToken) =>
+                {
+                    var articleList = articles.Where(x => x.ProviderId == providerId).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                    foreach (var article in articleList)
+                    {
+                        article.Category = new Category()
+                        {
+                            Id = article.CategoryId,
+                            Name = "CategoryName",
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+
+                        article.Provider = new Provider()
+                        {
+                            Id = article.ProviderId,
+                            Name = "ProviderName",
+                            BaseAddress = new Uri("https://base.address.example"),
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+                    }
+
+                    return articleList;
+                });
+
+            mockArticleRepository.Setup(repo => repo.GetArticlesByProviderAndCategoryPagedAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), CancellationToken.None)).ReturnsAsync(
+                (int page, int pageSize, int providerId, int categoryId, CancellationToken cancellationToken) =>
+                {
+                    var articleList = articles.Where(x => x.ProviderId == providerId && x.CategoryId == categoryId)
+                        .Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                    foreach (var article in articleList)
+                    {
+                        article.Category = new Category()
+                        {
+                            Id = article.CategoryId,
+                            Name = "CategoryName",
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+
+                        article.Provider = new Provider()
+                        {
+                            Id = article.ProviderId,
+                            Name = "ProviderName",
+                            BaseAddress = new Uri("https://base.address.example"),
+                            CreatedDateUtc = DateTime.UtcNow,
+                        };
+                    }
+
+                    return articleList;
+                });
+
             return mockArticleRepository;
         }
     }

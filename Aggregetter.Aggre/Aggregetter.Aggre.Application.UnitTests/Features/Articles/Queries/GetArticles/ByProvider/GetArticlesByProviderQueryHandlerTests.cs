@@ -35,7 +35,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [Theory]
         [InlineData(10)]
         [InlineData(20)]
-        public async Task GetArticlesByCategoryQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
+        public async Task GetArticlesByProviderQueryHandler_PageSizeOfInput_CorrectPageSize(int pageSize)
         {
             var result = await _handler.Handle(new GetArticlesByProviderQuery()
             {
@@ -49,7 +49,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         }
 
         [Fact]
-        public async Task GetArticlesByCategoryQueryHandler_OutOfBoundsPage_NoResults()
+        public async Task GetArticlesByProviderQueryHandler_OutOfBoundsPage_NoResults()
         {
             var result = await _handler.Handle(new GetArticlesByProviderQuery()
             {

@@ -13,12 +13,18 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationServices
             _paginationService = new PaginationService();
         }
 
-        [Fact]
-        public void GetPagedUris_ValidInput_ValidResponse()
+        [Theory]
+        [InlineData(20, 1, 100, true, false)]
+        [InlineData(20, 2, 100, true, true)]
+        [InlineData(20, 1, 20, false, false)]
+        [InlineData(20, 2, 40, false, true)]
+        public void GetPagedUris_ValidInput_ValidResponse(int pageSize, int page, int totalRecords, 
+            bool expectedNextPageResult, bool expectedPreviousPageResult)
         {
-            var result = _paginationService.GetPagedUris(20, 20, 20);
+            var result = _paginationService.GetPagedUris(pageSize, page, totalRecords);
 
-            result.NextPage.ShouldBeTrue();
+            result.NextPage.ShouldBe(expectedNextPageResult);
+            result.PreviousPage.ShouldBe(expectedPreviousPageResult);
         }
     }
 }
