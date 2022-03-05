@@ -16,7 +16,7 @@ namespace Aggregetter.Aggre.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
@@ -53,6 +53,12 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");
+
+                    b.Property<string>("TranslatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("TranslatedDateUtc")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("TranslatedTitle")
                         .HasColumnType("tinytext");

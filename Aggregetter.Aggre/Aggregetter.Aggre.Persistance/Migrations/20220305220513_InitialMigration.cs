@@ -89,6 +89,9 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OriginalBody = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TranslatedBy = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TranslatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Endpoint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ArticleSlug = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)

@@ -61,9 +61,10 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           TranslatedBody = article.TranslatedBody,
                           OriginalBody = article.OriginalBody,
                           ArticleSlug = article.ArticleSlug,
-                          Endpoint = article.Endpoint,
                           CreatedDateUtc = article.CreatedDateUtc,
                           ModifiedDateUtc = article.ModifiedDateUtc,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
+                          Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Id = category.Id,
@@ -83,9 +84,10 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           TranslatedBody = article.TranslatedBody,
                           OriginalBody = article.OriginalBody,
                           ArticleSlug = article.ArticleSlug,
-                          Endpoint = article.Endpoint,
                           CreatedDateUtc = article.CreatedDateUtc,
                           ModifiedDateUtc = article.ModifiedDateUtc,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
+                          Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Id = article.Category.Id,
@@ -112,9 +114,10 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           TranslatedBody = article.TranslatedBody,
                           OriginalBody = article.OriginalBody,
                           ArticleSlug = article.ArticleSlug,
-                          Endpoint = article.Endpoint,
                           CreatedDateUtc = article.CreatedDateUtc,
                           ModifiedDateUtc = article.ModifiedDateUtc,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
+                          Endpoint = article.Endpoint,
                           Category = new Category
                           {
                               Id = article.Category.Id,
@@ -151,8 +154,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       {
                           Id = article.Id,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -167,8 +171,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -203,9 +208,10 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       {
                           Id = article.Id,
                           CategoryId = article.CategoryId,
-                          ProviderId = article.ProviderId,                          
-                          TranslatedTitle = article.TranslatedTitle,
+                          ProviderId = article.ProviderId,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                       }
                 )
@@ -216,8 +222,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       {
                           Id = article.Id,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -232,8 +239,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -266,8 +274,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Id = article.Id,
                           CategoryId = article.CategoryId,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                       }
                 )
@@ -278,8 +287,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       {
                           Id = article.Id,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -294,8 +304,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -330,8 +341,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Id = article.Id,
                           CategoryId = article.CategoryId,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                       }
                 )
@@ -342,8 +354,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       {
                           Id = article.Id,
                           ProviderId = article.ProviderId,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {
@@ -358,8 +371,9 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                       (article, provider) => new Article
                       {
                           Id = article.Id,
-                          TranslatedTitle = article.TranslatedTitle,
                           ArticleSlug = article.ArticleSlug,
+                          TranslatedTitle = article.TranslatedTitle,
+                          TranslatedDateUtc = article.TranslatedDateUtc,
                           Endpoint = article.Endpoint,
                           Category = new Category
                           {

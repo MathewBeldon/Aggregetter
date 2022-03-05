@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aggregetter.Aggre.Persistance.Migrations
 {
     [DbContext(typeof(AggreDbContext))]
-    [Migration("20220203200622_InitialMigration")]
+    [Migration("20220305220513_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
@@ -55,6 +55,12 @@ namespace Aggregetter.Aggre.Persistance.Migrations
 
                     b.Property<string>("TranslatedBody")
                         .HasColumnType("text");
+
+                    b.Property<string>("TranslatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("TranslatedDateUtc")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("TranslatedTitle")
                         .HasColumnType("tinytext");
