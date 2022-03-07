@@ -1,5 +1,4 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Application.Services.PaginationService;
 using AutoMapper;
 using MediatR;
 using System;

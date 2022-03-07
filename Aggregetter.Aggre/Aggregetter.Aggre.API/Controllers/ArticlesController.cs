@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
+using Aggregetter.Aggre.Application.Features.Articles.Commands.Translate;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;
@@ -62,7 +63,7 @@ namespace Aggregetter.Aggre.API.Controllers
             return Ok(articleByProviderPagedResponse);
         }
 
-        [HttpGet("provider/{providerId:int}/category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("provider/{providerId:int}/category/{categoryId:int}")]
         public async Task<ActionResult<GetArticlesQueryResponse>> PagedByProviderAndCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId, int providerId)
         {           
             var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
@@ -76,7 +77,7 @@ namespace Aggregetter.Aggre.API.Controllers
             return Ok(articleByCategoryPagedResponse);
         }
 
-        [HttpGet("{articleSlug}", Name = "Details"), ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("{articleSlug}")]
         public async Task<ActionResult<GetArticleDetailsQueryResponse>> DetailsAsync(string articleSlug)
         {
             var getArticleDetailsQueryResponse = await _mediator.Send(new GetArticleDetailsQuery()
@@ -86,10 +87,16 @@ namespace Aggregetter.Aggre.API.Controllers
             return Ok(getArticleDetailsQueryResponse);
         }
 
-        [HttpPost(Name = "Create")]
+        [HttpPost]
         public async Task<ActionResult<CreateArticleCommandResponse>> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
         {
             return Ok(await _mediator.Send(createArticleCommand));
+        }
+
+        [HttpPost("translate")]
+        public async Task<ActionResult<TranslateArticleCommandResponse>> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
+        {
+            return Ok(await _mediator.Send(translateArticleCommand));
         }
     }
 }
