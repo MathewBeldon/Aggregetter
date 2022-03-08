@@ -1,9 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Aggregetter.Aggre.API.Services
+namespace Aggregetter.Aggre.API.Services.Registration
 {
     internal static class ApiVersioningServiceRegistration
     {

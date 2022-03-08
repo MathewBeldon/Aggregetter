@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Services
 {
-    public sealed class LoggedInUserServiceRegistration : ILoggedInUserService
+    public sealed class LoggedInUserService : ILoggedInUserService
     {
-        public LoggedInUserServiceRegistration(IHttpContextAccessor httpContextAccessor)
+        public LoggedInUserService(IHttpContextAccessor httpContextAccessor)
         {
             UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }

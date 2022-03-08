@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 
-namespace Aggregetter.Aggre.API.Services
+namespace Aggregetter.Aggre.API.Services.Registration
 {
     internal static class SwaggerServiceRegistration
     {

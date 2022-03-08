@@ -1,5 +1,6 @@
 using Aggregetter.Aggre.API.Middleware;
 using Aggregetter.Aggre.API.Services;
+using Aggregetter.Aggre.API.Services.Registration;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
 using Aggregetter.Aggre.Identity;
@@ -30,7 +31,7 @@ namespace Aggregetter.Aggre.API
             services.AddPersistanceServices(Configuration);
             services.AddIdentityServices(Configuration);
             services.AddControllers();
-            services.AddScoped<ILoggedInUserService, LoggedInUserServiceRegistration>();
+            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
             services.AddCachingService(Configuration, Environment);
             services.AddFeatureFlagService(Configuration);
             services.AddApiVersioningService();
