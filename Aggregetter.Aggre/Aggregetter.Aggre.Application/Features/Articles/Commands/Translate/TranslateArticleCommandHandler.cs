@@ -1,6 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts;
 using Aggregetter.Aggre.Application.Contracts.Persistence;
-using AutoMapper;
 using MediatR;
 using System;
 using System.Threading;

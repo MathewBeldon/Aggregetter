@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
-using Shouldly;
+using FluentAssertions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -27,7 +27,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
 
-            result.IsValid.ShouldBeTrue();
+            result.IsValid.Should().BeTrue();
         }
 
         [Theory]
@@ -43,7 +43,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
 
-            result.IsValid.ShouldBeFalse();
+            result.IsValid.Should().BeFalse();
         }
     }
 }

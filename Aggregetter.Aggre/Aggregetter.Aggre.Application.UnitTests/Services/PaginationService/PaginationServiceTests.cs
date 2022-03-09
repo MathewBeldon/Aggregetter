@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Services.PaginationService;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationServices
@@ -23,8 +23,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationServices
         {
             var result = _paginationService.GetPagedUris(pageSize, page, totalRecords);
 
-            result.NextPage.ShouldBe(expectedNextPageResult);
-            result.PreviousPage.ShouldBe(expectedPreviousPageResult);
+            result.NextPage.Should().Be(expectedNextPageResult);
+            result.PreviousPage.Should().Be(expectedPreviousPageResult);
         }
     }
 }

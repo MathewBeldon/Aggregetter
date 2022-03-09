@@ -2,8 +2,8 @@
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Profiles;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,17 +44,17 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
                 ArticleSlug = article.ArticleSlug
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<GetArticleDetailsQueryResponse>();
-            result.Data.ArticleSlug.ShouldBe(article.ArticleSlug);
-            result.Data.Category.ShouldNotBeNull();
-            result.Data.Provider.ShouldNotBeNull();
-            result.Data.CreatedDateUtc.ShouldBeGreaterThan(System.DateTime.MinValue);
-            result.Data.Endpoint.ShouldNotBeNull();
-            result.Data.OriginalBody.ShouldNotBeNull();
-            result.Data.OriginalTitle.ShouldNotBeNull();
-            result.Data.TranslatedBody.ShouldNotBeNull();
-            result.Data.TranslatedTitle.ShouldNotBeNull();
-            result.Success.ShouldBeTrue();
+            result.Should().BeOfType<GetArticleDetailsQueryResponse>();
+            result.Data.ArticleSlug.Should().Be(article.ArticleSlug);
+            result.Data.Category.Should().NotBeNull();
+            result.Data.Provider.Should().NotBeNull();
+            result.Data.CreatedDateUtc.Should().BeAfter(System.DateTime.MinValue);
+            result.Data.Endpoint.Should().NotBeNull();
+            result.Data.OriginalBody.Should().NotBeNull();
+            result.Data.OriginalTitle.Should().NotBeNull();
+            result.Data.TranslatedBody.Should().NotBeNull();
+            result.Data.TranslatedTitle.Should().NotBeNull();
+            result.Success.Should().BeTrue();
         }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProviderAndCategory;
 using Aggregetter.Aggre.Application.Settings;
+using FluentAssertions;
 using Microsoft.Extensions.Options;
-using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -45,7 +41,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
 
-            result.IsValid.ShouldBeTrue();
+            result.IsValid.Should().BeTrue();
         }
 
         [Theory]
@@ -64,8 +60,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             var result = await _validator.ValidateAsync(getArticlesQuery);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
         }
 
         [Theory]
@@ -83,8 +79,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
 
             var result = await _validator.ValidateAsync(getArticlePagedListQuery);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
         }
     }
 }

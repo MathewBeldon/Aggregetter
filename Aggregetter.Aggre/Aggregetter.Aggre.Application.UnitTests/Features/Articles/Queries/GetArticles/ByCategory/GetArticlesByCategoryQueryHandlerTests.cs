@@ -3,12 +3,8 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;
 using Aggregetter.Aggre.Application.Profiles;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
-using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -48,8 +44,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
                 PageSize = pageSize
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<GetArticlesQueryResponse>();
-            result.Data.Count.ShouldBe(pageSize);
+            result.Should().BeOfType<GetArticlesQueryResponse>();
+            result.Data.Count.Should().Be(pageSize);
         }
 
         [Fact]
@@ -62,8 +58,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
                 PageSize = 20
             }, CancellationToken.None);
 
-            result.ShouldBeOfType<GetArticlesQueryResponse>();
-            result.Data.ShouldBeEmpty();
+            result.Should().BeOfType<GetArticlesQueryResponse>();
+            result.Data.Should().BeEmpty();
         }
     }
 }

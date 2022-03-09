@@ -4,8 +4,8 @@ using Aggregetter.Aggre.Application.Profiles;
 using Aggregetter.Aggre.Application.UnitTests.Features.Base;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -38,8 +38,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Providers.Queries.Get
         {
             var result = await _handler.Handle(new GetProvidersQuery(), CancellationToken.None);
 
-            result.ShouldBeOfType<GetProvidersQueryResponse>();
-            result.Data.ShouldNotBeEmpty();
+            result.Should().BeOfType<GetProvidersQueryResponse>();
+            result.Data.Should().NotBeEmpty();
         }
     }
 }

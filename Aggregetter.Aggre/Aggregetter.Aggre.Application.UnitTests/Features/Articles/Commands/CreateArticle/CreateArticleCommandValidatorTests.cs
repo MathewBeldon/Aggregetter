@@ -2,9 +2,8 @@
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.UnitTests.Features.Base;
 using Aggregetter.Aggre.Domain.Entities;
+using FluentAssertions;
 using Moq;
-using Shouldly;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,7 +45,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeTrue();
+            result.IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -66,9 +65,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.CategoryId));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.CategoryId));
         }
 
         [Fact]
@@ -88,9 +87,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
             
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.ProviderId));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.ProviderId));
         }
 
         [Fact]
@@ -112,9 +111,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.Endpoint));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.Endpoint));
         }
 
         [Fact]
@@ -136,9 +135,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.ArticleSlug));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.ArticleSlug));
         }
 
         [Fact]
@@ -158,9 +157,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.OriginalTitle));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.OriginalTitle));
         }
 
         [Fact]
@@ -180,9 +179,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.TranslatedTitle));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.TranslatedTitle));
         }
 
         [Fact]
@@ -202,9 +201,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.OriginalBody));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.OriginalBody));
         }
 
         [Fact]
@@ -224,9 +223,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 
             var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
 
-            result.IsValid.ShouldBeFalse();
-            result.Errors.Count.ShouldBe(1);
-            result.Errors.FirstOrDefault().PropertyName.ShouldBe(nameof(CreateArticleCommand.TranslatedBody));
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().Be(1);
+            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.TranslatedBody));
         }
     }
 }

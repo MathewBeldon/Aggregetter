@@ -4,8 +4,8 @@ using Aggregetter.Aggre.Application.Profiles;
 using Aggregetter.Aggre.Application.UnitTests.Features.Base;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -38,8 +38,8 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Categories.Queries.Ge
         {
             var result = await _handler.Handle(new GetCategoriesQuery(), CancellationToken.None);
 
-            result.ShouldBeOfType<GetCategoriesQueryResponse>();
-            result.Data.ShouldNotBeEmpty();
+            result.Should().BeOfType<GetCategoriesQueryResponse>();
+            result.Data.Should().NotBeEmpty();
         }
     }
 }
