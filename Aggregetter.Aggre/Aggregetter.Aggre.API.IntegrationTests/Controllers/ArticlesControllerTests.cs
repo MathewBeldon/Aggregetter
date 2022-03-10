@@ -3,17 +3,16 @@ using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Models.Base;
-using FluentValidation.Results;
+using FluentAssertions;
 using Newtonsoft.Json;
-using Shouldly;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
     public sealed class ArticlesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -41,10 +40,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesSecondPageString = await articlesSecondPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
-            articlesFirstPageString.ShouldNotBeNull();
-            articlesSecondPageString.ShouldNotBeNull();
-            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
-            articlesResult.Success.ShouldBeTrue();
+            articlesFirstPageString.Should().NotBeNull();
+            articlesSecondPageString.Should().NotBeNull();
+            articlesFirstPageString.Should().NotContain(articlesSecondPageString);
+            articlesResult.Success.Should().BeTrue();
         }
 
         [Fact]
@@ -55,8 +54,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
         [Fact]
@@ -67,8 +66,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
         #endregion GetArticlesByPage
@@ -89,10 +88,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
-            articlesFirstPageString.ShouldNotBeNull();
-            articlesSecondPageString.ShouldNotBeNull();
-            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
-            articlesResult.Success.ShouldBeTrue();
+            articlesFirstPageString.Should().NotBeNull();
+            articlesSecondPageString.Should().NotBeNull();
+            articlesFirstPageString.Should().NotContain(articlesSecondPageString);
+            articlesResult.Success.Should().BeTrue();
         }
 
         [Fact]
@@ -104,8 +103,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
 
@@ -118,8 +117,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
         #endregion GetArticlesByPageByCategory
@@ -140,10 +139,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
-            articlesFirstPageString.ShouldNotBeNull();
-            articlesSecondPageString.ShouldNotBeNull();
-            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
-            articlesResult.Success.ShouldBeTrue();
+            articlesFirstPageString.Should().NotBeNull();
+            articlesSecondPageString.Should().NotBeNull();
+            articlesFirstPageString.Should().NotContain(articlesSecondPageString);
+            articlesResult.Success.Should().BeTrue();
         }
 
         [Fact]
@@ -155,8 +154,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
 
@@ -169,8 +168,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
         #endregion GetArticlesByPageByProvider
@@ -191,10 +190,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<GetArticlesQueryResponse>(articlesFirstPageString) ?? throw new ArgumentNullException();
 
-            articlesFirstPageString.ShouldNotBeNull();
-            articlesSecondPageString.ShouldNotBeNull();
-            articlesFirstPageString.ShouldNotContain(articlesSecondPageString);
-            articlesResult.Success.ShouldBeTrue();
+            articlesFirstPageString.Should().NotBeNull();
+            articlesSecondPageString.Should().NotBeNull();
+            articlesFirstPageString.Should().NotContain(articlesSecondPageString);
+            articlesResult.Success.Should().BeTrue();
         }
 
         [Fact]
@@ -206,8 +205,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
 
@@ -220,8 +219,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.ShouldBeFalse();
-            articlesResult.ValidationErrors.Count.ShouldBe(1);
+            articlesResult.Success.Should().BeFalse();
+            articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
         #endregion GetArticlesByPageByProviderAndCategory
@@ -245,9 +244,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var result = JsonConvert.DeserializeObject<GetArticleDetailsQueryResponse>(responseString);
 
-            result.ShouldBeOfType<GetArticleDetailsQueryResponse>();
-            result.Success.ShouldBeTrue();
-            result.ShouldNotBeNull();
+            result.Should().BeOfType<GetArticleDetailsQueryResponse>();
+            result.Success.Should().BeTrue();
+            result.Should().NotBeNull();
         }
 
         #endregion GetArticleDetails
@@ -282,8 +281,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var result = JsonConvert.DeserializeObject<CreateArticleCommandResponse>(responseString);
 
-            result.ShouldBeOfType<CreateArticleCommandResponse>();
-            result.Data.Id.ShouldBeGreaterThan(0);
+            result.Should().BeOfType<CreateArticleCommandResponse>();
+            result.Data.Id.Should().BeGreaterThan(0);
         }
 
         [Fact]
@@ -325,8 +324,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var duplicatePostString = await duplictePost.Content.ReadAsStringAsync();
             var duplicatePostResult = JsonConvert.DeserializeObject<BaseResponse>(duplicatePostString) ?? throw new ArgumentNullException();
 
-            duplicatePostResult.Success.ShouldBeFalse();
-            duplicatePostResult.ValidationErrors.Count.ShouldBe(1);
+            duplicatePostResult.Success.Should().BeFalse();
+            duplicatePostResult.ValidationErrors.Count.Should().Be(1);
         }
 
         #endregion PostArticle

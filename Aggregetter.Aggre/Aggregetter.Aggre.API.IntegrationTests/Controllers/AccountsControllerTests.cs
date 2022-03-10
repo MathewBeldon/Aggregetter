@@ -1,6 +1,7 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
 using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
 using Aggregetter.Aggre.Application.Models.Authentication;
+using FluentAssertions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,16 +41,17 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var responseString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RegistrationResponse>(responseString);
 
-            Assert.IsType<RegistrationResponse>(result);
-            Assert.NotNull(result?.UserId);
+            result.Should().BeOfType<RegistrationResponse>();
+            result?.UserId.Should().NotBeNull();
         }
 
         [Fact]
         public async Task PostAccount_v1_Authenticate_Success()
         {
-            var result = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);            
+            var result = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
 
-            Assert.IsType<AuthenticationResponse>(result);
+            result.Should().BeOfType<AuthenticationResponse>();
+            result?.UserId.Should().NotBeNull();
             Assert.NotNull(result?.UserId);
         }
     }
