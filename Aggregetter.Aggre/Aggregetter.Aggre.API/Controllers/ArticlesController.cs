@@ -1,4 +1,5 @@
-﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
+﻿using Aggregetter.Aggre.API.Attributes;
+using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.Translate;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
@@ -6,6 +7,7 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCate
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProviderAndCategory;
 using Aggregetter.Aggre.Application.Models.Pagination;
+using Aggregetter.Aggre.Identity.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -94,6 +96,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpPost("translate")]
+        [Authorise(Role.Basic, Role.Editor)]
         public async Task<ActionResult<TranslateArticleCommandResponse>> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
         {
             return Ok(await _mediator.Send(translateArticleCommand));

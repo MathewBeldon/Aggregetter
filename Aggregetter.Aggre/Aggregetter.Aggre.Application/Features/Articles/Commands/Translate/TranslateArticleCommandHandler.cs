@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.Translate
 
         public async Task<TranslateArticleCommandResponse> Handle(TranslateArticleCommand request, CancellationToken cancellationToken)
         {
-            var article = await _articleRepository.GetByIdAsync(request.ArticleId, cancellationToken);
+            var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             article.TranslatedBy = _loggedInUserService.UserId;
             article.TranslatedDateUtc = DateTime.UtcNow;
 
