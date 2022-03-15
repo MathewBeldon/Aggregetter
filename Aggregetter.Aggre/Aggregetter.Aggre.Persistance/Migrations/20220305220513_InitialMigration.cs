@@ -147,6 +147,10 @@ namespace Aggregetter.Aggre.Persistance.Migrations
                 table: "Articles",
                 columns: new[] { "ProviderId", "CategoryId" });
 
+            migrationBuilder.Sql(
+                sql: "CREATE FULLTEXT INDEX IX_Articles_Title_Body ON Articles(TranslatedTitle, OriginalTitle, TranslatedBody, OriginalBody);",
+                suppressTransaction: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id",
                 table: "Categories",
