@@ -72,34 +72,42 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var articles = new List<Article>();
 
-            var originalBody = $"Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно. Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв. Той използва речник от над 200 латински думи, комбинирани по подходящ начин като изречения, за да генерират истински Lorem Ipsum пасажи. Оттук следва, че генерираният Lorem Ipsum пасаж не съдържа повторения, смущаващи, нецензурни и всякакви неподходящи думи.";
             var translatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
-                                   
+            
             const string query = $"SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;INSERT INTO articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
 
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
+            int batchSize = 1000;
             StringBuilder sb = new StringBuilder(query);
-            for (int i = articleOffset; i < 200000; i++)
-            {
+            for (int i = articleOffset; i < 2000000; i++)
+            { 
+                Random random = new Random();
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+                var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1)
+                    .Select(s => s[random.Next(s.Length)]).ToArray());
+
                 var categoryId = rnd.Next(1, MinSeed);
                 var providerId = rnd.Next(1, MinSeed);
-                var originalTitle = $"Какво е Lorem Ipsum?{i}";
+                var x = batch * 50;
+                var y = (batch + 1) * 50;
+                var originalTitle = text[(batch * 10)..(((batch + 1) * 10) - 1)] + i;
                 var translatedTitle = $"What is Lorem Ipsum?{i}";
+                var originalBody = text[(batch * 50)..((batch + 1) * 50)] + i;
                 var endpoint = $"Lorem/Endpoint{i}";
                 var articleSlug = $"lorem-ipsum{i}";
-
+                
                 sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
-                if (++batch < 1000)
+                if (++batch < batchSize)
                 {
                     sb.Append(",");
                 }
                 else 
                 {
                     sb.Append(";COMMIT;SET unique_checks=1;SET foreign_key_checks=1;");
-                    logger.Information("writing 1000 records");
+                    logger.Information($"writing {batchSize} records");
                     await context.Database.ExecuteSqlRawAsync(sb.ToString());
-                    logger.Information($"written 1000 records, total {i}");
+                    logger.Information($"written {batchSize} records, total {i}");
                     sb = new StringBuilder(query);
                     batch = 0;
                 }
