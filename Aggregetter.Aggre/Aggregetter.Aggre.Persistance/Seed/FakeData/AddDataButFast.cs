@@ -78,22 +78,23 @@ namespace Aggregetter.Aggre.Persistance.Seed
 
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
-            int batchSize = 1000;
+            int batchSize = 10000;
             StringBuilder sb = new StringBuilder(query);
+            Random random = new Random();
+
             for (int i = articleOffset; i < 2000000; i++)
             { 
-                Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-                var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1)
+                var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1000)
                     .Select(s => s[random.Next(s.Length)]).ToArray());
 
                 var categoryId = rnd.Next(1, MinSeed);
                 var providerId = rnd.Next(1, MinSeed);
                 var x = batch * 50;
-                var y = (batch + 1) * 50;
+                var y = (batch + 1) * 1000;
                 var originalTitle = text[(batch * 10)..(((batch + 1) * 10) - 1)] + i;
                 var translatedTitle = $"What is Lorem Ipsum?{i}";
-                var originalBody = text[(batch * 50)..((batch + 1) * 50)] + i;
+                var originalBody = text[(batch * 50)..((batch + 1) * 50 + 1000)] + i;
                 var endpoint = $"Lorem/Endpoint{i}";
                 var articleSlug = $"lorem-ipsum{i}";
                 
