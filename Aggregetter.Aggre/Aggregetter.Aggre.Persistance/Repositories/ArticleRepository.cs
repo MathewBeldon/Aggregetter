@@ -19,13 +19,11 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return (await _context.Articles.OrderByDescending(o => o.Id).Take(1).SingleOrDefaultAsync(cancellationToken)).Id;
         }
 
-        //fix this
         public async Task<int> GetCountByCategory(int categoryId, CancellationToken cancellationToken)
         {
             return await _context.Articles.Where(a => a.CategoryId == categoryId).CountAsync(cancellationToken);
         }
 
-        //and this
         public async Task<int> GetCountByProvider(int providerId, CancellationToken cancellationToken)
         {
             return await _context.Articles.Where(a => a.ProviderId == providerId).CountAsync(cancellationToken);
@@ -390,6 +388,11 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                 .ToListAsync(cancellationToken);
 
             return entity;
+        }
+
+        public Task<List<Article>> GetArticleSearchAsync(string search, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

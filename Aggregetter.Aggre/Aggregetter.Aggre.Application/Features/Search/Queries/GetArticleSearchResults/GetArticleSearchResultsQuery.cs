@@ -2,9 +2,9 @@
 using MediatR;
 using System;
 
-namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetSearchResults
+namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearchResults
 {
-    public sealed class GetSearchResultsQuery : IRequest<GetSearchResultsQueryResponse>, ICacheableRequest
+    public sealed class GetArticleSearchResultsQuery : IRequest<GetArticleSearchResultsQueryResponse>, ICacheableRequest
     {
         public string Key => $"SearchResult-{SearchString}-{Page}-{PageSize}";
         public bool Bypass { get; init; }

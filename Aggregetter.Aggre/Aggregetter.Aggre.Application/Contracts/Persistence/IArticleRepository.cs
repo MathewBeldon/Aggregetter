@@ -18,5 +18,6 @@ namespace Aggregetter.Aggre.Application.Contracts.Persistence
         Task<List<Article>> GetArticlesByCategoryPagedAsync(int page, int pageSize, int categoryId, CancellationToken cancellationToken);
         Task<List<Article>> GetArticlesByProviderPagedAsync(int page, int pageSize, int providerId, CancellationToken cancellationToken);
         Task<List<Article>> GetArticlesByProviderAndCategoryPagedAsync(int page, int pageSize, int providerId, int categoryId, CancellationToken cancellationToken);
+        Task<List<Article>> GetArticleSearchAsync(string search, CancellationToken cancellationToken);
     }
 }

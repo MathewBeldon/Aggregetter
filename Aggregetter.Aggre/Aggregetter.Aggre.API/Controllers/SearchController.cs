@@ -1,5 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
-using Aggregetter.Aggre.Application.Features.Search.Queries.GetSearchResults;
+﻿using Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearchResults;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +19,9 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("search/{searchString}")]
-        public async Task<ActionResult<GetSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
+        public async Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
         {
-            var getSearchResultsResponse = await _mediator.Send(new GetSearchResultsQuery
+            var getSearchResultsResponse = await _mediator.Send(new GetArticleSearchResultsQuery
             {
                 Page = paginationRequest.Page,
                 PageSize = paginationRequest.PageSize,

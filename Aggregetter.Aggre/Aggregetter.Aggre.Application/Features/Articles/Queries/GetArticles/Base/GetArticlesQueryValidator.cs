@@ -14,7 +14,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
 
             RuleFor(pr => pr.Page)
                 .GreaterThan(0)
-                .WithMessage("<page> should be greater than 0");
+                .WithMessage("Page should be greater than 0");
         }
     }
 }
