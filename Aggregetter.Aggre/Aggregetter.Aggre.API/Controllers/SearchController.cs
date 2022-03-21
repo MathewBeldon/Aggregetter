@@ -18,7 +18,7 @@ namespace Aggregetter.Aggre.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("search/{searchString}")]
+        [HttpGet("{searchString}")]
         public async Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
         {
             var getSearchResultsResponse = await _mediator.Send(new GetArticleSearchResultsQuery

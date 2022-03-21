@@ -82,7 +82,7 @@ namespace Aggregetter.Aggre.Persistance.Seed
             StringBuilder sb = new StringBuilder(query);
             Random random = new Random();
 
-            for (int i = articleOffset; i < 2000000; i++)
+            for (int i = articleOffset; i < 200000; i++)
             { 
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
                 var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1000)
