@@ -1,5 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Domain.Entities;
+using Devart.Data.MySql.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                           Category = new Category
                           {
                               Id = category.Id,
-                              Name = category.Name,                              
+                              Name = category.Name,
                           }
                       }
                 )
@@ -130,20 +131,20 @@ namespace Aggregetter.Aggre.Persistance.Repositories
                               {
                                   Id = language.Id,
                                   Name = language.Name
-                              }                              
+                              }
                           }
                       }
                 )
                 .SingleOrDefaultAsync(article => article.ArticleSlug == articleSlug, cancellationToken);
 
-            return entity;            
+            return entity;
         }
 
         public async Task<List<Article>> GetArticlesPagedAsync(int page, int pageSize, int totalCount, CancellationToken cancellationToken)
         {
             var entity = await _context.Articles
                 .OrderByDescending(x => x.Id)
-                .Where(a => a.Id <= totalCount - (pageSize * (page -1)))
+                .Where(a => a.Id <= totalCount - (pageSize * (page - 1)))
                 .Take(pageSize)
                 .Join(_context.Categories,
                       article => article.CategoryId,
@@ -390,9 +391,24 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return entity;
         }
 
-        public Task<List<Article>> GetArticleSearchAsync(string search, CancellationToken cancellationToken)
+        public async Task<int> GetSearchResultCountAsync(string search, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var entity = await _context.Articles
+                .Where(a => MySqlTextFunctions.MatchAgainstInBooleanModeAsBool(a.OriginalTitle, a.OriginalBody, a.TranslatedTitle, a.TranslatedBody, search))
+                .CountAsync(cancellationToken);
+
+            return entity;
+        }
+
+        public async Task<List<Article>> GetSearchResultsAsync(int page, int pageSize, string search, CancellationToken cancellationToken)
+        {
+            var entity = await _context.Articles
+                .Where(a => MySqlTextFunctions.MatchAgainstInBooleanModeAsBool(a.OriginalTitle, a.OriginalBody, a.TranslatedTitle, a.TranslatedBody, search))
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            return entity;
         }
     }
 }

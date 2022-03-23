@@ -1,10 +1,8 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles;
+using Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearchResults;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
-using System;
-using System.ComponentModel;
-using System.Globalization;
 using ArticleDetails = Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 
 namespace Aggregetter.Aggre.Application.Profiles
@@ -30,6 +28,10 @@ namespace Aggregetter.Aggre.Application.Profiles
             CreateMap<Article, CreateArticleDto>().ReverseMap();
             CreateMap<Article, CreateArticleCommand>().ReverseMap();
             #endregion CreateArticle
+
+            #region GetArticleSearchResults
+            CreateMap<Article, GetArticleSearchResultsDto>();
+            #endregion GetArticleSearchResults
         }
     }
 
