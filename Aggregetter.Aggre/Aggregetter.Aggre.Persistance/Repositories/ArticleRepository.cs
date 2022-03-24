@@ -391,24 +391,14 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return entity;
         }
 
-        public async Task<int> GetSearchResultCountAsync(string search, CancellationToken cancellationToken)
+        public Task<int> GetSearchResultCountAsync(string search, CancellationToken cancellationToken)
         {
-            var entity = await _context.Articles
-                .Where(a => MySqlTextFunctions.MatchAgainstInBooleanModeAsBool(a.OriginalTitle, a.OriginalBody, a.TranslatedTitle, a.TranslatedBody, search))
-                .CountAsync(cancellationToken);
-
-            return entity;
+            throw new System.NotImplementedException();
         }
 
-        public async Task<List<Article>> GetSearchResultsAsync(int page, int pageSize, string search, CancellationToken cancellationToken)
+        public Task<List<Article>> GetSearchResultsAsync(int page, int pageSize, string search, CancellationToken cancellationToken)
         {
-            var entity = await _context.Articles
-                .Where(a => MySqlTextFunctions.MatchAgainstInBooleanModeAsBool(a.OriginalTitle, a.OriginalBody, a.TranslatedTitle, a.TranslatedBody, search))
-                .Skip(page * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
-
-            return entity;
+            throw new System.NotImplementedException();
         }
     }
 }
