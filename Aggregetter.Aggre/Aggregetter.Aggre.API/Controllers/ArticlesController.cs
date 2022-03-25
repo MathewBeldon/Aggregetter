@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.API.Attributes;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
-using Aggregetter.Aggre.Application.Features.Articles.Commands.Translate;
+using Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory;

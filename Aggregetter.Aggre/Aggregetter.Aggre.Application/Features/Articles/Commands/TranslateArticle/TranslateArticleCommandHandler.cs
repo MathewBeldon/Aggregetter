@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Commands.Translate
+namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle
 {
     public sealed class TranslateArticleCommandHandler : IRequestHandler<TranslateArticleCommand, TranslateArticleCommandResponse>
     {

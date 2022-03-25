@@ -1,20 +1,13 @@
-﻿using Aggregetter.Aggre.Application.Settings;
-using FluentValidation;
+﻿using Aggregetter.Aggre.Application.Services.PaginationService;
+using Aggregetter.Aggre.Application.Settings;
 using Microsoft.Extensions.Options;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider
 {
-    public sealed class GetArticlesByProviderQueryValidator : AbstractValidator<GetArticlesByProviderQuery>
+    public sealed class GetArticlesByProviderQueryValidator : PaginationValidatorBase<GetArticlesByProviderQuery>
     {
-        public GetArticlesByProviderQueryValidator(IOptions<PagedSettings> settings)
+        public GetArticlesByProviderQueryValidator(IOptions<PagedSettings> settings) : base(settings)
         {
-            RuleFor(pr => pr.PageSize)
-                .InclusiveBetween(1, settings.Value.PageSize)
-                .WithMessage($"Page size should be between 1 and {settings.Value.PageSize}");
-
-            RuleFor(pr => pr.Page)
-                .GreaterThan(0)
-                .WithMessage("<page> should be greater than 0");
         }
     }
 }

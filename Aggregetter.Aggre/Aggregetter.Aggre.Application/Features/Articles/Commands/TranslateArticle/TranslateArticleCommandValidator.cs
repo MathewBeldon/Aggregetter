@@ -2,7 +2,7 @@
 using FluentValidation;
 using System;
 
-namespace Aggregetter.Aggre.Application.Features.Articles.Commands.Translate
+namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle
 {
     public sealed class TranslateArticleCommandValidator : AbstractValidator<TranslateArticleCommand>
     {
