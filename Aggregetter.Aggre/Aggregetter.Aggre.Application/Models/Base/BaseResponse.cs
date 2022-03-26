@@ -16,6 +16,6 @@ namespace Aggregetter.Aggre.Application.Models.Base
         public string Message { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<string> ValidationErrors { get; init; }
+        public Dictionary<string, string> ValidationErrors { get; init; }
     }
 }

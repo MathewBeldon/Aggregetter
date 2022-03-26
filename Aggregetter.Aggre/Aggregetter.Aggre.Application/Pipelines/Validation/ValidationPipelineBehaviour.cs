@@ -19,7 +19,7 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
             var context = new ValidationContext<TRequest>(request);
             var validationResults = await _validator.ValidateAsync(context, cancellationToken);
 
-            if (validationResults.Errors.Count != 0) throw new ValidationException(validationResults.Errors);
+            if (validationResults.Errors.Count != 0) throw new Exceptions.ValidationException(validationResults.Errors, "Validation Failed");
 
             return await next();
         }

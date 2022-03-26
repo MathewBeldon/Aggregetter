@@ -1,6 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Application.Models.Base;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
@@ -45,8 +44,8 @@ namespace Aggregetter.Aggre.API.Middleware
                     httpStatusCode = HttpStatusCode.BadRequest;
                     result = JsonSerializer.Serialize(new BaseResponse { 
                         Success = false,
-                        Message = "Validation Failed",
-                        ValidationErrors = validationException.Errors.Select(error => error.ErrorMessage.ToString()).ToList()
+                        Message = validationException.Message,
+                        ValidationErrors = validationException.ValidationErrors
                     });
                     break;
                 case RecordNotFoundException recordNotFoundException:
