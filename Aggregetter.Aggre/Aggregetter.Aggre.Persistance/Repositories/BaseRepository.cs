@@ -27,6 +27,11 @@ namespace Aggregetter.Aggre.Persistance.Repositories
             return await _context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
         }
 
+        public async Task<bool> CheckExistsByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken);
+        }
+
         public async Task<IEnumerable<T>> GetPagedResponseAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
             var entity = await _context.Set<T>().OrderByDescending(x => x.CreatedDateUtc).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
