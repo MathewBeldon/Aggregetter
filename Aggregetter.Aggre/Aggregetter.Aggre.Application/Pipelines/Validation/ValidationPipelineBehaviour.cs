@@ -1,25 +1,30 @@
-﻿using Aggregetter.Aggre.Application.Models.Base;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Validation
 {
     public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest  : IRequest<TResponse>
-                                                                                                                  where TResponse : BaseResponse
     {
-        private readonly IValidator<TRequest> _validator;
-        public ValidationPipelineBehaviour(IValidator<TRequest> validator)
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        public ValidationPipelineBehaviour(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validator = validator;
+            _validators = validators;
         }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var context = new ValidationContext<TRequest>(request);
-            var validationResults = await _validator.ValidateAsync(context, cancellationToken);
+            if (!_validators.Any())
+            {
+                return await next();
+            }
 
-            if (validationResults.Errors.Count != 0) throw new Exceptions.ValidationException(validationResults.Errors, "Validation Failed");
+            var context = new ValidationContext<TRequest>(request);
+            var validationResults = (await Task.WhenAll(_validators.Select(async query => await query.ValidateAsync(context, cancellationToken)))).SelectMany(x => x.Errors);
+
+            if (validationResults.Count() != 0) throw new Exceptions.ValidationException(validationResults, "Validation Failed");
 
             return await next();
         }
