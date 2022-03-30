@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
                 PageSize = PAGE_SIZE,
             });
 
-            _validator = new GetArticlesQueryValidator();
+            _validator = new GetArticlesQueryValidator(_options);
         }
 
         [Theory]
