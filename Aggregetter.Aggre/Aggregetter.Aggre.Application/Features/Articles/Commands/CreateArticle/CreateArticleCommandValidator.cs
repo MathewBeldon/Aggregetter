@@ -41,23 +41,15 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 
             RuleFor(article => article.OriginalTitle)
                 .NotEmpty()
-                .WithMessage("{PropertyName} is required");
+                .WithMessage("Enter the original title");
 
             RuleFor(article => article.TranslatedTitle)
                 .NotEmpty()
-                .WithMessage("{PropertyName} is required");
+                .WithMessage("Enter the translated title");
 
             RuleFor(article => article.OriginalBody)
                 .NotEmpty()
-                .WithMessage("{PropertyName} is required");
-
-            RuleFor(article => article.TranslatedBody)
-                .NotEmpty()
-                .WithMessage("{PropertyName} is required");
-
-            RuleFor(article => article.ArticleSlug)
-                .NotEmpty()
-                .WithMessage("{PropertyName} is required");
+                .WithMessage("Enter the original body");
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearch
         {
             RuleFor(query => query.SearchString)
                 .NotEmpty()
-                .WithMessage("Search cannot be empty");
+                .WithMessage("Enter a search term");
 
             RuleFor(query => query.SearchString)
                 .MinimumLength(3)
-                .WithMessage("Search must be at least 3 characters");
+                .WithMessage("Search term must be 3 characters or more");
         }
     }
 }

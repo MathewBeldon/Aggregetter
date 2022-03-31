@@ -8,7 +8,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
         {
             RuleFor(ad => ad.ArticleSlug)
                 .NotEmpty()
-                .WithMessage("<slug> cannot be empty");
+                .WithMessage("Enter an article slug");
         }
     }
 }

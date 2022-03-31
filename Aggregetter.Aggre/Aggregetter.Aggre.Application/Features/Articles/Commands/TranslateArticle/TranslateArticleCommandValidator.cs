@@ -17,7 +17,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArti
             RuleFor(article => article.ArticleSlug)
                 .MustAsync(async (articleSlug, cancellationToken) => {
                     return await _articleRepository.GetArticleBySlugAsync(articleSlug, cancellationToken) is not null;
-                }).WithMessage("Article does not exist");
+                }).WithMessage("An article does not exist for this slug");
         }
     }
 }

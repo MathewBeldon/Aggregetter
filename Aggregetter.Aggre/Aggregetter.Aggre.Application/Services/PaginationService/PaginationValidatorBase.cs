@@ -11,11 +11,11 @@ namespace Aggregetter.Aggre.Application.Services.PaginationService
         {
             RuleFor(pr => pr.PageSize)
                 .InclusiveBetween(1, settings.Value.PageSize)
-                .WithMessage($"Page size should be between 1 and {settings.Value.PageSize}");
+                .WithMessage($"Page size must be between 1 and {settings.Value.PageSize}");
 
             RuleFor(pr => pr.Page)
                 .GreaterThan(0)
-                .WithMessage("Page should be greater than 0");
+                .WithMessage("Page must be greater than 0");
         }
     }
 }
