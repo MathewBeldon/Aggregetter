@@ -205,27 +205,5 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
             result.Errors.Count.Should().Be(1);
             result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.OriginalBody));
         }
-
-        [Fact]
-        public async Task CreateArticleCommandValidator_InvalidTranslatedBody_Fails()
-        {
-            var createArticleCommand = new CreateArticleCommand()
-            {
-                CategoryId = BaseRepositoryMocks<Category>.ExistingId,
-                ProviderId = BaseRepositoryMocks<Provider>.ExistingId,
-                OriginalTitle = "OriginalTitle",
-                TranslatedTitle = "TranslatedTitle",
-                OriginalBody = "Original Body",
-                TranslatedBody = string.Empty,
-                Endpoint = "New/Endpoint/InvalidTranslatedBody",
-                ArticleSlug = "invalid-translated-body"
-            };
-
-            var result = await _validator.ValidateAsync(createArticleCommand, CancellationToken.None);
-
-            result.IsValid.Should().BeFalse();
-            result.Errors.Count.Should().Be(1);
-            result.Errors.FirstOrDefault().PropertyName.Should().Be(nameof(CreateArticleCommand.TranslatedBody));
-        }
     }
 }

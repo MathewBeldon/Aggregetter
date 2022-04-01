@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Services.PaginationService;
+﻿using Paging = Aggregetter.Aggre.Application.Services.PaginationService;
 using FluentAssertions;
 using Xunit;
 
@@ -6,11 +6,11 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationServices
 {
     public sealed class PaginationServiceTests
     {
-        private readonly IPaginationService _paginationService;
+        private readonly Paging.IPaginationService _paginationService;
 
         public PaginationServiceTests()
         {
-            _paginationService = new PaginationService();
+            _paginationService = new Paging.PaginationService();
         }
 
         [Theory]

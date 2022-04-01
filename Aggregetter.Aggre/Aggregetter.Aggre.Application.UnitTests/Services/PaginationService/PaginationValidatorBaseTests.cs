@@ -1,27 +1,28 @@
-﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
+﻿using Aggregetter.Aggre.Application.Models.Pagination;
+using Aggregetter.Aggre.Application.Services.PaginationService;
 using Aggregetter.Aggre.Application.Settings;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetArticles
+namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
 {
-    public sealed class GetArticlesQueryValidationTests
+    public sealed class PaginationValidatorBaseTests
     {
-        private readonly GetArticlesQueryValidator _validator;
+        private readonly PaginationValidatorBase<PaginationRequest> _validator;
         private readonly IOptions<PagedSettings> _options;
 
         private const int PAGE_SIZE = 20;
 
-        public GetArticlesQueryValidationTests()
+        public PaginationValidatorBaseTests()
         {
             _options = Options.Create(new PagedSettings
             {
                 PageSize = PAGE_SIZE,
             });
 
-            _validator = new GetArticlesQueryValidator(_options);
+            _validator = new PaginationValidatorBase<PaginationRequest>(_options);
         }
 
         [Theory]
@@ -31,13 +32,13 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(999, 1)]
         public async Task GetArticlePagedListQueryValidator_ValidPageRequest_IsValid(int page, int pageSize)
         {
-            var getArticlePagedListQuery = new GetArticlesQuery
+            var paginationRequest = new PaginationRequest
             {
                 Page = page,
                 PageSize = pageSize,
             };
 
-            var result = await _validator.ValidateAsync(getArticlePagedListQuery);
+            var result = await _validator.ValidateAsync(paginationRequest);
 
             result.IsValid.Should().BeTrue();
         }
@@ -48,13 +49,13 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(0)]
         public async Task GetArticlePagedListQueryValidator_InvalidPageSize_IsNotValid(int pageSize)
         {
-            var getArticlePagedListQuery = new GetArticlesQuery
+            var paginationRequest = new PaginationRequest
             {
                 Page = 1,
                 PageSize = pageSize,
             };
 
-            var result = await _validator.ValidateAsync(getArticlePagedListQuery);
+            var result = await _validator.ValidateAsync(paginationRequest);
 
             result.IsValid.Should().BeFalse();
             result.Errors.Count.Should().Be(1);
@@ -65,13 +66,13 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
         [InlineData(0)]
         public async Task GetArticlePagedListQueryValidator_InvalidPage_IsNotValid(int page)
         {
-            var getArticlePagedListQuery = new GetArticlesQuery
+            var paginationRequest = new PaginationRequest
             {
                 Page = page,
                 PageSize = PAGE_SIZE,
             };
 
-            var result = await _validator.ValidateAsync(getArticlePagedListQuery);
+            var result = await _validator.ValidateAsync(paginationRequest);
 
             result.IsValid.Should().BeFalse();
             result.Errors.Count.Should().Be(1);

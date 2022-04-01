@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Aggregetter.Aggre.Application.Services.PaginationService
 {
-    public abstract class PaginationValidatorBase<T> : AbstractValidator<T> where T : PaginationRequest
+    public class PaginationValidatorBase<T> : AbstractValidator<T> where T : PaginationRequest
     {
         public PaginationValidatorBase(IOptions<PagedSettings> settings)
         {
