@@ -33,7 +33,5 @@ namespace Aggregetter.Aggre.Application.Profiles
             CreateMap<Article, GetArticleSearchResultsDto>();
             #endregion GetArticleSearchResults
         }
-    }
-
-    
+    }    
 }

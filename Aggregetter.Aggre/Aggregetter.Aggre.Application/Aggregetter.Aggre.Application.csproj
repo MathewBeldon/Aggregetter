@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Aggregetter.Aggre.Domain\Aggregetter.Aggre.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Accounts\Queries\AuthenticateAccount\" />
+  </ItemGroup>
+
 </Project>

@@ -64,13 +64,18 @@ namespace Aggregetter.Aggre.Identity.Services
         }
 
         public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
-        {
-            
+        {            
             var existingUser = await _userManager.FindByNameAsync(request.Username);
-
             if (existingUser is not null)
             {
-                throw new Exception($"Email '{request.Email}' already exists.");
+                throw new Exception($"Username '{request.Username}' already exists.");
+            }
+
+            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (existingEmail is not null)
+            {
+
+                throw new Exception($"Email {request.Email } already exists.");
             }
 
             var user = new ApplicationUser
@@ -80,24 +85,14 @@ namespace Aggregetter.Aggre.Identity.Services
                 EmailConfirmed = true
             };
 
-            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
-
-            if (existingEmail is null)
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
             {
-                var result = await _userManager.CreateAsync(user, request.Password);
-
-                if (result.Succeeded)
-                {
-                    return new RegistrationResponse() { UserId = user.Id };
-                }
-                else
-                {
-                    throw new Exception($"{result.Errors}");
-                }
+                return new RegistrationResponse() { UserId = user.Id };
             }
             else
             {
-                throw new Exception($"Email {request.Email } already exists.");
+                throw new Exception($"{result.Errors}");
             }
         }
 

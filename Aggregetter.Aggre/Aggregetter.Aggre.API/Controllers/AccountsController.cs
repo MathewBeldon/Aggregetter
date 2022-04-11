@@ -1,7 +1,7 @@
-﻿using Aggregetter.Aggre.Application.Contracts.Identity;
+﻿using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
 using Aggregetter.Aggre.Application.Models.Authentication;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -13,40 +13,25 @@ namespace Aggregetter.Aggre.API.Controllers
     [ApiVersion("1.0")]
     public sealed class AccountsController : Controller
     {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly ILogger<AccountsController> _logger;
-        public AccountsController(IAuthenticationService authenticationService, ILogger<AccountsController> logger)
+        private readonly IMediator _mediator;
+        public AccountsController(IMediator mediator)
         {
-            _authenticationService = authenticationService;
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mediator = mediator;
         }
 
         [HttpPost("authenticate")]
         public async Task<ActionResult<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request)
         {
-            return Ok(await _authenticationService.AuthenticateAsync(request));
-        }
-
-        [HttpPost("deauthenticate")]
-        public async Task<ActionResult> DeauthenticateAsync(string returnUrl = null)
-        {
-            await _authenticationService.DeauthenticateAsync();
-            if (returnUrl is not null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            return Ok();
+            throw new NotImplementedException();
+            //return Ok(await _authenticationService.AuthenticateAsync(request));
         }
 
         [FeatureGate("Registration")]
         [HttpPost("register")]
-        public async Task<ActionResult<RegistrationResponse>> RegisterAsync(RegistrationRequest request)
+        public async Task<ActionResult<CreateAccountCommandResponse>> RegisterAsync(CreateAccountCommand createAccountCommand)
         {
-            if (ModelState.IsValid)
-            {
-                return Ok(await _authenticationService.RegisterAsync(request));
-            }
-            return BadRequest(ModelState);
+            var response = await _mediator.Send(createAccountCommand);
+            return Ok(response);
         }
     }
 }
