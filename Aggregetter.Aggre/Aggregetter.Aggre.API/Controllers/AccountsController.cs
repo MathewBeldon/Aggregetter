@@ -1,9 +1,8 @@
 ﻿using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
-using Aggregetter.Aggre.Application.Models.Authentication;
+using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -20,18 +19,16 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<ActionResult<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request)
+        public async Task<ActionResult<AuthenticateAccountQueryResponse>> AuthenticateAsync(AuthenticateAccountQuery authenticateAccountQuery)
         {
-            throw new NotImplementedException();
-            //return Ok(await _authenticationService.AuthenticateAsync(request));
+            return Ok(await _mediator.Send(authenticateAccountQuery));
         }
 
         [FeatureGate("Registration")]
         [HttpPost("register")]
         public async Task<ActionResult<CreateAccountCommandResponse>> RegisterAsync(CreateAccountCommand createAccountCommand)
         {
-            var response = await _mediator.Send(createAccountCommand);
-            return Ok(response);
+            return Ok(await _mediator.Send(createAccountCommand));
         }
     }
 }
