@@ -24,7 +24,7 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
             var context = new ValidationContext<TRequest>(request);
             var validationResults = (await Task.WhenAll(_validators.Select(async query => await query.ValidateAsync(context, cancellationToken)))).SelectMany(x => x.Errors);
 
-            if (validationResults.Count() != 0) throw new Exceptions.ValidationException(validationResults, "Validation Failed");
+            if (validationResults.Count() != 0) throw new Exceptions.ValidationException(validationResults);
 
             return await next();
         }

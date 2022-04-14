@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Identity;
+using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using Aggregetter.Aggre.Identity.Models;
 using Microsoft.AspNetCore.Identity;
@@ -35,14 +36,14 @@ namespace Aggregetter.Aggre.Identity.Services
 
             if (user is null)
             {
-                throw new Exception($"User with {request.Email} not found.");
+                throw new ValidationException(nameof(request.Email), $"User with {request.Email} not found.");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                throw new Exception($"Credentials for '{request.Email} aren't valid'.");
+                throw new ValidationException(nameof(request.Email), $"Credentials for '{request.Email} aren't valid'.");
             }
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
@@ -68,14 +69,13 @@ namespace Aggregetter.Aggre.Identity.Services
             var existingUser = await _userManager.FindByNameAsync(request.Username);
             if (existingUser is not null)
             {
-                throw new Exception($"Username '{request.Username}' already exists.");
+                throw new ValidationException(nameof(request.Username), $"Username '{request.Username}' already exists.");
             }
 
             var existingEmail = await _userManager.FindByEmailAsync(request.Email);
             if (existingEmail is not null)
             {
-
-                throw new Exception($"Email {request.Email } already exists.");
+                throw new ValidationException(nameof(request.Email), $"Email {request.Email } already exists.");
             }
 
             var user = new ApplicationUser
