@@ -1,5 +1,7 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
 using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
+using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
+using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -39,10 +41,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var response = await _client.PostAsync("/api/v1/accounts/register", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<RegistrationResponse>(responseString);
+            var result = JsonConvert.DeserializeObject<CreateAccountCommandResponse>(responseString);
 
-            result.Should().BeOfType<RegistrationResponse>();
-            result?.UserId.Should().NotBeNull();
+            result.Should().BeOfType<CreateAccountCommandResponse>();
+            result?.Data.UserId.Should().NotBeNull();
         }
 
         [Fact]
@@ -50,9 +52,9 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         {
             var result = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
 
-            result.Should().BeOfType<AuthenticationResponse>();
-            result?.UserId.Should().NotBeNull();
-            Assert.NotNull(result?.UserId);
+            result.Should().BeOfType<AuthenticateAccountQueryResponse>();
+            result?.Data.UserId.Should().NotBeNull();
+            Assert.NotNull(result?.Data.UserId);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
+using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -9,7 +10,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 {
     internal class AuthenticationHelper
     {
-        public async static Task<AuthenticationResponse> LoginBasicUserAsync(HttpClient client, int version)
+        public async static Task<AuthenticateAccountQueryResponse> LoginBasicUserAsync(HttpClient client, int version)
         {
             var authenticationRequest = new AuthenticationRequest()
             {
@@ -22,14 +23,14 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
             var response =  await client.PostAsync($"/api/v{version}/accounts/authenticate", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            var authenticationResponse = JsonConvert.DeserializeObject<AuthenticationResponse>(responseString);
+            var authenticationResponse = JsonConvert.DeserializeObject<AuthenticateAccountQueryResponse>(responseString);
 
             if (authenticationResponse is not null)
             {
                 return authenticationResponse; 
             }
 
-            return new AuthenticationResponse();
+            throw new System.Exception();
         }
 
         public async static Task LogoutUserAsync(HttpClient client, int version)

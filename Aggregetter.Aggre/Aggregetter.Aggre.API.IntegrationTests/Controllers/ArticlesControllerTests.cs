@@ -257,7 +257,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         public async Task PostArticle_v1_ValidRequest_Success()
         {
             var login = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Data.Token);
             var createArticleCommand = new CreateArticleCommand()
             {
                 CategoryId = 1,
@@ -289,7 +289,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         public async Task PostArticle_v1_ValidationError_DuplicateEndpoint()
         {
             var login = await AuthenticationHelper.LoginBasicUserAsync(_client, version: 1);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Token);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login.Data.Token);
 
             var firstArticleCommand = new CreateArticleCommand()
             {
