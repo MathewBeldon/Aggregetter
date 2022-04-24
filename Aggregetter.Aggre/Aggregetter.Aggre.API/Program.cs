@@ -1,4 +1,4 @@
-using Aggregetter.Aggre.Persistance;
+using Aggregetter.Aggre.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +32,7 @@ namespace Aggregetter.Aggre.API
                     var context = services.GetRequiredService<AggreDbContext>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
-                    await Persistance.Seed.AddDataButFast.InitiliseAsync(context, Log.Logger);
+                    await Persistence.Seed.AddDataButFast.InitiliseAsync(context, Log.Logger);
                     Log.Information("Application Starting");
                 }
                 catch (Exception ex)

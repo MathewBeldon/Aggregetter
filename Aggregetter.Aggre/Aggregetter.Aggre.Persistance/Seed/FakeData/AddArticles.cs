@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Persistance.Seed
+namespace Aggregetter.Aggre.Persistence.Seed
 {
     public static class AddArticles
     {

@@ -7,7 +7,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Persistance
+namespace Aggregetter.Aggre.Persistence
 {
     public sealed class AggreDbContext : DbContext
     {

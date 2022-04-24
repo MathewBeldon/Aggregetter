@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Aggregetter.Aggre.Persistance.Migrations
+namespace Aggregetter.Aggre.Persistence.Migrations
 {
     public partial class InitialMigration : Migration
     {

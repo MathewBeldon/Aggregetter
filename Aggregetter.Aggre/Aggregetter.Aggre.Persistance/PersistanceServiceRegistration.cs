@@ -1,12 +1,12 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
-using Aggregetter.Aggre.Persistance.Pipelines;
-using Aggregetter.Aggre.Persistance.Repositories;
+using Aggregetter.Aggre.Persistence.Pipelines;
+using Aggregetter.Aggre.Persistence.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Aggregetter.Aggre.Persistance
+namespace Aggregetter.Aggre.Persistence
 {
     public static class PersistanceServiceRegistration
     {

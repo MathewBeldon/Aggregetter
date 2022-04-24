@@ -4,7 +4,7 @@ using Aggregetter.Aggre.API.Services.Registration;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
 using Aggregetter.Aggre.Identity;
-using Aggregetter.Aggre.Persistance;
+using Aggregetter.Aggre.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

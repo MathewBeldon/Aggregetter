@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Domain.Entities;
-using Aggregetter.Aggre.Persistance;
+using Aggregetter.Aggre.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;

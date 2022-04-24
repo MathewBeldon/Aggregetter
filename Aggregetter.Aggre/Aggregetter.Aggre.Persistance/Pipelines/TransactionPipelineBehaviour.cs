@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Persistance.Pipelines
+namespace Aggregetter.Aggre.Persistence.Pipelines
 {
     public sealed class TransactionPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

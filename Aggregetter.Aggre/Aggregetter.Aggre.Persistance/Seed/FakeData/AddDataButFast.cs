@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Persistance.Seed
+namespace Aggregetter.Aggre.Persistence.Seed
 {
     public sealed class AddDataButFast
     {

@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{DA28029B-C84
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E15AF22C-493E-47B3-A198-DB5BBC8B8459}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aggregetter.Aggre.Persistance", "Aggregetter.Aggre.Persistance\Aggregetter.Aggre.Persistance.csproj", "{2B162CFC-2B4B-4951-80CB-4CBE6F6257B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aggregetter.Aggre.Persistence", "Aggregetter.Aggre.Persistance\Aggregetter.Aggre.Persistence.csproj", "{2B162CFC-2B4B-4951-80CB-4CBE6F6257B8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aggregetter.Aggre.Application.UnitTests", "Aggregetter.Aggre.Application.UnitTests\Aggregetter.Aggre.Application.UnitTests.csproj", "{180C57BC-8BB8-4363-A407-C9D6A949F5B9}"
 EndProject

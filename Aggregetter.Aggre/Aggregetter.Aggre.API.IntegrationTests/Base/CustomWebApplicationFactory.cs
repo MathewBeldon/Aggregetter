@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
 using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Identity.Models;
-using Aggregetter.Aggre.Persistance;
+using Aggregetter.Aggre.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;

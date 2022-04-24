@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.Persistance.Repositories
+namespace Aggregetter.Aggre.Persistence.Repositories
 {
     public sealed class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
