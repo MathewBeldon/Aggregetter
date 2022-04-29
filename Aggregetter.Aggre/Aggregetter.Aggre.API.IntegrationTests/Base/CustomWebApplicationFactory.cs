@@ -50,30 +50,29 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
                 var sp = services.BuildServiceProvider();
 
-                using (var scope = sp.CreateScope())
+                using var scope = sp.CreateScope();
+                
+                var scopedService = scope.ServiceProvider;
+                var dataContext = scopedService.GetRequiredService<AggreDbContext>();
+                var identityContext = scopedService.GetRequiredService<AggreIdentityDbContext>();
+
+                var logger = scopedService.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+                var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
+
+                dataContext.Database.EnsureCreated();
+                identityContext.Database.EnsureCreated();
+
+                try
                 {
-                    var scopedService = scope.ServiceProvider;
-                    var dataContext = scopedService.GetRequiredService<AggreDbContext>();
-                    var identityContext = scopedService.GetRequiredService<AggreIdentityDbContext>();
-
-                    var logger = scopedService.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                    var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
-
-                    dataContext.Database.EnsureCreated();
-                    identityContext.Database.EnsureCreated();
-
-                    try
-                    {
-                        await ArticleData.InitialiseAsync(dataContext);
-                        await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
-                        await UserData.InitialiseAsync(userManager);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"Error seeding DB. Error: {ex.Message}");
-                    }
+                    await ArticleData.InitialiseAsync(dataContext);
+                    await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
+                    await UserData.InitialiseAsync(userManager);
                 }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error seeding DB. Error: {Message}", ex.Message);
+                }                
             });
         }
     }

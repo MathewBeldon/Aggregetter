@@ -12,7 +12,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
     public class CategoriesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
-        private HttpClient _client;
+        private readonly HttpClient _client;
 
         public CategoriesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {

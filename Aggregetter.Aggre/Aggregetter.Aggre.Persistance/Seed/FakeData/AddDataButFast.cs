@@ -18,7 +18,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
         {
             var currentTime = DateTime.UtcNow;
 
-            Random rnd = new Random();
+            Random rnd = new();
             const int MinSeed = 500;
 
             var languageOffset = await context.Languages.CountAsync();
@@ -79,8 +79,8 @@ namespace Aggregetter.Aggre.Persistence.Seed
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
             int batchSize = 10000;
-            StringBuilder sb = new StringBuilder(query);
-            Random random = new Random();
+            StringBuilder sb = new(query);
+            Random random = new();
 
             for (int i = articleOffset; i < 200000; i++)
             { 
@@ -101,7 +101,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
                 sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
                 if (++batch < batchSize)
                 {
-                    sb.Append(",");
+                    sb.Append(',');
                 }
                 else 
                 {

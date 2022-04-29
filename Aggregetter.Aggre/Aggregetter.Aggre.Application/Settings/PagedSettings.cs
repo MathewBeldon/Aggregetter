@@ -2,6 +2,6 @@
 {
     public sealed class PagedSettings
     {
-        public int PageSize {get;set;}
+        public int PageSize { get; set; }
     }
 }

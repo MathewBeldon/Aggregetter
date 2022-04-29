@@ -15,7 +15,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
         {
             var currentTime = DateTime.UtcNow;
 
-            Random rnd = new Random();
+            Random rnd = new();
             const int MinSeed = 100;
 
             var languageOffset = await context.Languages.CountAsync();

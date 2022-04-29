@@ -13,7 +13,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
 {
     public sealed class CreateArticleCommandValidatorTests
     {
-        private CreateArticleCommandValidator _validator;
+        private readonly CreateArticleCommandValidator _validator;
         private readonly Mock<IArticleRepository> _mockArticleRepository;
         private readonly Mock<IBaseRepository<Category>> _mockCategoryRepository;
         private readonly Mock<IBaseRepository<Provider>> _mockProviderRepository;

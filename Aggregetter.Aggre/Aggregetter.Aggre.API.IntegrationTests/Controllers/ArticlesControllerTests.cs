@@ -18,7 +18,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
     public sealed class ArticlesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
-        private HttpClient _client;
+        private readonly HttpClient _client;
 
         public ArticlesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {

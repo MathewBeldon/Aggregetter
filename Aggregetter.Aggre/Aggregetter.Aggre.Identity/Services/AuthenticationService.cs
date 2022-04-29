@@ -1,6 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Identity;
 using Aggregetter.Aggre.Application.Exceptions;
 using Aggregetter.Aggre.Application.Models.Authentication;
+using Aggregetter.Aggre.Application.Settings;
 using Aggregetter.Aggre.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -26,7 +27,7 @@ namespace Aggregetter.Aggre.Identity.Services
                                      SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings.Value));
+            _jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
@@ -48,7 +49,7 @@ namespace Aggregetter.Aggre.Identity.Services
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
-            AuthenticationResponse response = new AuthenticationResponse
+            AuthenticationResponse response = new()
             {
                 UserId = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
