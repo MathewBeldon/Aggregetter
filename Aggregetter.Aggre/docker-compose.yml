@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  aggregetter.aggre.api:
+    image: ${DOCKER_REGISTRY-}aggregetteraggreapi
+    build:
+      context: .
+      dockerfile: Aggregetter.Aggre.API/Dockerfile
