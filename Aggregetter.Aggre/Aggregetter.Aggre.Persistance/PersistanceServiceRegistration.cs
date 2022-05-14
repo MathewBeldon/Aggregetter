@@ -13,9 +13,11 @@ namespace Aggregetter.Aggre.Persistence
         public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
         {
             var serverVersion = new MySqlServerVersion(configuration.GetConnectionString("MySQLVersion"));
-
             services.AddDbContext<AggreDbContext>(options =>            
-                options.UseMySql(configuration.GetConnectionString("AggreConnectionString"), serverVersion));
+                options.UseMySql(configuration.GetConnectionString("AggreConnectionString"), serverVersion, builder =>
+                {
+                    builder.EnableRetryOnFailure();
+                }));
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));            
             services.AddScoped<IArticleRepository, ArticleRepository>();

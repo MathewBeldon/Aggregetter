@@ -1,11 +1,13 @@
-﻿using MediatR;
+﻿using Aggregetter.Aggre.Application.Contracts.Mediator.Transactions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Persistence.Pipelines
 {
-    public sealed class TransactionPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public sealed class TransactionPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IWriteRequest<TResponse>
     {
         private readonly AggreDbContext _context;
         public TransactionPipelineBehaviour(AggreDbContext context)
@@ -16,19 +18,14 @@ namespace Aggregetter.Aggre.Persistence.Pipelines
         {
             TResponse result;
 
-            try
+            var strategy = _context.Database.CreateExecutionStrategy();
+            result = await strategy.ExecuteAsync(async () =>
             {
-                _context.BeginTransaction();
-
+                await using var transaction = await _context.Database.BeginTransactionAsync();
                 result = await next();
-
-                _context.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                _context.RollbackTransaction();
-                throw;
-            }
+                await transaction.CommitAsync();
+                return result;          
+            });
 
             return result;
         }

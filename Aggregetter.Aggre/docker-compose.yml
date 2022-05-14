@@ -6,3 +6,23 @@ services:
     build:
       context: .
       dockerfile: Aggregetter.Aggre.API/Dockerfile
+    environment:
+        - "ConnectionStrings__AggreConnectionString=Server=aggregetter.db;Database=Aggregetter.Data;Uid=root;Pwd=example;"
+        - "ConnectionStrings__AggreIdentityConnectionString=Server=aggregetter.db;Database=Aggregetter.Identity;Uid=root;Pwd=example;"
+    depends_on: 
+        - aggregetter.db
+  
+  aggregetter.db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - "49301:4000"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+          - 8080:8080

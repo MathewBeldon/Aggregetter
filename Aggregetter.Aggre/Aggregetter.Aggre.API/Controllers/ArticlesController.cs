@@ -90,7 +90,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpPost]
-        [Authorise(Role.Basic, Role.Editor)]
+        //[Authorise(Role.Basic, Role.Editor)]
         public async Task<ActionResult<CreateArticleCommandResponse>> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
         {
             return Ok(await _mediator.Send(createArticleCommand));

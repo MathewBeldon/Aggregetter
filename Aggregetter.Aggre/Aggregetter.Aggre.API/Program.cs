@@ -1,11 +1,14 @@
+using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API
@@ -29,10 +32,20 @@ namespace Aggregetter.Aggre.API
 
                 try
                 {
-                    var context = services.GetRequiredService<AggreDbContext>();
+                    var aggreDbcontext = services.GetRequiredService<AggreDbContext>();
+                    if (aggreDbcontext.Database.GetPendingMigrations().Any())
+                    {
+                        aggreDbcontext.Database.Migrate();
+                    }
+
+                    var aggreIdentityDbcontext = services.GetRequiredService<AggreIdentityDbContext>();
+                    if (aggreIdentityDbcontext.Database.GetPendingMigrations().Any())
+                    {
+                        aggreIdentityDbcontext.Database.Migrate();
+                    }
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
-                    await Persistence.Seed.AddDataButFast.InitiliseAsync(context, Log.Logger);
+                    await Persistence.Seed.AddDataButFast.InitiliseAsync(aggreDbcontext, Log.Logger);
                     Log.Information("Application Starting");
                 }
                 catch (Exception ex)
@@ -47,11 +60,6 @@ namespace Aggregetter.Aggre.API
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .ConfigureAppConfiguration((env, config) =>
-                {                    
-                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                    config.AddJsonFile($"appsettings.{env.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

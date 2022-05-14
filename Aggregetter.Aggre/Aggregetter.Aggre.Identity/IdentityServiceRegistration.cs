@@ -23,7 +23,6 @@ namespace Aggregetter.Aggre.Identity
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));          
 
             var serverVersion = new MySqlServerVersion(configuration.GetConnectionString("MySQLVersion"));
-
             services.AddDbContext<AggreIdentityDbContext>(options =>
                 options.UseMySql(configuration.GetConnectionString("AggreIdentityConnectionString"), serverVersion));
 

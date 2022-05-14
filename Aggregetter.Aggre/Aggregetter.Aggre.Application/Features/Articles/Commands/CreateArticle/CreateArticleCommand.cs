@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using Aggregetter.Aggre.Application.Contracts.Mediator.Transactions;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
 {
-    public sealed class CreateArticleCommand : IRequest<CreateArticleCommandResponse>
+    public sealed class CreateArticleCommand : IWriteRequest<CreateArticleCommandResponse>
     {
         public int ProviderId { get; set; }
         public int CategoryId { get; set; }
