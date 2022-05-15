@@ -9,7 +9,7 @@ namespace Aggregetter.Aggre.API.Services.Registration
     {
         internal static IServiceCollection AddCachingService(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            if (configuration.GetConnectionString("RedisConnectionString").Length <= 0)
+            if (configuration.GetConnectionString("RedisConnectionString").Length == 0)
             {
                 services.AddDistributedMemoryCache();
             }

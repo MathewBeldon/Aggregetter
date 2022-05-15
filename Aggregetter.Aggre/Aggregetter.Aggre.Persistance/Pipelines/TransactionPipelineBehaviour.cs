@@ -18,6 +18,12 @@ namespace Aggregetter.Aggre.Persistence.Pipelines
         {
             TResponse result;
 
+            //transactions not supported with in memory, fix by using docker with tests
+            if (_context.Database.IsInMemory())
+            {
+                return await next();
+            }
+
             var strategy = _context.Database.CreateExecutionStrategy();
             result = await strategy.ExecuteAsync(async () =>
             {
