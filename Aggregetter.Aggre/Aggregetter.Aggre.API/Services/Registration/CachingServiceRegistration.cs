@@ -8,8 +8,8 @@ namespace Aggregetter.Aggre.API.Services.Registration
     internal static class CachingServiceRegistration
     {
         internal static IServiceCollection AddCachingService(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
-        {            
-            if (environment.IsDevelopment())
+        {
+            if (configuration.GetConnectionString("RedisConnectionString").Length <= 0)
             {
                 services.AddDistributedMemoryCache();
             }
@@ -17,7 +17,7 @@ namespace Aggregetter.Aggre.API.Services.Registration
             {
                 services.AddStackExchangeRedisCache(options =>
                 {
-                    options.Configuration = configuration["Redis:ConnectionString"];
+                    options.Configuration = configuration.GetConnectionString("RedisConnectionString");
                     options.InstanceName = "SampleInstance";
                 });
             }

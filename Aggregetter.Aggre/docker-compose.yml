@@ -9,8 +9,10 @@ services:
     environment:
         - "ConnectionStrings__AggreConnectionString=Server=aggregetter.db;Database=Aggregetter.Data;Uid=root;Pwd=example;"
         - "ConnectionStrings__AggreIdentityConnectionString=Server=aggregetter.db;Database=Aggregetter.Identity;Uid=root;Pwd=example;"
+        - "ConnectionStrings__RedisConnectionString=cache"
     depends_on: 
         - aggregetter.db
+        - cache
   
   aggregetter.db:
     image: mysql
@@ -26,3 +28,25 @@ services:
     restart: always
     ports:
           - 8080:8080
+  cache:
+    container_name: cache
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:cache:6379
+    ports:
+    - "8081:8081"
+
+volumes:
+  cache:
+    driver: local
