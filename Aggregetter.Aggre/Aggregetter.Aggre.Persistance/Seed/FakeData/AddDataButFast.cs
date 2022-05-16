@@ -74,15 +74,15 @@ namespace Aggregetter.Aggre.Persistence.Seed
 
             var translatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
             
-            const string query = $"SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;INSERT INTO Articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
-
+            const string query = $"INSERT INTO Articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
+            await context.Database.ExecuteSqlRawAsync("SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;");
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
             int batchSize = 1000;
             StringBuilder sb = new(query);
             Random random = new();
 
-            for (int i = articleOffset; i < 2000; i++)
+            for (int i = articleOffset; i < 20000; i++)
             { 
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
                 var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1000)
@@ -105,14 +105,15 @@ namespace Aggregetter.Aggre.Persistence.Seed
                 }
                 else 
                 {
-                    sb.Append(";COMMIT;SET unique_checks=1;SET foreign_key_checks=1;");
+                    sb.Append(";");
                     logger.Information($"writing {batchSize} records");
                     await context.Database.ExecuteSqlRawAsync(sb.ToString());
-                    logger.Information($"written {batchSize} records, total {i}");
+                    logger.Information($"written {batchSize} records, total {i + 1}");
                     sb = new StringBuilder(query);
                     batch = 0;
                 }
             }
+            await context.Database.ExecuteSqlRawAsync("COMMIT;SET autocommit=1;SET unique_checks=1;SET foreign_key_checks=1;");
             context.Articles.AddRange(articles);
         }
     }

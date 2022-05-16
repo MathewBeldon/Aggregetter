@@ -13,6 +13,9 @@ services:
     depends_on: 
         - aggregetter.db
         - cache
+    ports:
+        - "5001:443"
+  
   
   aggregetter.db:
     image: mysql
