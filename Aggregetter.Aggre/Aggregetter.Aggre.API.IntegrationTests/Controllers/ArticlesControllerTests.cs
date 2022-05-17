@@ -17,13 +17,11 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
     public sealed class ArticlesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
         private readonly HttpClient _client;
 
         public ArticlesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
-            _client = _factory.CreateClient();
+            _client = factory.Client;
         }
 
         #region GetArticlesByPage

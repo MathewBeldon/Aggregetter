@@ -10,12 +10,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net.Http;
 
 namespace Aggregetter.Aggre.API.IntegrationTests.Base
 {
     public sealed class CustomWebApplicationFactory<TStartup> :
         WebApplicationFactory<TStartup> where TStartup : class
     {
+        public readonly HttpClient Client;
+
+        public CustomWebApplicationFactory()
+        {
+            Client = CreateClient();
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(async services =>

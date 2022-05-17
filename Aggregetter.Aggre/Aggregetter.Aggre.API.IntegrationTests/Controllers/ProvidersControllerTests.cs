@@ -11,13 +11,11 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
     public class ProvidersControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
         private HttpClient _client;
 
         public ProvidersControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
-            _client = _factory.CreateClient();
+            _client = factory.Client;
         }
 
         [Fact]
