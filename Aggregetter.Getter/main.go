@@ -7,9 +7,10 @@ import (
 
 func main() {
 	var client crawler.Client
-	tassClient := &sites.Tass{
-		Url: "https://tass.ru/rss/v2.xml",
+	riaClient := &sites.Ria{
+		Url: "https://radiosputnik.ria.ru",
 	}
-	client = tassClient
-	client.GetBody()
+	client = riaClient
+	//	fmt.Println(client.GetArticle("https://radiosputnik.ria.ru/20220519/ukraina-1789580469.html"))
+	client.GetLinks()
 }

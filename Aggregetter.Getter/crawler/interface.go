@@ -1,5 +1,6 @@
 package crawler
 
 type Client interface {
-	GetBody() string
+	GetArticle(articleUrl string) string
+	GetLinks() []string
 }

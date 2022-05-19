@@ -10,7 +10,7 @@ type Tass struct {
 	Url string
 }
 
-func (tass Tass) GetBody() string {
+func (tass Tass) GetArticle(articleUrl string) string {
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://tass.ru/rss/v2.xml", nil)
