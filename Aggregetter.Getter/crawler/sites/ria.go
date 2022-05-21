@@ -2,81 +2,83 @@ package sites
 
 import (
 	"fmt"
-	"io"
-	"log"
-	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
+	"aggregetter.getter/crawler"
 	"github.com/gocolly/colly/v2"
 )
 
-type Ria struct{}
+type Ria struct {
+	LastUrl string
+	Article crawler.Article
+}
 
 type link struct {
-	Link     string `selector:"div.list-item__content > a.list-item__title.color-font-hover-only" attr:"href"`
-	DateTime string `selector:"div.list-item__info > div.list-item__date"`
+	Link  string `selector:"div.list-item__content > a.list-item__title.color-font-hover-only" attr:"href"`
+	Title string `selector:"div.list-item__content > a.list-item__title.color-font-hover-only"`
 }
 
-func (ria Ria) GetArticle(articleUrl string) string {
-
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", articleUrl, nil)
-	if err != nil {
-		fmt.Println("error")
-	}
-
-	req.Header.Add("User-Agent", `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0`)
-	req.Header.Add("Accept", `text/html`)
-	req.Header.Add("Accept-Language", `ru`)
-	req.Header.Add("Connection", `keep-alive`)
-
-	resp, err := client.Do(req)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer resp.Body.Close()
-	fmt.Println("Response status:", resp.Status)
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	return string(body)
+type article struct {
+	Title string `selector:"div > div > div.article__header > div.article__title"`
+	Date  string `selector:"div > div > div.article__header > div.article__info > div.article__info-date"`
 }
 
-func (ria Ria) GetLinks() map[string]string {
+func (ria Ria) GetArticle(articleUrl string) crawler.Article {
 
 	c := colly.NewCollector()
-	links := make(map[string]string)
-
-	c.OnHTML("body > div.list-items-loaded > div", func(e *colly.HTMLElement) {
-		link := &link{}
-		e.Unmarshal(link)
-		if _, found := links[link.Link]; !found {
-			links[link.Link] = link.DateTime
-		}
+	article := &article{}
+	c.OnHTML("div > div > div > div.layout-article__over > div.layout-article__main", func(e *colly.HTMLElement) {
+		e.Unmarshal(article)
 	})
 
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*ria.*",
-		Parallelism: 0,
-		Delay:       1 * time.Second,
+		Parallelism: 2,
+		Delay:       3 * time.Second,
 	})
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
 
-	for i := 0; i < 1; i++ {
-		c.Visit("https://ria.ru/services/search/getmore/?query=&offset=" + strconv.Itoa(i*20))
-	}
+	c.Visit(articleUrl)
 
-	for link := range links {
-		fmt.Println(link + " " + links[link])
+	return crawler.Article{
+		Title: article.Title,
+		Date:  article.Date,
+	}
+}
+
+func (ria Ria) GetLinks() map[string]string {
+
+	c := colly.NewCollector()
+	links := make(map[string]string)
+	finished := false
+	c.OnHTML("body > div.list-items-loaded > div", func(e *colly.HTMLElement) {
+		link := &link{}
+		e.Unmarshal(link)
+		if link.Link == ria.LastUrl {
+			finished = true
+		}
+		if _, found := links[link.Link]; !found && !finished && strings.Contains(link.Link, "https://ria.ru/") {
+			links[link.Link] = link.Title
+		}
+	})
+
+	c.Limit(&colly.LimitRule{
+		DomainGlob:  "*ria.*",
+		Parallelism: 0,
+		Delay:       7 * time.Second,
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println("Visiting", r.URL)
+	})
+
+	for i := 0; !finished; i++ {
+		c.Visit("https://ria.ru/services/search/getmore/?query=&offset=" + strconv.Itoa(i*20))
 	}
 
 	return links
