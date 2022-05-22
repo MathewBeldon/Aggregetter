@@ -21,8 +21,9 @@ type link struct {
 }
 
 type article struct {
-	Title string `selector:"div > div > div.article__header > div.article__title"`
-	Date  string `selector:"div > div > div.article__header > div.article__info > div.article__info-date"`
+	Title string   `selector:"div > div > div.article__header > .article__title"`
+	Date  string   `selector:"div > div > div.article__header > div.article__info > div.article__info-date"`
+	Body  []string `selector:"div > div > div.article__body.js-mediator-article.mia-analytics > div > .article__text"`
 }
 
 func (ria Ria) GetArticle(articleUrl string) crawler.Article {
@@ -40,7 +41,7 @@ func (ria Ria) GetArticle(articleUrl string) crawler.Article {
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		fmt.Println("Getting article from: ", r.URL)
 	})
 
 	c.Visit(articleUrl)
@@ -48,6 +49,7 @@ func (ria Ria) GetArticle(articleUrl string) crawler.Article {
 	return crawler.Article{
 		Title: article.Title,
 		Date:  article.Date,
+		Body:  article.Body,
 	}
 }
 
@@ -74,11 +76,12 @@ func (ria Ria) GetLinks() map[string]string {
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		fmt.Println("Getting links from: ", r.URL)
 	})
 
 	for i := 0; !finished; i++ {
 		c.Visit("https://ria.ru/services/search/getmore/?query=&offset=" + strconv.Itoa(i*20))
+		fmt.Println(len(links))
 	}
 
 	return links
