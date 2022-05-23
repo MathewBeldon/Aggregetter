@@ -7,6 +7,5 @@ type Article struct {
 }
 
 type Client interface {
-	GetArticle(articleUrl string) Article
-	GetLinks() map[string]string
+	FetchArticles()
 }

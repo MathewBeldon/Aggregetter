@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 
 	"aggregetter.getter/crawler"
@@ -16,23 +15,10 @@ func main() {
 	go func() {
 		var client crawler.Client
 		riaClient := &sites.Ria{
-			LastUrl: "https://ria.ru/20220522/gazoprovod-1790056019.html",
+			LastUrl: "https://ria.ru/20220523/ukraina-1790266428.html",
 		}
 		client = riaClient
-		//	fmt.Println(client.GetArticle("https://radiosputnik.ria.ru/20220519/ukraina-1789580469.html"))
-		links := client.GetLinks()
-
-		for link := range links {
-			article := client.GetArticle(link)
-			fmt.Println(article.Title + " DATE: " + article.Date)
-			for _, body := range article.Body {
-				fmt.Println(body)
-				fmt.Println("")
-			}
-			fmt.Println("---------------------------------------")
-			fmt.Println("")
-
-		}
+		client.FetchArticles()
 		defer wg.Done()
 	}()
 
