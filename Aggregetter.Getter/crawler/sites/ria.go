@@ -3,44 +3,34 @@ package sites
 import (
 	"fmt"
 	"strconv"
+	"time"
 
-	"aggregetter.getter/crawler"
 	"github.com/gocolly/colly/v2"
 )
 
 type Ria struct {
 	LastUrl string
-	Article crawler.Article
-}
-type article struct {
-	Title string   `selector:"div > div > div.article__header > .article__title"`
-	Date  string   `selector:"div > div > div.article__header > div.article__info > div.article__info-date"`
-	Body  []string `selector:"div > div > div.article__body.js-mediator-article.mia-analytics > div > .article__text"`
 }
 
-func GetArticle(articleUrl string) crawler.Article {
+func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 
 	c := colly.NewCollector()
-	article := &article{}
-	c.OnHTML("div > div > div > div.layout-article__over > div.layout-article__main", func(e *colly.HTMLElement) {
-		e.Unmarshal(article)
-	})
-
+	//save here
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*ria.*",
-		Parallelism: 3,
+		Delay:       2 * time.Second,
+		Parallelism: 2,
 	})
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Getting article from: ", r.URL)
 	})
-
-	c.Visit(articleUrl)
-
-	return crawler.Article{
-		Title: article.Title,
-		Date:  article.Date,
-		Body:  article.Body,
+	for _, url := range urls {
+		if url == lastUrl {
+			close(abort)
+			return
+		}
+		c.Visit(url)
 	}
 }
 
@@ -55,6 +45,12 @@ func GetLinks(abort <-chan struct{}) <-chan []string {
 
 		c.OnRequest(func(r *colly.Request) {
 			fmt.Println("Getting links from: ", r.URL)
+		})
+
+		c.Limit(&colly.LimitRule{
+			DomainGlob:  "*ria.*",
+			Delay:       7 * time.Second,
+			Parallelism: 1,
 		})
 
 		for i := 0; i < 10000; i++ {
@@ -74,19 +70,6 @@ func (ria Ria) FetchArticles() {
 	abort := make(chan struct{})
 	channel := GetLinks(abort)
 	for links := range channel {
-		for _, link := range links {
-			if ria.LastUrl == link {
-				close(abort)
-				return
-			}
-			article := GetArticle(link)
-			fmt.Println(article.Title + "// DATE: " + article.Date + "// SIZE: " + strconv.Itoa(len(article.Body)))
-			// for _, body := range article.Body {
-			// 	fmt.Println(body)
-			// 	fmt.Println("")
-			// }
-			fmt.Println("---------------------------------------")
-			fmt.Println("")
-		}
+		GetArticle(abort, links, ria.LastUrl)
 	}
 }

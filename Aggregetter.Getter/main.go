@@ -15,7 +15,7 @@ func main() {
 	go func() {
 		var client crawler.Client
 		riaClient := &sites.Ria{
-			LastUrl: "https://ria.ru/20220523/ukraina-1790266428.html",
+			LastUrl: "https://ria.ru/20220527/ukraina-1791330260.html",
 		}
 		client = riaClient
 		client.FetchArticles()
