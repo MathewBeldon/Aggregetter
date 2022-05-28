@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gocolly/colly/v2"
+	"github.com/zolamk/colly-mongo-storage/colly/mongo"
 )
 
 type Ria struct {
@@ -15,16 +16,26 @@ type Ria struct {
 func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 
 	c := colly.NewCollector()
-	//save here
+
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*ria.*",
-		Delay:       2 * time.Second,
-		Parallelism: 2,
+		Delay:       1 * time.Second,
+		Parallelism: 1,
 	})
+
+	storage := &mongo.Storage{
+		Database: "colly",
+		URI:      "mongodb://127.0.0.1:27017",
+	}
+
+	if err := c.SetStorage(storage); err != nil {
+		panic(err)
+	}
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Getting article from: ", r.URL)
 	})
+
 	for _, url := range urls {
 		if url == lastUrl {
 			close(abort)
