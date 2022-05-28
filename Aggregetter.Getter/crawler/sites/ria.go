@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
+	"aggregetter.getter/crawler"
 	"github.com/gocolly/colly/v2"
-	"github.com/zolamk/colly-mongo-storage/colly/mongo"
 )
 
 type Ria struct {
@@ -23,10 +23,17 @@ func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 		Parallelism: 1,
 	})
 
-	storage := &mongo.Storage{
-		Database: "colly",
-		URI:      "mongodb://127.0.0.1:27017",
+	storage := &crawler.Storage{
+		Database:          "aggregetter",
+		URI:               "mongodb://127.0.0.1:27017",
+		VisitedCollection: "aggregetter_visited",
+		CookiesCollection: "aggregetter_cookies",
+		PagesCollection:   "aggregetter_pages",
 	}
+
+	c.OnScraped(func(r *colly.Response) {
+		storage.SavePage(crawler.RequestHash(r.Request.URL.String(), r.Request.Body), r.Request.URL, r.Body)
+	})
 
 	if err := c.SetStorage(storage); err != nil {
 		panic(err)
@@ -43,6 +50,7 @@ func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 		}
 		c.Visit(url)
 	}
+
 }
 
 func GetLinks(abort <-chan struct{}) <-chan []string {
