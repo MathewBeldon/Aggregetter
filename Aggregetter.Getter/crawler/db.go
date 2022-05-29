@@ -2,11 +2,13 @@ package crawler
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/url"
 	"strconv"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -146,4 +148,14 @@ func (s *Storage) SavePage(requestID uint64, u *url.URL, body []byte) {
 
 	}
 
+}
+
+func (s *Storage) GetLastArticle() string {
+	opts := options.FindOne().SetSort(bson.M{"$natural": -1})
+	var lastrecord bson.M
+	if err := s.pages.FindOne(nil, bson.M{}, opts).Decode(&lastrecord); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Last record: ", lastrecord["url"])
+	return lastrecord["url"].(string)
 }

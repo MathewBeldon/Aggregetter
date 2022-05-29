@@ -11,11 +11,16 @@ import (
 
 type Ria struct {
 	LastUrl string
+	Storage crawler.Storage
 }
 
-func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
+func (ria Ria) GetArticle(abort chan struct{}, urls []string) {
 
 	c := colly.NewCollector()
+
+	if err := c.SetStorage(&ria.Storage); err != nil {
+		panic(err)
+	}
 
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*ria.*",
@@ -23,28 +28,16 @@ func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 		Parallelism: 1,
 	})
 
-	storage := &crawler.Storage{
-		Database:          "aggregetter",
-		URI:               "mongodb://127.0.0.1:27017",
-		VisitedCollection: "aggregetter_visited",
-		CookiesCollection: "aggregetter_cookies",
-		PagesCollection:   "aggregetter_pages",
-	}
-
 	c.OnScraped(func(r *colly.Response) {
-		storage.SavePage(crawler.RequestHash(r.Request.URL.String(), r.Request.Body), r.Request.URL, r.Body)
+		ria.Storage.SavePage(crawler.RequestHash(r.Request.URL.String(), r.Request.Body), r.Request.URL, r.Body)
 	})
-
-	if err := c.SetStorage(storage); err != nil {
-		panic(err)
-	}
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Getting article from: ", r.URL)
 	})
 
 	for _, url := range urls {
-		if url == lastUrl {
+		if url == ria.LastUrl {
 			close(abort)
 			return
 		}
@@ -53,7 +46,7 @@ func GetArticle(abort chan struct{}, urls []string, lastUrl string) {
 
 }
 
-func GetLinks(abort <-chan struct{}) <-chan []string {
+func (ria Ria) GetLinks(abort <-chan struct{}) <-chan []string {
 	channel := make(chan []string)
 	go func() {
 		defer close(channel)
@@ -87,8 +80,8 @@ func GetLinks(abort <-chan struct{}) <-chan []string {
 
 func (ria Ria) FetchArticles() {
 	abort := make(chan struct{})
-	channel := GetLinks(abort)
+	channel := ria.GetLinks(abort)
 	for links := range channel {
-		GetArticle(abort, links, ria.LastUrl)
+		ria.GetArticle(abort, links)
 	}
 }
