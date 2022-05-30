@@ -97,6 +97,30 @@ func (s *Storage) IsVisited(requestID uint64) (bool, error) {
 
 }
 
+func (s *Storage) IsVisitedUrl(url string) (bool, error) {
+
+	result := bsonx.MDoc{}
+
+	err := s.pages.FindOne(nil, bsonx.MDoc{
+		"url": bsonx.String(url),
+	}).Decode(&result)
+	if err != nil {
+
+		if err == mongo.ErrNoDocuments {
+
+			return false, nil
+
+		}
+
+		log.Println(err)
+
+		return false, err
+
+	}
+
+	return true, nil
+}
+
 // Cookies implements colly/storage.Cookies()
 func (s *Storage) Cookies(u *url.URL) string {
 

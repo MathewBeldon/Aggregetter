@@ -10,7 +10,6 @@ import (
 )
 
 type Ria struct {
-	LastUrl string
 	Storage crawler.Storage
 }
 
@@ -37,16 +36,17 @@ func (ria Ria) GetArticle(abort chan struct{}, urls []string) {
 	})
 
 	for _, url := range urls {
-		if url == ria.LastUrl {
-			close(abort)
+		select {
+		case <-abort:
 			return
+		default:
+			c.Visit(url)
 		}
-		c.Visit(url)
 	}
 
 }
 
-func (ria Ria) GetLinks(abort <-chan struct{}) <-chan []string {
+func (ria Ria) GetLinks(abort chan struct{}) <-chan []string {
 	channel := make(chan []string)
 	go func() {
 		defer close(channel)
@@ -81,7 +81,14 @@ func (ria Ria) GetLinks(abort <-chan struct{}) <-chan []string {
 func (ria Ria) FetchArticles() {
 	abort := make(chan struct{})
 	channel := ria.GetLinks(abort)
+out:
 	for links := range channel {
+		for _, link := range links {
+			if ok, _ := ria.Storage.IsVisitedUrl(link); ok {
+				close(abort)
+				break out
+			}
+		}
 		ria.GetArticle(abort, links)
 	}
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sync"
 	"time"
 
@@ -25,7 +26,6 @@ func main() {
 			}
 			storage.Init()
 			riaClient := &sites.Ria{
-				LastUrl: storage.GetLastArticle(),
 				Storage: *storage,
 			}
 			client = riaClient
@@ -33,6 +33,7 @@ func main() {
 			defer wg.Done()
 		}()
 		wg.Wait()
+		fmt.Println("waiting one minute for more articles")
 		time.Sleep(1 * time.Minute)
 	}
 }
