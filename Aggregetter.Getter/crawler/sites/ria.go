@@ -11,6 +11,7 @@ import (
 
 type Ria struct {
 	Storage crawler.Storage
+	LastUrl string
 }
 
 func (ria Ria) GetArticle(abort chan struct{}, urls []string) {
@@ -23,8 +24,8 @@ func (ria Ria) GetArticle(abort chan struct{}, urls []string) {
 
 	c.Limit(&colly.LimitRule{
 		DomainGlob:  "*ria.*",
-		Delay:       1 * time.Second,
-		Parallelism: 1,
+		Delay:       100 * time.Millisecond,
+		Parallelism: 2,
 	})
 
 	c.OnScraped(func(r *colly.Response) {
@@ -84,7 +85,8 @@ func (ria Ria) FetchArticles() {
 out:
 	for links := range channel {
 		for _, link := range links {
-			if ok, _ := ria.Storage.IsVisitedUrl(link); ok {
+			if link == ria.LastUrl {
+				fmt.Println("SAME FOUND" + link)
 				close(abort)
 				break out
 			}

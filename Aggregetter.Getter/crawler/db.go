@@ -178,7 +178,7 @@ func (s *Storage) GetLastArticle() string {
 	opts := options.FindOne().SetSort(bson.M{"$natural": -1})
 	var lastrecord bson.M
 	if err := s.pages.FindOne(nil, bson.M{}, opts).Decode(&lastrecord); err != nil {
-		log.Fatal(err)
+		return ""
 	}
 	fmt.Println("Last record: ", lastrecord["url"])
 	return lastrecord["url"].(string)
