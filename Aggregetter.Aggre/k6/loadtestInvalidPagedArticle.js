@@ -2,14 +2,15 @@ import http from 'k6/http';
 import { check } from 'k6';
 import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.1.0/index.js';
 
-export const options = {    
+export const options = {
+    
     vus: 100,
     duration: '600s',
 };
 
 export default function () {
-    const res = http.get('https://localhost:5001/api/v1/articles/lorem-ipsum' + randomIntBetween(1, 200));
+    const res = http.get('https://localhost:5001/api/v1/articles?PageSize=21&Page=' + randomIntBetween(1, 10));
     check(res, {
-        'is status 200': (r) => r.status === 200,
+        'is status 400': (r) => r.status === 400,
     });
 };
