@@ -19,13 +19,9 @@ namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearch
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<GetArticleSearchResultsQueryResponse> Handle(GetArticleSearchResultsQuery request, CancellationToken cancellationToken)
+        public Task<GetArticleSearchResultsQueryResponse> Handle(GetArticleSearchResultsQuery request, CancellationToken cancellationToken)
         {
-            //var searchResultCount = await _articleRepository.GetSearchResultCountAsync(request.SearchString, cancellationToken);
-            var articleSearchResultEntities = await _articleRepository.GetSearchResultsAsync(request.Page, request.PageSize, request.SearchString, cancellationToken);
-            var articleDtos = _mapper.Map<List<GetArticleSearchResultsDto>>(articleSearchResultEntities);
-
-            return new GetArticleSearchResultsQueryResponse(data: articleDtos, page: request.Page, pageSize: request.PageSize, recordCount: 111);
+            throw new NotImplementedException();
         }
     }
 }

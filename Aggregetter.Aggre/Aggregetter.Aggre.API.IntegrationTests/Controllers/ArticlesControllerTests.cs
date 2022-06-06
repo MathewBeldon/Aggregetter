@@ -7,6 +7,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -41,7 +42,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPageString.Should().NotBeNull();
             articlesSecondPageString.Should().NotBeNull();
             articlesFirstPageString.Should().NotContain(articlesSecondPageString);
-            articlesResult.Success.Should().BeTrue();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -52,7 +53,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.OK);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -64,7 +65,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var articlesPageString = await articlesPage.Content.ReadAsStringAsync();
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -89,7 +90,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPageString.Should().NotBeNull();
             articlesSecondPageString.Should().NotBeNull();
             articlesFirstPageString.Should().NotContain(articlesSecondPageString);
-            articlesResult.Success.Should().BeTrue();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -101,7 +102,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -115,7 +116,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -140,7 +141,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPageString.Should().NotBeNull();
             articlesSecondPageString.Should().NotBeNull();
             articlesFirstPageString.Should().NotContain(articlesSecondPageString);
-            articlesResult.Success.Should().BeTrue();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -152,7 +153,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -166,7 +167,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -191,7 +192,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             articlesFirstPageString.Should().NotBeNull();
             articlesSecondPageString.Should().NotBeNull();
             articlesFirstPageString.Should().NotContain(articlesSecondPageString);
-            articlesResult.Success.Should().BeTrue();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -203,7 +204,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -217,7 +218,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
             var articlesResult = JsonConvert.DeserializeObject<BaseResponse>(articlesPageString) ?? throw new ArgumentNullException();
 
-            articlesResult.Success.Should().BeFalse();
+            articlesResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             articlesResult.ValidationErrors.Count.Should().Be(1);
         }
 
@@ -243,7 +244,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var result = JsonConvert.DeserializeObject<GetArticleDetailsQueryResponse>(responseString);
 
             result.Should().BeOfType<GetArticleDetailsQueryResponse>();
-            result.Success.Should().BeTrue();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
             result.Should().NotBeNull();
         }
 
@@ -322,7 +323,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
             var duplicatePostString = await duplictePost.Content.ReadAsStringAsync();
             var duplicatePostResult = JsonConvert.DeserializeObject<BaseResponse>(duplicatePostString) ?? throw new ArgumentNullException();
 
-            duplicatePostResult.Success.Should().BeFalse();
+            duplicatePostResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             duplicatePostResult.ValidationErrors.Count.Should().Be(1);
         }
 

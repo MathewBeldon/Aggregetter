@@ -21,8 +21,10 @@ namespace Aggregetter.Aggre.Application.Exceptions
 
         public ValidationException(string property, string errorMessage)
         {
-            ValidationErrors = new Dictionary<string, string>();
-            ValidationErrors.Add(property, errorMessage);
+            ValidationErrors = new Dictionary<string, string>
+            {
+                { property, errorMessage }
+            };
         }
     }
 }

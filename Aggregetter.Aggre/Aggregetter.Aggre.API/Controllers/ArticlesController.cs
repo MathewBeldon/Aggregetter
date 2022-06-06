@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.API.Attributes;
+using Aggregetter.Aggre.API.Controllers.Helpers;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
@@ -28,7 +29,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
+        public async Task<IActionResult> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
             var articlePagedResponse = await _mediator.Send(new GetArticlesQuery
             {
@@ -36,11 +37,11 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return Ok(articlePagedResponse);
+            return articlePagedResponse.ReturnResult();
         }
 
         [HttpGet("category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedByCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId)
+        public async Task<IActionResult> PagedByCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId)
         {
             var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByCategoryQuery
             {
@@ -49,11 +50,11 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return Ok(articleByCategoryPagedResponse);            
+            return articleByCategoryPagedResponse.ReturnResult();            
         }
 
         [HttpGet("provider/{providerId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedByProviderAsync([FromQuery] PaginationRequest paginationRequest, int providerId)
+        public async Task<IActionResult> PagedByProviderAsync([FromQuery] PaginationRequest paginationRequest, int providerId)
         {
             var articleByProviderPagedResponse = await _mediator.Send(new GetArticlesByProviderQuery
             {
@@ -62,11 +63,11 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return Ok(articleByProviderPagedResponse);
+            return articleByProviderPagedResponse.ReturnResult();
         }
 
         [HttpGet("provider/{providerId:int}/category/{categoryId:int}")]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedByProviderAndCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId, int providerId)
+        public async Task<IActionResult> PagedByProviderAndCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId, int providerId)
         {           
             var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
             {
@@ -76,31 +77,31 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return Ok(articleByCategoryPagedResponse);
+            return articleByCategoryPagedResponse.ReturnResult();
         }
 
         [HttpGet("{articleSlug}")]
-        public async Task<ActionResult<GetArticleDetailsQueryResponse>> DetailsAsync(string articleSlug)
+        public async Task<IActionResult> DetailsAsync(string articleSlug)
         {
             var getArticleDetailsQueryResponse = await _mediator.Send(new GetArticleDetailsQuery()
             {
                 ArticleSlug = articleSlug
             });
-            return Ok(getArticleDetailsQueryResponse);
+            return getArticleDetailsQueryResponse.ReturnResult();
         }
 
         [HttpPost]
         //[Authorise(Role.Basic, Role.Editor)]
-        public async Task<ActionResult<CreateArticleCommandResponse>> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
         {
-            return Ok(await _mediator.Send(createArticleCommand));
+            return (await _mediator.Send(createArticleCommand)).ReturnResult();
         }
 
         [HttpPost("translate")]
         [Authorise(Role.Basic, Role.Editor)]
-        public async Task<ActionResult<TranslateArticleCommandResponse>> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
+        public async Task<IActionResult> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
         {
-            return Ok(await _mediator.Send(translateArticleCommand));
+            return (await _mediator.Send(translateArticleCommand)).ReturnResult();
         }
     }
 }

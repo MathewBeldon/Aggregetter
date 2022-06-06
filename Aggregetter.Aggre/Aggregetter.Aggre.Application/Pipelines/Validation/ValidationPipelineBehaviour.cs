@@ -1,13 +1,16 @@
-﻿using FluentValidation;
+﻿using Aggregetter.Aggre.Application.Models.Base;
+using FluentValidation;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Validation
 {
-    public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest  : IRequest<TResponse>
+    public sealed class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+                                                                                                                  where TResponse : BaseResponse, new()
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
         public ValidationPipelineBehaviour(IEnumerable<IValidator<TRequest>> validators)
@@ -24,7 +27,16 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
             var context = new ValidationContext<TRequest>(request);
             var validationResults = (await Task.WhenAll(_validators.Select(async query => await query.ValidateAsync(context, cancellationToken)))).SelectMany(x => x.Errors);
 
-            if (validationResults.Count() != 0) throw new Exceptions.ValidationException(validationResults);
+            if (validationResults.Any())
+            {
+                var validationException = new Exceptions.ValidationException(validationResults);
+                return new TResponse
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = validationException.Message,
+                    ValidationErrors = validationException.ValidationErrors
+                };
+            }
 
             return await next();
         }

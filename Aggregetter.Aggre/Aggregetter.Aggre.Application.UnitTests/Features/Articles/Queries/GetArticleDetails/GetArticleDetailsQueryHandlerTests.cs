@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentAssertions;
 using Moq;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -54,7 +55,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
             result.Data.OriginalTitle.Should().NotBeNull();
             result.Data.TranslatedBody.Should().NotBeNull();
             result.Data.TranslatedTitle.Should().NotBeNull();
-            result.Success.Should().BeTrue();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

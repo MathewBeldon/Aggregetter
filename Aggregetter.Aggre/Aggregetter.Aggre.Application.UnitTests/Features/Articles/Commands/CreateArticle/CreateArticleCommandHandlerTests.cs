@@ -4,6 +4,7 @@ using Aggregetter.Aggre.Application.Profiles;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -48,7 +49,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
             var response = await _handler.Handle(createArticleCommand, CancellationToken.None);
             var articleExists = await _mockArticleRepository.Object.ArticleSlugExistsAsync("original-title", CancellationToken.None);
 
-            response.Success.Should().BeTrue();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
             articleExists.Should().BeTrue();
         }       
     }

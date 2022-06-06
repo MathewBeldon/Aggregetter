@@ -30,42 +30,29 @@ namespace Aggregetter.Aggre.API.Middleware
             }
         }
 
-        private Task ConvertException(HttpContext context, Exception exception)
+        private static Task ConvertException(HttpContext context, Exception exception)
         {
-            HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-
             context.Response.ContentType = "application/json";
 
-            var result = string.Empty;
-
-            switch (exception)
+            var result = exception switch
             {
-                case ValidationException validationException:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(new BaseResponse { 
-                        Success = false,
-                        Message = validationException.Message,
-                        ValidationErrors = validationException.ValidationErrors
-                    });
-                    break;
-                case RecordNotFoundException recordNotFoundException:
-                    httpStatusCode = HttpStatusCode.NotFound;
-                    result = JsonSerializer.Serialize(new BaseResponse { 
-                        Success = false,
-                        Message = recordNotFoundException.Message 
-                    });
-                    break;
-                default:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(new BaseResponse {
-                        Success = false,
-                        Message = exception.Message 
-                    });
-                    break;
-            }
-           
-            context.Response.StatusCode = (int)httpStatusCode;
-
+                ValidationException validationException => JsonSerializer.Serialize(new BaseResponse
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = validationException.Message,
+                    ValidationErrors = validationException.ValidationErrors
+                }),
+                RecordNotFoundException recordNotFoundException => JsonSerializer.Serialize(new BaseResponse
+                {
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = recordNotFoundException.Message
+                }),
+                _ => JsonSerializer.Serialize(new BaseResponse
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = exception.Message
+                }),
+            };
             return context.Response.WriteAsync(result);
         }
     }

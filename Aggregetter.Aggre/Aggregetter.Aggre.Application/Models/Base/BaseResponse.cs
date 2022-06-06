@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Text.Json.Serialization;
 
 namespace Aggregetter.Aggre.Application.Models.Base
@@ -7,15 +8,15 @@ namespace Aggregetter.Aggre.Application.Models.Base
     {
         public BaseResponse()
         {
-            Success = true;
+            StatusCode = HttpStatusCode.OK;
         }
-
-        public bool Success { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Message { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string> ValidationErrors { get; init; }
+
+        public HttpStatusCode StatusCode { get; init; }
     }
 }

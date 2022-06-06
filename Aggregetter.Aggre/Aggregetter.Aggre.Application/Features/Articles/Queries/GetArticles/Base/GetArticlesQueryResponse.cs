@@ -5,12 +5,9 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
 {
     public sealed class GetArticlesQueryResponse : PaginationResponse<List<GetArticlesDto>>
     {
-        public GetArticlesQueryResponse() : base() { }
-        public GetArticlesQueryResponse(
-            List<GetArticlesDto> data,
-            int page,
-            int pageSize,
-            int recordCount
-            ) : base(data, page, pageSize, recordCount) { }
+        public GetArticlesQueryResponse()
+            : base() { }
+        public GetArticlesQueryResponse(List<GetArticlesDto> data) 
+            : base(data) { }
     }
 }

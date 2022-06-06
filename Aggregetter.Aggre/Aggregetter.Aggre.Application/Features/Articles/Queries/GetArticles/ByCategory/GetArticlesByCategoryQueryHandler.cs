@@ -27,7 +27,12 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.By
             var articleEntities = await _articleRepository.GetArticlesByCategoryPagedAsync(request.Page, request.PageSize, request.CategoryId, cancellationToken);
             var articleDtos = _mapper.Map<List<GetArticlesDto>>(articleEntities);            
 
-            return new GetArticlesQueryResponse(data: articleDtos, page: request.Page, pageSize: request.PageSize, recordCount: articleCount);            
+            return new GetArticlesQueryResponse(articleDtos)
+            {
+                Page = request.Page,
+                PageSize = request.PageSize,
+                RecordCount = articleCount
+            };            
         }
     }
 }
