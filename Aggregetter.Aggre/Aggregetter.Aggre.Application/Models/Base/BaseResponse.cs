@@ -17,6 +17,10 @@ namespace Aggregetter.Aggre.Application.Models.Base
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string> ValidationErrors { get; init; }
 
+        [JsonIgnore]
         public HttpStatusCode StatusCode { get; init; }
+
+        [JsonIgnore]
+        public int StatusCodeValue => (int)StatusCode;
     }
 }

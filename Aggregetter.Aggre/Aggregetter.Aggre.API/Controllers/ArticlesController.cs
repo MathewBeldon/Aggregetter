@@ -31,45 +31,45 @@ namespace Aggregetter.Aggre.API.Controllers
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
-            var articlePagedResponse = await _mediator.Send(new GetArticlesQuery
+            var result = await _mediator.Send(new GetArticlesQuery
             {
                 Page = paginationRequest.Page,
                 PageSize = paginationRequest.PageSize
             });
 
-            return articlePagedResponse.ReturnResult();
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpGet("category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> PagedByCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId)
         {
-            var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByCategoryQuery
+            var result = await _mediator.Send(new GetArticlesByCategoryQuery
             {
                 CategoryId = categoryId,
                 Page = paginationRequest.Page,
                 PageSize = paginationRequest.PageSize
             });
 
-            return articleByCategoryPagedResponse.ReturnResult();            
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpGet("provider/{providerId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> PagedByProviderAsync([FromQuery] PaginationRequest paginationRequest, int providerId)
         {
-            var articleByProviderPagedResponse = await _mediator.Send(new GetArticlesByProviderQuery
+            var result = await _mediator.Send(new GetArticlesByProviderQuery
             {
                 ProviderId = providerId,
                 Page = paginationRequest.Page,
                 PageSize = paginationRequest.PageSize
             });
 
-            return articleByProviderPagedResponse.ReturnResult();
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpGet("provider/{providerId:int}/category/{categoryId:int}")]
         public async Task<IActionResult> PagedByProviderAndCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId, int providerId)
         {           
-            var articleByCategoryPagedResponse = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
+            var result = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
             {
                 ProviderId = providerId,
                 CategoryId = categoryId,
@@ -77,31 +77,36 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return articleByCategoryPagedResponse.ReturnResult();
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpGet("{articleSlug}")]
         public async Task<IActionResult> DetailsAsync(string articleSlug)
         {
-            var getArticleDetailsQueryResponse = await _mediator.Send(new GetArticleDetailsQuery()
+            var result = await _mediator.Send(new GetArticleDetailsQuery()
             {
                 ArticleSlug = articleSlug
             });
-            return getArticleDetailsQueryResponse.ReturnResult();
+
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpPost]
         //[Authorise(Role.Basic, Role.Editor)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateArticleCommand createArticleCommand)
         {
-            return (await _mediator.Send(createArticleCommand)).ReturnResult();
+            var result = await _mediator.Send(createArticleCommand);
+
+            return StatusCode(result.StatusCodeValue, result);
         }
 
         [HttpPost("translate")]
         [Authorise(Role.Basic, Role.Editor)]
         public async Task<IActionResult> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
         {
-            return (await _mediator.Send(translateArticleCommand)).ReturnResult();
+            var result = await _mediator.Send(translateArticleCommand);
+
+            return StatusCode(result.StatusCodeValue, result);
         }
     }
 }

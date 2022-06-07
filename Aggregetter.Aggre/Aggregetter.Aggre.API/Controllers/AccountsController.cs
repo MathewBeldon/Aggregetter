@@ -21,14 +21,16 @@ namespace Aggregetter.Aggre.API.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<AuthenticateAccountQueryResponse>> AuthenticateAsync(AuthenticateAccountQuery authenticateAccountQuery)
         {
-            return Ok(await _mediator.Send(authenticateAccountQuery));
+            var result = await _mediator.Send(authenticateAccountQuery);
+            return StatusCode(result.StatusCodeValue, result);
         }
 
-        [FeatureGate("Registration")]
+        //[FeatureGate("Registration")]
         [HttpPost("register")]
         public async Task<ActionResult<CreateAccountCommandResponse>> RegisterAsync(CreateAccountCommand createAccountCommand)
         {
-            return Ok(await _mediator.Send(createAccountCommand));
+            var result = await _mediator.Send(createAccountCommand);
+            return StatusCode(result.StatusCodeValue, result);
         }
     }
 }

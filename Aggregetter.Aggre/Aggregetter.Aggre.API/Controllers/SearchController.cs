@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -19,16 +20,9 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("{searchString}")]
-        public async Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
+        public Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
         {
-            var getSearchResultsResponse = await _mediator.Send(new GetArticleSearchResultsQuery
-            {
-                Page = paginationRequest.Page,
-                PageSize = paginationRequest.PageSize,
-                SearchString = searchString
-            });
-
-            return Ok(getSearchResultsResponse);
+            throw new NotImplementedException();
         }
     }
 }

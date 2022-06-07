@@ -21,10 +21,10 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationServices
         public void GetPagedUris_ValidInput_ValidResponse(int pageSize, int page, int totalRecords, 
             bool expectedNextPageResult, bool expectedPreviousPageResult)
         {
-            var result = _paginationService.GetPagedUris(pageSize, page, totalRecords);
+            var (PreviousPage, NextPage) = _paginationService.GetPagedUris(pageSize, page, totalRecords);
 
-            result.NextPage.Should().Be(expectedNextPageResult);
-            result.PreviousPage.Should().Be(expectedPreviousPageResult);
+            NextPage.Should().Be(expectedNextPageResult);
+            PreviousPage.Should().Be(expectedPreviousPageResult);
         }
     }
 }

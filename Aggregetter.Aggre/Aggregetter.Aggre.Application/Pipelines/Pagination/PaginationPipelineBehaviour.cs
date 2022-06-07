@@ -19,15 +19,15 @@ namespace Aggregetter.Aggre.Application.Pipelines.Pagination
         {
             TResponse response = await next();
 
-            var pagedUris = _paginationService.GetPagedUris(response.PageSize, response.Page, response.RecordCount);
+            var (PreviousPage, NextPage) = _paginationService.GetPagedUris(response.PageSize, response.Page, response.RecordCount);
             var recordCount = response.RecordCount;
             var pageSize = response.PageSize;
             var pageCount = recordCount % pageSize != 0
                 ? recordCount / pageSize + 1
                 : recordCount / pageSize;
 
-            response.HasNextPage = pagedUris.NextPage;
-            response.HasPreviousPage = pagedUris.PreviousPage;
+            response.HasNextPage = NextPage;
+            response.HasPreviousPage = PreviousPage;
             response.PageCount = pageCount;
 
             return response;

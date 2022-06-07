@@ -30,7 +30,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Ba
             {
                 Page = request.Page,
                 PageSize = request.PageSize,
-                PageCount = articleCount
+                RecordCount = articleCount
             };          
         }
     }
