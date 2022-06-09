@@ -19,24 +19,12 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
         }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (!_validators.Any())
-            {
-                return await next();
-            }
+            if (!_validators.Any()) return await next();            
 
             var context = new ValidationContext<TRequest>(request);
             var validationResults = (await Task.WhenAll(_validators.Select(async query => await query.ValidateAsync(context, cancellationToken)))).SelectMany(x => x.Errors);
 
-            if (validationResults.Any())
-            {
-                var validationException = new Exceptions.ValidationException(validationResults);
-                return new TResponse
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = validationException.Message,
-                    ValidationErrors = validationException.ValidationErrors
-                };
-            }
+            if (validationResults.Any()) throw new Exceptions.ValidationException(validationResults);            
 
             return await next();
         }
