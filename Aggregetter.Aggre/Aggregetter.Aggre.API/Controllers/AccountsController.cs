@@ -22,7 +22,7 @@ namespace Aggregetter.Aggre.API.Controllers
         public async Task<ActionResult<AuthenticateAccountQueryResponse>> AuthenticateAsync(AuthenticateAccountQuery authenticateAccountQuery)
         {
             var result = await _mediator.Send(authenticateAccountQuery);
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         //[FeatureGate("Registration")]
@@ -30,7 +30,7 @@ namespace Aggregetter.Aggre.API.Controllers
         public async Task<ActionResult<CreateAccountCommandResponse>> RegisterAsync(CreateAccountCommand createAccountCommand)
         {
             var result = await _mediator.Send(createAccountCommand);
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
     }
 }

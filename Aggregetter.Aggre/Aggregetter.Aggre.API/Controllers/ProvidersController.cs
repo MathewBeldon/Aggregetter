@@ -25,7 +25,7 @@ namespace Aggregetter.Aggre.API.Controllers
         {
             var result = await _mediator.Send(new GetProvidersQuery() { AbsoluteExpiration = TimeSpan.FromSeconds(30) });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
     }
 }

@@ -46,10 +46,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Commands.Cre
                 ArticleSlug = "original-title"
             };
 
-            var response = await _handler.Handle(createArticleCommand, CancellationToken.None);
+            _ = await _handler.Handle(createArticleCommand, CancellationToken.None);
             var articleExists = await _mockArticleRepository.Object.ArticleSlugExistsAsync("original-title", CancellationToken.None);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
             articleExists.Should().BeTrue();
         }       
     }

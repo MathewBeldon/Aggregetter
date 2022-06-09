@@ -34,25 +34,35 @@ namespace Aggregetter.Aggre.API.Middleware
         {
             context.Response.ContentType = "application/json";
 
-            var result = exception switch
+            string result;
+            HttpStatusCode httpStatusCode;
+            switch (exception)
             {
-                ValidationException validationException => JsonSerializer.Serialize(new BaseResponse
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = validationException.Message,
-                    ValidationErrors = validationException.ValidationErrors
-                }),
-                RecordNotFoundException recordNotFoundException => JsonSerializer.Serialize(new BaseResponse
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Message = recordNotFoundException.Message
-                }),
-                _ => JsonSerializer.Serialize(new BaseResponse
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = exception.Message
-                }),
-            };
+                case ValidationException validationException:
+                    httpStatusCode = HttpStatusCode.BadRequest;
+                    result = JsonSerializer.Serialize(new BaseResponse
+                    {
+                        Message = validationException.Message,
+                        ValidationErrors = validationException.ValidationErrors
+                    });
+                    break;
+                case RecordNotFoundException recordNotFoundException:
+                    httpStatusCode = HttpStatusCode.NotFound;
+                    result = JsonSerializer.Serialize(new BaseResponse
+                    {
+                        Message = recordNotFoundException.Message
+                    });
+                    break;
+                default:
+                    httpStatusCode = HttpStatusCode.InternalServerError;
+                    result = JsonSerializer.Serialize(new BaseResponse
+                    {
+                        Message = ""
+                    });
+                    break;
+            }
+
+            context.Response.StatusCode = (int)httpStatusCode;
             return context.Response.WriteAsync(result);
         }
     }

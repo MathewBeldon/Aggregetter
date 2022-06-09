@@ -1,5 +1,4 @@
 ﻿using Aggregetter.Aggre.API.Attributes;
-using Aggregetter.Aggre.API.Controllers.Helpers;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
@@ -37,7 +36,7 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         [HttpGet("category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
@@ -50,7 +49,7 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         [HttpGet("provider/{providerId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,7 +62,7 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         [HttpGet("provider/{providerId:int}/category/{categoryId:int}")]
@@ -77,7 +76,7 @@ namespace Aggregetter.Aggre.API.Controllers
                 PageSize = paginationRequest.PageSize
             });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         [HttpGet("{articleSlug}")]
@@ -88,7 +87,7 @@ namespace Aggregetter.Aggre.API.Controllers
                 ArticleSlug = articleSlug
             });
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -97,7 +96,7 @@ namespace Aggregetter.Aggre.API.Controllers
         {
             var result = await _mediator.Send(createArticleCommand);
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Created("",result);
         }
 
         [HttpPost("translate")]
@@ -106,7 +105,7 @@ namespace Aggregetter.Aggre.API.Controllers
         {
             var result = await _mediator.Send(translateArticleCommand);
 
-            return StatusCode(result.StatusCodeValue, result);
+            return Ok(result);
         }
     }
 }

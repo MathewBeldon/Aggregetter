@@ -55,7 +55,6 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
             result.Data.OriginalTitle.Should().NotBeNull();
             result.Data.TranslatedBody.Should().NotBeNull();
             result.Data.TranslatedTitle.Should().NotBeNull();
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }
