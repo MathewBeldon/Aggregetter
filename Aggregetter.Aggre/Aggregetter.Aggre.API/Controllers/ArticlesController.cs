@@ -28,7 +28,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> PagedAsync([FromQuery] PaginationRequest paginationRequest)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
             var result = await _mediator.Send(new GetArticlesQuery
             {
