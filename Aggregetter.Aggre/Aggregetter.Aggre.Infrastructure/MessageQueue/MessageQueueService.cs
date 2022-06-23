@@ -3,6 +3,7 @@ using Aggregetter.Aggre.Domain.Common;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Text.Json;
 
 namespace Aggregetter.Aggre.Infrastructure.MessageQueue
 {
@@ -15,7 +16,8 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueue
             {
                 HostName = "localhost",
                 UserName = "user",
-                Password = "password"
+                Password = "password",
+                DispatchConsumersAsync = true
             };
         }
 
@@ -30,22 +32,13 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueue
                                              autoDelete: false,
                                              arguments: null);
 
-                string message = "Hello World!";
-                var body = Encoding.UTF8.GetBytes(message);
+                var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(entity));
                 var properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
-                for (int i = 0; i < 100; i++)
-                {
-                    channel.BasicPublish(exchange: "",
-                                     routingKey: "test_queue",
-                                     basicProperties: properties,
-                                     body: body);
-                }
-
-                Console.WriteLine(" [x] Sent {0}", message);
-
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
+                channel.BasicPublish(exchange: "",
+                    routingKey: "test_queue",
+                    basicProperties: properties,
+                    body: body);
             }
 
             return Task.FromResult(true);
@@ -63,22 +56,18 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueue
                                      autoDelete: false,
                                      arguments: null);
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine(" [x] Received {0}", message);
-                };
-                channel.BasicConsume(queue: "test_queue",
-                                     autoAck: true,
-                                     consumer: consumer);
+                var res = channel.BasicGet(queue: "test_queue",
+                                     autoAck: true);
+
+                var body = res.Body.ToArray();
+                var entity = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(body));
 
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
+                
+                return Task.FromResult(entity);
             }
 
-            return Task.FromResult(new T());
         }
     }
 }
