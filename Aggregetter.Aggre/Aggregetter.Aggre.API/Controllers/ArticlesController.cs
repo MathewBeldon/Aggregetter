@@ -100,7 +100,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpPost("translate")]
-        [Authorise(Role.Basic, Role.Editor)]
+        //[Authorise(Role.Basic, Role.Editor)]
         public async Task<IActionResult> TranslateAsync([FromBody] TranslateArticleCommand translateArticleCommand)
         {
             var result = await _mediator.Send(translateArticleCommand);

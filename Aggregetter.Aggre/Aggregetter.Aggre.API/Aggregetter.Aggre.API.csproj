@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Aggregetter.Aggre.Application\Aggregetter.Aggre.Application.csproj" />
     <ProjectReference Include="..\Aggregetter.Aggre.Identity\Aggregetter.Aggre.Identity.csproj" />
+    <ProjectReference Include="..\Aggregetter.Aggre.Infrastructure\Aggregetter.Aggre.Infrastructure.csproj" />
     <ProjectReference Include="..\Aggregetter.Aggre.Persistance\Aggregetter.Aggre.Persistence.csproj" />
   </ItemGroup>
 

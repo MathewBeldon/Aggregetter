@@ -4,6 +4,7 @@ using Aggregetter.Aggre.API.Services.Registration;
 using Aggregetter.Aggre.Application;
 using Aggregetter.Aggre.Application.Contracts;
 using Aggregetter.Aggre.Identity;
+using Aggregetter.Aggre.Infrastructure;
 using Aggregetter.Aggre.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace Aggregetter.Aggre.API
             services.AddApplicationService(Configuration);
             services.AddPersistanceServices(Configuration);
             services.AddIdentityServices(Configuration);
+            services.AddInfrastructureServices();
             services.AddControllers();
             services.AddScoped<ILoggedInUserService, LoggedInUserService>();
             services.AddCachingService(Configuration, Environment);

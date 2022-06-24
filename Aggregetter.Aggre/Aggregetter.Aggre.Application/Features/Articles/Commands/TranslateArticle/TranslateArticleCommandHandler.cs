@@ -1,5 +1,6 @@
-﻿using Aggregetter.Aggre.Application.Contracts;
+﻿using Aggregetter.Aggre.Application.Contracts.Infrastructure;
 using Aggregetter.Aggre.Application.Contracts.Persistence;
+using Aggregetter.Aggre.Domain.Entities;
 using MediatR;
 using System;
 using System.Threading;
@@ -10,24 +11,29 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArti
     public sealed class TranslateArticleCommandHandler : IRequestHandler<TranslateArticleCommand, TranslateArticleCommandResponse>
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly ILoggedInUserService _loggedInUserService;
+        private readonly IMessageQueueService<Article> _messageQueueService;
 
         public TranslateArticleCommandHandler(IArticleRepository articleRepository,
-            ILoggedInUserService loggedInUserService)
+            IMessageQueueService<Article> messageQueueService)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
-            _loggedInUserService = loggedInUserService ?? throw new ArgumentNullException(nameof(loggedInUserService));
+            _messageQueueService = messageQueueService ?? throw new ArgumentNullException(nameof(messageQueueService));
         }
 
         public async Task<TranslateArticleCommandResponse> Handle(TranslateArticleCommand request, CancellationToken cancellationToken)
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
-            article.TranslatedBy = _loggedInUserService.UserId;
-            article.TranslatedDateUtc = DateTime.UtcNow;
+            
+            var messageSentSuccess = await _messageQueueService.Publish(article, "translate_article", cancellationToken);
+            if (messageSentSuccess)
+            {
+                return new TranslateArticleCommandResponse()
+                {
+                    Message = "Sent to translation queue"
+                };
+            }
 
-            _ =  Task.Run(() => _articleRepository.UpdateAsync(article, cancellationToken));
-
-            return new TranslateArticleCommandResponse();
+            throw new ApplicationException();
         }
     }
 }
