@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Contracts.Infrastructure
 {
-    public interface IMessageQueueService<T> where T : BaseEntity
+    public interface ITranslationQueueService<T> where T : BaseEntity
     {
-        Task<bool> Publish(T entity, string queue, CancellationToken cancellationToken);
-        Task<T> Consume(string queue, CancellationToken cancellationToken);
+        Task<bool> Publish(T entity, CancellationToken cancellationToken);
+        Task<T> Consume(CancellationToken cancellationToken);
     }
 }

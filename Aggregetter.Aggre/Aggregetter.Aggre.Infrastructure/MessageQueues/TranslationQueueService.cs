@@ -1,16 +1,16 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Infrastructure;
 using Aggregetter.Aggre.Domain.Common;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace Aggregetter.Aggre.Infrastructure.MessageQueue
+namespace Aggregetter.Aggre.Infrastructure.MessageQueues
 {
-    public class MessageQueueService<T> : IMessageQueueService<T> where T : BaseEntity, new()
+    public class TranslationQueueService<T> : ITranslationQueueService<T> where T : BaseEntity, new()
     {
         private ConnectionFactory _connectionFactory;
-        public MessageQueueService()
+        private string _queue;
+        public TranslationQueueService()
         {
             _connectionFactory = new ConnectionFactory()
             {
@@ -19,26 +19,33 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueue
                 Password = "password",
                 DispatchConsumersAsync = true
             };
+
+            _queue = typeof(T).Name;
+
+            using (var connection = _connectionFactory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.QueueDeclare(queue: _queue,
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null);
+            }
         }
 
-        public Task<bool> Publish(T entity, string queue, CancellationToken cancellationToken)
+        public Task<bool> Publish(T entity, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 using (var connection = _connectionFactory.CreateConnection())
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: queue,
-                                                 durable: true,
-                                                 exclusive: false,
-                                                 autoDelete: false,
-                                                 arguments: null);
-
                     var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(entity));
                     var properties = channel.CreateBasicProperties();
                     properties.Persistent = true;
+
                     channel.BasicPublish(exchange: "",
-                        routingKey: queue,
+                        routingKey: _queue,
                         basicProperties: properties,
                         body: body);
 
@@ -48,20 +55,14 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueue
         }
 
 
-        public Task<T> Consume(string queue, CancellationToken cancellationToken)
+        public Task<T> Consume(CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 using (var connection = _connectionFactory.CreateConnection())
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: queue,
-                                         durable: true,
-                                         exclusive: false,
-                                         autoDelete: false,
-                                         arguments: null);
-
-                    var res = channel.BasicGet(queue: queue,
+                    var res = channel.BasicGet(queue: _queue,
                                          autoAck: true);
 
                     var body = res.Body.ToArray();

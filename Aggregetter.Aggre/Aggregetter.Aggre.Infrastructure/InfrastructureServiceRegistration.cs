@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Infrastructure;
-using Aggregetter.Aggre.Infrastructure.MessageQueue;
+using Aggregetter.Aggre.Infrastructure.MessageQueues;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aggregetter.Aggre.Infrastructure
@@ -8,7 +8,7 @@ namespace Aggregetter.Aggre.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddSingleton(typeof(IMessageQueueService<>), typeof(MessageQueueService<>));
+            services.AddSingleton(typeof(ITranslationQueueService<>), typeof(TranslationQueueService<>));
 
             return services;
         }
