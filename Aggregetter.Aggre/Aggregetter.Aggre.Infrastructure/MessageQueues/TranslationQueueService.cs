@@ -10,6 +10,7 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueues
     {
         private ConnectionFactory _connectionFactory;
         private string _queue;
+        private IModel _model;
         public TranslationQueueService()
         {
             _connectionFactory = new ConnectionFactory()
@@ -19,59 +20,41 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueues
                 Password = "password",
                 DispatchConsumersAsync = true
             };
-
             _queue = typeof(T).Name;
+            _model = _connectionFactory.CreateConnection().CreateModel();
 
-            using (var connection = _connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: _queue,
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
-            }
+            _model.QueueDeclare(queue: _queue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
         }
 
-        public Task<bool> Publish(T entity, CancellationToken cancellationToken)
+        public bool Publish(T entity)
         {
-            return Task.Run(() =>
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                using (var channel = connection.CreateModel())
-                {
-                    var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(entity));
-                    var properties = channel.CreateBasicProperties();
-                    properties.Persistent = true;
+            var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(entity));
+            var properties = _model.CreateBasicProperties();
+            properties.Persistent = true;
 
-                    channel.BasicPublish(exchange: "",
-                        routingKey: _queue,
-                        basicProperties: properties,
-                        body: body);
+            _model.BasicPublish(exchange: "",
+                routingKey: _queue,
+                basicProperties: properties,
+                body: body);
 
-                    return true;
-                }
-            }, cancellationToken);
+            return true;            
         }
 
 
-        public Task<T> Consume(CancellationToken cancellationToken)
+        public T Consume()
         {
-            return Task.Run(() =>
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                using (var channel = connection.CreateModel())
-                {
-                    var res = channel.BasicGet(queue: _queue,
-                                         autoAck: true);
+            var res = _model.BasicGet(queue: _queue,
+                                 autoAck: true);
 
-                    var body = res.Body.ToArray();
-                    var entity = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(body)) ??
-                        throw new ArgumentNullException();
+            var body = res.Body.ToArray();
+            var entity = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(body)) ??
+                throw new ArgumentNullException();
 
-                    return entity;
-                }
-            }, cancellationToken);
+            return entity;       
         }
     }
 }

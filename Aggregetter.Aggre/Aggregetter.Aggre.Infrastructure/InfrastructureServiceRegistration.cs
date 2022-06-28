@@ -8,7 +8,7 @@ namespace Aggregetter.Aggre.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddScoped(typeof(ITranslationQueueService<>), typeof(TranslationQueueService<>));
+            services.AddSingleton(typeof(ITranslationQueueService<>), typeof(TranslationQueueService<>));
 
             return services;
         }

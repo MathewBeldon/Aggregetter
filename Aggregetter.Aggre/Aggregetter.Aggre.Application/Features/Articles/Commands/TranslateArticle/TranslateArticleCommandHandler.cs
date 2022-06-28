@@ -24,7 +24,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArti
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             
-            var isSent = await _translationQueueService.Publish(article, cancellationToken);
+            var isSent = _translationQueueService.Publish(article);
             if (isSent)
             {
                 return new TranslateArticleCommandResponse()
