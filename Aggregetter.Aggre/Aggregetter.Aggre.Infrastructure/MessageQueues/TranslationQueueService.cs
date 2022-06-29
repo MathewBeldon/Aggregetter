@@ -15,7 +15,7 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueues
         {
             _connectionFactory = new ConnectionFactory()
             {
-                HostName = "localhost",
+                HostName = "rabbitmq",
                 UserName = "user",
                 Password = "password",
                 DispatchConsumersAsync = true
