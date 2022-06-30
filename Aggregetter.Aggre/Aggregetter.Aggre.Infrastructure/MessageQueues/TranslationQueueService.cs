@@ -1,5 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Infrastructure;
 using Aggregetter.Aggre.Domain.Common;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -11,11 +12,11 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueues
         private ConnectionFactory _connectionFactory;
         private string _queue;
         private IModel _model;
-        public TranslationQueueService()
+        public TranslationQueueService(IConfiguration configuration)
         {
             _connectionFactory = new ConnectionFactory()
             {
-                HostName = "rabbitmq",
+                HostName = configuration.GetConnectionString("RabbitMQConnectionString"),
                 UserName = "user",
                 Password = "password",
                 DispatchConsumersAsync = true

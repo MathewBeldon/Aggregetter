@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Aggregetter.Aggre.Application\Aggregetter.Aggre.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Settings\" />
+  </ItemGroup>
+
 </Project>

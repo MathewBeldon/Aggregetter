@@ -10,6 +10,7 @@ services:
         - "ConnectionStrings__AggreConnectionString=Server=aggregetter.db;Database=Aggregetter.Data;Uid=root;Pwd=example;"
         - "ConnectionStrings__AggreIdentityConnectionString=Server=aggregetter.db;Database=Aggregetter.Identity;Uid=root;Pwd=example;"
         - "ConnectionStrings__RedisConnectionString=cache"
+        - "ConnectionStrings__RabbitMQConnectionString=rabbitmq"
     depends_on: 
         - aggregetter.db
         - cache
