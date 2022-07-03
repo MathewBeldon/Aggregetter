@@ -11,6 +11,7 @@ using Aggregetter.Aggre.Identity.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -21,15 +22,20 @@ namespace Aggregetter.Aggre.API.Controllers
     public sealed class ArticlesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<ArticlesController> _logger;
 
-        public ArticlesController(IMediator mediator)
+        public ArticlesController(IMediator mediator, ILogger<ArticlesController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
+            _logger.LogInformation("This is information");
+            _logger.LogError("This is an error");
+
             var result = await _mediator.Send(new GetArticlesQuery
             {
                 Page = paginationRequest.Page,

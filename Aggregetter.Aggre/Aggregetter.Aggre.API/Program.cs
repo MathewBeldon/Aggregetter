@@ -7,8 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API
@@ -22,13 +25,18 @@ namespace Aggregetter.Aggre.API
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                 var config = services.GetRequiredService<IConfiguration>();
 
                 Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(config)
-                .Enrich.FromLogContext()
-                .CreateLogger();
+                    .Enrich.FromLogContext()
+                    .Enrich.WithExceptionDetails()
+                    .WriteTo.Debug()
+                    .WriteTo.Console()
+                    .WriteTo.Elasticsearch(ConfigureElasticSink(config, environment))
+                    .Enrich.WithProperty("Environment", environment)
+                    .ReadFrom.Configuration(config)
+                    .CreateLogger();
 
                 try
                 {
@@ -64,5 +72,14 @@ namespace Aggregetter.Aggre.API
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static ElasticsearchSinkOptions ConfigureElasticSink(IConfiguration configuration, string environment)
+        {
+            return new ElasticsearchSinkOptions(new Uri(configuration.GetConnectionString("ElasticLogsConnectionString")))
+            {
+                AutoRegisterTemplate = true,
+                IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+            };
+        }
     }
 }
