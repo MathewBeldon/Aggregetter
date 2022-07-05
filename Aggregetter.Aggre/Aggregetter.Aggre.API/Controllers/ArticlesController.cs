@@ -1,5 +1,4 @@
-﻿using Aggregetter.Aggre.API.Attributes;
-using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
+﻿using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
@@ -7,11 +6,11 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCate
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProviderAndCategory;
 using Aggregetter.Aggre.Application.Models.Pagination;
-using Aggregetter.Aggre.Identity.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.API.Controllers
@@ -33,16 +32,13 @@ namespace Aggregetter.Aggre.API.Controllers
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
         {
-            _logger.LogInformation("This is information");
-            _logger.LogError("This is an error");
-
             var result = await _mediator.Send(new GetArticlesQuery
             {
                 Page = paginationRequest.Page,
                 PageSize = paginationRequest.PageSize
             });
 
-            return Ok(result);
+            return Ok(result);            
         }
 
         [HttpGet("category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]

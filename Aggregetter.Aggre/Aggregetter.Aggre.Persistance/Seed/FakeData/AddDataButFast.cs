@@ -19,7 +19,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
             var currentTime = DateTime.UtcNow;
 
             Random rnd = new();
-            const int MinSeed = 500;
+            const int MinSeed = 10;
 
             var languageOffset = await context.Languages.CountAsync();
             for (int i = languageOffset; i < MinSeed; i++)
@@ -78,11 +78,11 @@ namespace Aggregetter.Aggre.Persistence.Seed
             await context.Database.ExecuteSqlRawAsync("SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;");
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
-            int batchSize = 1000;
+            int batchSize = 100;
             StringBuilder sb = new(query);
             Random random = new();
 
-            for (int i = articleOffset; i < 20000; i++)
+            for (int i = articleOffset; i < 1000; i++)
             { 
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
                 var text = new string(Enumerable.Repeat(chars, (batchSize + 1) * 50 + 1000)
@@ -106,9 +106,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
                 else 
                 {
                     sb.Append(";");
-                    logger.Information($"writing {batchSize} records");
                     await context.Database.ExecuteSqlRawAsync(sb.ToString());
-                    logger.Information($"written {batchSize} records, total {i + 1}");
                     sb = new StringBuilder(query);
                     batch = 0;
                 }

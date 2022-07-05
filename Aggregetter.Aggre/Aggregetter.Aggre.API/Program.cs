@@ -29,13 +29,12 @@ namespace Aggregetter.Aggre.API
                 var config = services.GetRequiredService<IConfiguration>();
 
                 Log.Logger = new LoggerConfiguration()
-                    .Enrich.FromLogContext()
-                    .Enrich.WithExceptionDetails()
-                    .WriteTo.Debug()
                     .WriteTo.Console()
-                    .WriteTo.Elasticsearch(ConfigureElasticSink(config, environment))
-                    .Enrich.WithProperty("Environment", environment)
-                    .ReadFrom.Configuration(config)
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(config.GetConnectionString("ElasticLogConnectionString")))
+                    {
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7
+                    })
                     .CreateLogger();
 
                 try
@@ -72,14 +71,5 @@ namespace Aggregetter.Aggre.API
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        private static ElasticsearchSinkOptions ConfigureElasticSink(IConfiguration configuration, string environment)
-        {
-            return new ElasticsearchSinkOptions(new Uri(configuration.GetConnectionString("ElasticLogsConnectionString")))
-            {
-                AutoRegisterTemplate = true,
-                IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
-            };
-        }
     }
 }

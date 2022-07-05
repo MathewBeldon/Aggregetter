@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_AGGRE_JWT_KEY": "DevelopmentKeyDontUse"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://localhost:4001;http://localhost:4000",
       "dotnetRunMessages": "true"
     },
     "Aggregetter Production": {
@@ -27,7 +27,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production",
         "ASPNETCORE_AGGRE_JWT_KEY": "DevelopmentKeyDontUse"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://localhost:4001;http://localhost:4000",
       "dotnetRunMessages": "true"
     },
     "Docker": {
