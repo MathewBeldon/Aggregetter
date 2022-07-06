@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.API.Controllers
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetCategoriesQueryResponse>> AllAsync()
-        {
+        {            
             var result = await _mediator.Send(new GetCategoriesQuery() {  AbsoluteExpiration = TimeSpan.FromSeconds(30) });
 
             return Ok(result);

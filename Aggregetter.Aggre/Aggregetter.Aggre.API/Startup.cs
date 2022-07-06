@@ -50,7 +50,7 @@ namespace Aggregetter.Aggre.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); 
                 app.UseSwagger();
@@ -60,8 +60,6 @@ namespace Aggregetter.Aggre.API
                     o.SwaggerEndpoint("/swagger/v1/swagger.json", "Aggregetter API");
                 });
             }
-
-            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
             app.UseRouting();

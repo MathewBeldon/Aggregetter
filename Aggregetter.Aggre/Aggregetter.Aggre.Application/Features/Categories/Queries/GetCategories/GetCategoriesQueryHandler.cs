@@ -24,7 +24,6 @@ namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategorie
         public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categoryEntities = await _categoryRepository.GetAllAsync(cancellationToken);
-
             var categoriesDtos = _mapper.Map<List<GetCategoriesDto>>(categoryEntities);
 
             return new GetCategoriesQueryResponse(categoriesDtos);

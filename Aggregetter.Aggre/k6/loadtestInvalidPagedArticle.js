@@ -9,7 +9,7 @@ export const options = {
 };
 
 export default function () {
-    const res = http.get('https://localhost:5001/api/v1/articles?PageSize=21&Page=' + randomIntBetween(1, 10));
+    const res = http.get('http://localhost:5000/api/v1/articles?PageSize=21&Page=' + randomIntBetween(1, 10));
     check(res, {
         'is status 400': (r) => r.status === 400,
     });

@@ -9,7 +9,7 @@ export const options = {
 
 export default function () {
     let data = { articleSlug: 'lorem-ipsum' + randomIntBetween(1, 200) };
-    let url = 'https://localhost:5001/api/v1/articles/translate';
+    let url = 'http://localhost:5000/api/v1/articles/translate';
     let res = http.post(url, JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json', 'accept': '*/*' },
       });

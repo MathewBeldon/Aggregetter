@@ -8,7 +8,7 @@ export const options = {
 };
 
 export default function () {
-    const res = http.get('https://localhost:5001/api/v1/articles/lorem-ipsum' + randomIntBetween(1, 200));
+    const res = http.get('http://localhost:5000/api/v1/articles/lorem-ipsum' + randomIntBetween(1, 200));
     check(res, {
         'is status 200': (r) => r.status === 200,
     });

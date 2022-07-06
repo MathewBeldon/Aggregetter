@@ -29,6 +29,7 @@ namespace Aggregetter.Aggre.API
                 var config = services.GetRequiredService<IConfiguration>();
 
                 Log.Logger = new LoggerConfiguration()
+                    .ReadFrom.Configuration(config)
                     .WriteTo.Console()
                     .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(config.GetConnectionString("ElasticLogConnectionString")))
                     {
