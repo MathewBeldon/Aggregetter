@@ -31,7 +31,7 @@ namespace Aggregetter.Aggre.API
             services.AddApplicationService(Configuration);
             services.AddPersistanceServices(Configuration);
             services.AddIdentityServices(Configuration);
-            services.AddInfrastructureServices();
+            services.AddInfrastructureServices(Configuration);
             services.AddControllers();
             services.AddScoped<ILoggedInUserService, LoggedInUserService>();
             services.AddCachingService(Configuration, Environment);
