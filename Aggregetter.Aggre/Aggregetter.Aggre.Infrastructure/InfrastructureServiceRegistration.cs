@@ -10,7 +10,7 @@ namespace Aggregetter.Aggre.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(typeof(ITranslationQueueService<>), typeof(TranslationQueueService<>));
+            services.AddSingleton(typeof(IMessagePublishService<>), typeof(MessagePublishService<>));
             services.AddMassTransit(mt =>
             {
                 mt.UsingRabbitMq((context, cfg) =>

@@ -11,20 +11,20 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArti
     public sealed class TranslateArticleCommandHandler : IRequestHandler<TranslateArticleCommand, TranslateArticleCommandResponse>
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly ITranslationQueueService<Article> _translationQueueService;
+        private readonly IMessagePublishService<Article> _messagePublishService;
 
         public TranslateArticleCommandHandler(IArticleRepository articleRepository,
-            ITranslationQueueService<Article> messageQueueService)
+            IMessagePublishService<Article> messageQueueService)
         {
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
-            _translationQueueService = messageQueueService ?? throw new ArgumentNullException(nameof(messageQueueService));
+            _messagePublishService = messageQueueService ?? throw new ArgumentNullException(nameof(messageQueueService));
         }
 
         public async Task<TranslateArticleCommandResponse> Handle(TranslateArticleCommand request, CancellationToken cancellationToken)
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             
-            var isSent = await _translationQueueService.Publish(article);
+            var isSent = await _messagePublishService.Publish(article, cancellationToken);
             if (isSent)
             {
                 return new TranslateArticleCommandResponse()
