@@ -30,7 +30,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet, ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] PaginationRequest paginationRequest)
+        public async Task<ActionResult<GetArticlesQueryResponse>> PagedAsync([FromQuery] IPaginationRequest paginationRequest)
         {
             var result = await _mediator.Send(new GetArticlesQuery
             {
@@ -42,7 +42,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("category/{categoryId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> PagedByCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId)
+        public async Task<IActionResult> PagedByCategoryAsync([FromQuery] IPaginationRequest paginationRequest, int categoryId)
         {
             var result = await _mediator.Send(new GetArticlesByCategoryQuery
             {
@@ -55,7 +55,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("provider/{providerId:int}"), ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> PagedByProviderAsync([FromQuery] PaginationRequest paginationRequest, int providerId)
+        public async Task<IActionResult> PagedByProviderAsync([FromQuery] IPaginationRequest paginationRequest, int providerId)
         {
             var result = await _mediator.Send(new GetArticlesByProviderQuery
             {
@@ -68,7 +68,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("provider/{providerId:int}/category/{categoryId:int}")]
-        public async Task<IActionResult> PagedByProviderAndCategoryAsync([FromQuery] PaginationRequest paginationRequest, int categoryId, int providerId)
+        public async Task<IActionResult> PagedByProviderAndCategoryAsync([FromQuery] IPaginationRequest paginationRequest, int categoryId, int providerId)
         {           
             var result = await _mediator.Send(new GetArticlesByProviderAndCategoryQuery
             {

@@ -1,8 +1,6 @@
-﻿using Aggregetter.Aggre.Application.Models.Base;
-using Aggregetter.Aggre.Application.Pipelines.Pagination;
-using System;
+﻿using Aggregetter.Aggre.Application.Pipelines.Pagination;
 
-namespace Aggregetter.Aggre.Application.Models.Pagination
+namespace Aggregetter.Aggre.Application.Models.Base
 {
     public class PaginationResponse<T> : ContentResponse<T>, IPaginationResponse
     {

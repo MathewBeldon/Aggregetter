@@ -20,7 +20,7 @@ namespace Aggregetter.Aggre.API.Controllers
         }
 
         [HttpGet("{searchString}")]
-        public Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] PaginationRequest paginationRequest, string searchString)
+        public Task<ActionResult<GetArticleSearchResultsQueryResponse>> SearchAsync([FromQuery] IPaginationRequest paginationRequest, string searchString)
         {
             throw new NotImplementedException();
         }

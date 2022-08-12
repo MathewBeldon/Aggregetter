@@ -1,4 +1,4 @@
-﻿using Aggregetter.Aggre.Application.Models.Pagination;
+﻿using Aggregetter.Aggre.Application.Models.Base;
 using System.Collections.Generic;
 
 namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearchResults

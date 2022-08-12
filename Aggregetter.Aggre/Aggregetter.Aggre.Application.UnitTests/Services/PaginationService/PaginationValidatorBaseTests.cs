@@ -1,4 +1,5 @@
-﻿using Aggregetter.Aggre.Application.Models.Pagination;
+﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
+using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Services.PaginationService;
 using Aggregetter.Aggre.Application.Settings;
 using FluentAssertions;
@@ -10,7 +11,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
 {
     public sealed class PaginationValidatorBaseTests
     {
-        private readonly PaginationValidatorBase<PaginationRequest> _validator;
+        private readonly PaginationValidatorBase<IPaginationRequest> _validator;
         private readonly IOptions<PagedSettings> _options;
 
         private const int PAGE_SIZE = 20;
@@ -22,7 +23,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
                 PageSize = PAGE_SIZE,
             });
 
-            _validator = new PaginationValidatorBase<PaginationRequest>(_options);
+            _validator = new PaginationValidatorBase<IPaginationRequest>(_options);
         }
 
         [Theory]
@@ -30,9 +31,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
         [InlineData(1, 1)]
         [InlineData(999, 20)]
         [InlineData(999, 1)]
-        public async Task GetArticlePagedListQueryValidator_ValidPageRequest_IsValid(int page, int pageSize)
+        public async Task PaginationValidator_ValidPageRequest_IsValid(int page, int pageSize)
         {
-            var paginationRequest = new PaginationRequest
+            var paginationRequest = new GetArticlesQuery
             {
                 Page = page,
                 PageSize = pageSize,
@@ -47,9 +48,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
         [InlineData(21)]
         [InlineData(-1)]
         [InlineData(0)]
-        public async Task GetArticlePagedListQueryValidator_InvalidPageSize_IsNotValid(int pageSize)
+        public async Task PaginationValidator_InvalidPageSize_IsNotValid(int pageSize)
         {
-            var paginationRequest = new PaginationRequest
+            var paginationRequest = new GetArticlesQuery
             {
                 Page = 1,
                 PageSize = pageSize,
@@ -64,9 +65,9 @@ namespace Aggregetter.Aggre.Application.UnitTests.Services.PaginationService
         [Theory]
         [InlineData(-1)]
         [InlineData(0)]
-        public async Task GetArticlePagedListQueryValidator_InvalidPage_IsNotValid(int page)
+        public async Task PaginationValidator_InvalidPage_IsNotValid(int page)
         {
-            var paginationRequest = new PaginationRequest
+            var paginationRequest = new GetArticlesQuery
             {
                 Page = page,
                 PageSize = PAGE_SIZE,
