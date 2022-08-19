@@ -6,9 +6,9 @@ namespace Aggregetter.Aggre.Infrastructure.MessageQueues
 {
     public class MessagePublishService<T> : IMessagePublishService<T> where T : BaseEntity, new()
     {
-        readonly IPublishEndpoint _publishEndpoint;
+        readonly IBus _publishEndpoint;
 
-        public MessagePublishService(IPublishEndpoint publishEndpoint)
+        public MessagePublishService(IBus publishEndpoint)
         {
             _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
