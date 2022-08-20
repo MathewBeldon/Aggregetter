@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Internal;
 using System;
 using System.Data;
 using System.Threading;
@@ -12,10 +13,12 @@ namespace Aggregetter.Aggre.Persistence
     public sealed class AggreDbContext : DbContext
     {
         private IDbContextTransaction _currentTransaction;
+        private readonly ISystemClock _systemClock;
 
-        public AggreDbContext(DbContextOptions<AggreDbContext> options)
+        public AggreDbContext(DbContextOptions<AggreDbContext> options, ISystemClock systemClock)
            : base(options)
         {
+            _systemClock = systemClock;
         }
 
         public DbSet<Article> Articles { get; set; }
@@ -35,10 +38,10 @@ namespace Aggregetter.Aggre.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedDateUtc = DateTime.UtcNow;
+                        entry.Entity.CreatedDateUtc = _systemClock.UtcNow;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.ModifiedDateUtc = DateTime.UtcNow;
+                        entry.Entity.ModifiedDateUtc = _systemClock.UtcNow;
                         break;
                 }
             }

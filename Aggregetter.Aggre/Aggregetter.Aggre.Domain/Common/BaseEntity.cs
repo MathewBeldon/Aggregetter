@@ -9,8 +9,8 @@ namespace Aggregetter.Aggre.Domain.Common
     {
         [Key]
         public int Id { get; set; }
-        public DateTime CreatedDateUtc { get; set; }
-        public DateTime ModifiedDateUtc { get; set; }
+        public DateTimeOffset CreatedDateUtc { get; set; }
+        public DateTimeOffset ModifiedDateUtc { get; set; }
 
         //[Timestamp]
         //public byte[] ConcurrencyToken { get; set; }

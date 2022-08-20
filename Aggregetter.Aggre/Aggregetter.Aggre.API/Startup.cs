@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
+using Microsoft.Extensions.Internal;
 
 namespace Aggregetter.Aggre.API
 {
@@ -37,6 +36,7 @@ namespace Aggregetter.Aggre.API
             services.AddCachingService(Configuration, Environment);
             services.AddFeatureFlagService(Configuration);
             services.AddApiVersioningService();
+            services.AddSingleton<ISystemClock, SystemClock>();
 
             services.AddRouting(options => {
                 options.LowercaseUrls = true;

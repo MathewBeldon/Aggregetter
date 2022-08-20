@@ -16,7 +16,7 @@ namespace Aggregetter.Aggre.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Aggregetter.Aggre.Domain.Entities.Article", b =>
@@ -26,41 +26,48 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ArticleSlug")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDateUtc")
+                    b.Property<DateTimeOffset>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Endpoint")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("ModifiedDateUtc")
+                    b.Property<DateTimeOffset>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("OriginalBody")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OriginalTitle")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
                     b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
                     b.Property<string>("TranslatedBody")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("TranslatedBy")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("TranslatedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TranslatedTitle")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");
@@ -86,13 +93,14 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDateUtc")
+                    b.Property<DateTimeOffset>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("ModifiedDateUtc")
+                    b.Property<DateTimeOffset>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");
@@ -108,13 +116,14 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDateUtc")
+                    b.Property<DateTimeOffset>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("ModifiedDateUtc")
+                    b.Property<DateTimeOffset>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");
@@ -131,18 +140,20 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BaseAddress")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
-                    b.Property<DateTime>("CreatedDateUtc")
+                    b.Property<DateTimeOffset>("CreatedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedDateUtc")
+                    b.Property<DateTimeOffset>("ModifiedDateUtc")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("tinytext");
 
                     b.HasKey("Id");

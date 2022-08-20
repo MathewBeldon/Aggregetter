@@ -19,10 +19,10 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "tinytext", nullable: true)
+                    Name = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ModifiedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,10 +36,10 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "tinytext", nullable: true)
+                    Name = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ModifiedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,12 +54,12 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     LanguageId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "tinytext", nullable: true)
+                    Name = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    BaseAddress = table.Column<string>(type: "tinytext", nullable: true)
+                    BaseAddress = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ModifiedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,23 +81,23 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProviderId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    TranslatedTitle = table.Column<string>(type: "tinytext", nullable: true)
+                    TranslatedTitle = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    OriginalTitle = table.Column<string>(type: "tinytext", nullable: true)
+                    OriginalTitle = table.Column<string>(type: "tinytext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TranslatedBody = table.Column<string>(type: "text", nullable: true)
+                    TranslatedBody = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    OriginalBody = table.Column<string>(type: "text", nullable: true)
+                    OriginalBody = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TranslatedBy = table.Column<string>(type: "longtext", nullable: true)
+                    TranslatedBy = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TranslatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Endpoint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                    Endpoint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ArticleSlug = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                    ArticleSlug = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ModifiedDateUtc = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ModifiedDateUtc = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,10 +146,6 @@ namespace Aggregetter.Aggre.Persistence.Migrations
                 name: "IX_Articles_ProviderId_CategoryId",
                 table: "Articles",
                 columns: new[] { "ProviderId", "CategoryId" });
-
-            migrationBuilder.Sql(
-                sql: "CREATE FULLTEXT INDEX IX_Articles_Title_Body ON Articles(TranslatedTitle, OriginalTitle, TranslatedBody, OriginalBody);",
-                suppressTransaction: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id",

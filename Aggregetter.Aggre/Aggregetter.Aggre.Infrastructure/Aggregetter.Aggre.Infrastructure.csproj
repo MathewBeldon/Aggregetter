@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aggregetter.Aggre.Application\Aggregetter.Aggre.Application.csproj" />
+    <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="Settings\**" />
+    <None Remove="Settings\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Settings\" />
+    <ProjectReference Include="..\Aggregetter.Aggre.Application\Aggregetter.Aggre.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
