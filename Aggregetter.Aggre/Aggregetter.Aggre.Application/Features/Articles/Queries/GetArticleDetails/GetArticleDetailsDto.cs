@@ -10,8 +10,8 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDeta
         string OriginalBody,
         string Endpoint,
         string ArticleSlug,
-        DateTime CreatedDateUtc,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] DateTime ModifiedDateUtc,
+        DateTimeOffset CreatedDateUtc,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] DateTimeOffset ModifiedDateUtc,
         GetArticleDetailsProviderDto Provider,
         GetArticleDetailsCategoryDto Category
     );
