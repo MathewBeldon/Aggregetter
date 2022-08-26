@@ -10,6 +10,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
         public string OriginalTitle { get; set; }
         public string TranslatedBody { get; set; }
         public string OriginalBody { get; set; }
+        public string TranslatedBy { get; set; }
         public string Endpoint { get; set; }
         public string ArticleSlug { get; set; }
 
@@ -21,6 +22,7 @@ TranslatedTitle: {TranslatedTitle},
 OriginalTitle: {OriginalTitle},
 TranslatedBody: {TranslatedBody},
 OriginalBody: {OriginalBody},
+TranslatedBy: {TranslatedBy},
 Endpoint: {Endpoint},
 ArticleSlug: {ArticleSlug}";
         }

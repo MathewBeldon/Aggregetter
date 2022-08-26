@@ -245,6 +245,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
+                TranslatedBy = "Known@Email.com",
                 Endpoint = "New/Endpoint", 
                 ArticleSlug = "original-title"
             };
@@ -278,6 +279,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
+                TranslatedBy = "Known@Email.com",
                 Endpoint = "Taken/Endpoint",
                 ArticleSlug = "taken-title"
             };            
@@ -294,6 +296,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
                 TranslatedTitle = "Translated Title",
                 OriginalBody = "Original Body",
                 TranslatedBody = "Translated Body",
+                TranslatedBy = "Known@Email.com",
                 Endpoint = "Taken/Endpoint",
                 ArticleSlug = "taken2-title"
             };

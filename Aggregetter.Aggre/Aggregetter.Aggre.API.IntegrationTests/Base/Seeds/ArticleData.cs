@@ -58,6 +58,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                     TranslatedBody = "Dummy Text" + i,
                     OriginalTitle = "Lorem" + i,
                     TranslatedTitle = "Dummy" +  i,
+                    TranslatedBy = "user@email.com",
                     Endpoint = "Lorem/Endpoint" + i,
                     ArticleSlug = "lorem-ipsum" + i
                 };
