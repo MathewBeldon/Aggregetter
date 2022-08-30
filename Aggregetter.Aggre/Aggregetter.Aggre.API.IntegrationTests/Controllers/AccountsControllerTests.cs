@@ -4,6 +4,7 @@ using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
 using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

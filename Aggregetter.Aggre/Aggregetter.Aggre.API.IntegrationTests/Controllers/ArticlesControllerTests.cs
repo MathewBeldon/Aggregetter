@@ -1,9 +1,12 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
+using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Models.Base;
+using Aggregetter.Aggre.Persistence;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
