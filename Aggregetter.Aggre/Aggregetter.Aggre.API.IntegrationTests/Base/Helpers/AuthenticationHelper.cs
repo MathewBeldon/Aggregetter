@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aggregetter.Aggre.API.IntegrationTests.Base
+namespace Aggregetter.Aggre.API.IntegrationTests.Base.Helpers
 {
     internal class AuthenticationHelper
     {
@@ -20,14 +20,14 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
             var json = JsonConvert.SerializeObject(authenticationRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response =  await client.PostAsync($"/api/v{version}/accounts/authenticate", content);
+            var response = await client.PostAsync($"/api/v{version}/accounts/authenticate", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var authenticationResponse = JsonConvert.DeserializeObject<AuthenticateAccountQueryResponse>(responseString);
 
             if (authenticationResponse is not null)
             {
-                return authenticationResponse; 
+                return authenticationResponse;
             }
 
             throw new System.Exception();

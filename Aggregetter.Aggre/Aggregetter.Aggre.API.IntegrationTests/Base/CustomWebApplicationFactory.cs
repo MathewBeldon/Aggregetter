@@ -2,6 +2,7 @@
 using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Identity.Models;
 using Aggregetter.Aggre.Persistence;
+using Docker.DotNet.Models;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
@@ -21,26 +22,26 @@ using Xunit;
 namespace Aggregetter.Aggre.API.IntegrationTests.Base
 {
     public sealed class CustomWebApplicationFactory<TStartup> :
-        WebApplicationFactory<TStartup> where TStartup : class
+        WebApplicationFactory<TStartup>, IAsyncLifetime where TStartup : class
     {
         public readonly HttpClient Client;
 
-        //private readonly TestcontainerDatabase _container;
+        private static IServiceScopeFactory _scopeFactory;
+        private readonly TestcontainerDatabase _container;
 
         public CustomWebApplicationFactory()
         {
-           // _container = new TestcontainersBuilder<MySqlTestcontainer>()
-           //.WithDatabase(new MySqlTestcontainerConfiguration
-           //{
-           //    Database = "Aggregetter.Data",
-           //    Username = "MySql",
-           //    Password = "MyPassword",
-           //})
-           //.WithImage("mysql:8")
-           //.WithCleanUp(true)
-           //.WithPortBinding(33306, 3306)
-           //.Build();
-
+            _container = new TestcontainersBuilder<MySqlTestcontainer>()
+           .WithDatabase(new MySqlTestcontainerConfiguration
+           {
+               Database = "Aggregetter.Data",
+               Username = "MySql",
+               Password = "MyPassword",
+           })
+           .WithImage("mysql:8")
+           .WithCleanUp(true)
+           .WithPortBinding(33306, 3306)
+           .Build();
             Client = CreateClient();
         }
 
@@ -52,7 +53,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
             //    services.AddSingleton<>
             //});
 
-            builder.ConfigureTestServices(async services =>
+            builder.ConfigureTestServices(services =>
             {
                 var descriptorOfDbContext = services.SingleOrDefault(
                     d => d.ServiceType ==
@@ -63,19 +64,19 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                     services.Remove(descriptorOfDbContext);
                 }
 
-                //var serverVersion = new MySqlServerVersion("8.0.0");
-                //services.AddDbContext<AggreDbContext>(options =>
-                //{
-                //    options.UseMySql("Server=localhost;Port=33306;Database=Aggregetter.Data;Uid=MySql;Pwd=MyPassword;ConnectionTimeout=0;DefaultCommandTimeout=0;", serverVersion, builder =>
-                //    {
-                //        builder.EnableRetryOnFailure();
-                //    });
-                //});
-
+                var serverVersion = new MySqlServerVersion("8.0.0");
                 services.AddDbContext<AggreDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("AggreDbContextInMemoryDatabase");
+                    options.UseMySql("Server=localhost;Port=33306; Database=Aggregetter.Data;Uid=MySql;Pwd=MyPassword;", serverVersion, builder =>
+                    {
+                        builder.EnableRetryOnFailure();
+                    });
                 });
+
+                //services.AddDbContext<AggreDbContext>(options =>
+                //{
+                //    options.UseInMemoryDatabase("AggreDbContextInMemoryDatabase");
+                //});
 
                 var descriptorOfIdentityDbContext = services.SingleOrDefault(
                     d => d.ServiceType ==
@@ -85,42 +86,50 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                 {
                     services.Remove(descriptorOfIdentityDbContext);
                 }
-                
+
                 services.AddDbContext<AggreIdentityDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("AggreIdentityDbContextInMemoryDatabase");
                 });
 
-                var sp = services.BuildServiceProvider();
-
-                using var scope = sp.CreateScope();
-
-                var scopedService = scope.ServiceProvider;
-                var dataContext = scopedService.GetRequiredService<AggreDbContext>();
-                var identityContext = scopedService.GetRequiredService<AggreIdentityDbContext>();
-
-                var logger = scopedService.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
-
-                await dataContext.Database.EnsureCreatedAsync();
-                await identityContext.Database.EnsureCreatedAsync();
-
-                try
-                {
-                    await ArticleData.InitialiseAsync(dataContext);
-                    await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
-                    await UserData.InitialiseAsync(userManager);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "Error seeding DB. Error: {Message}", ex.Message);
-                }
+                _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
             });
         }
 
-        //public async Task InitializeAsync() => await _container.StartAsync();
+        public void CreateDatabase()
+        {
+            using var scope = _scopeFactory.CreateScope();
 
-        //public new async Task DisposeAsync() => await _container.DisposeAsync();
+            var scopedService = scope.ServiceProvider;
+            var dataContext = scopedService.GetRequiredService<AggreDbContext>();
+            var identityContext = scopedService.GetRequiredService<AggreIdentityDbContext>();
+
+            var logger = scopedService.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+            var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
+
+            dataContext.Database.EnsureCreated();
+            identityContext.Database.EnsureCreated();
+
+            try
+            {
+                ArticleData.InitialiseAsync(dataContext).GetAwaiter().GetResult();
+                Identity.Seed.AddRoles.InitiliseAsync(roleManager).GetAwaiter().GetResult();
+                UserData.InitialiseAsync(userManager).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error seeding DB. Error: {Message}", ex.Message);
+                throw;
+            }
+        }
+
+        public async Task InitializeAsync()
+        {
+            await _container.StartAsync();
+            CreateDatabase();
+        }
+
+        public new async Task DisposeAsync() => await _container.DisposeAsync();
     }
 }

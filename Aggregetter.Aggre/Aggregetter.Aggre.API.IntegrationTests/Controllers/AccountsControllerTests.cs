@@ -1,14 +1,10 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
-using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
+using Aggregetter.Aggre.API.IntegrationTests.Base.Helpers;
 using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
 using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +19,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
         public AccountsControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _client = factory.Client;
+            factory.CreateDatabase();
         }
 
         [Fact]

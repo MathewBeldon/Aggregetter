@@ -1,4 +1,5 @@
 ﻿using Aggregetter.Aggre.API.IntegrationTests.Base;
+using Aggregetter.Aggre.API.IntegrationTests.Base.Helpers;
 using Aggregetter.Aggre.API.IntegrationTests.Base.Seeds;
 using Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticleDetails;
@@ -20,7 +21,7 @@ using Xunit;
 namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 {
     public sealed class ArticlesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
-    {
+    { 
         private readonly HttpClient _client;
 
         public ArticlesControllerTests(CustomWebApplicationFactory<Startup> factory)
