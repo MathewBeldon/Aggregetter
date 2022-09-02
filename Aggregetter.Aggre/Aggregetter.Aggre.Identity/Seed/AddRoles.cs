@@ -1,9 +1,6 @@
-﻿using Aggregetter.Aggre.Identity.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Identity.Seed
@@ -14,12 +11,12 @@ namespace Aggregetter.Aggre.Identity.Seed
         {
             foreach(Enums.Role enumRole in Enum.GetValues(typeof(Enums.Role)))
             {
-                var normalisedEnumRole = enumRole.ToString().ToUpper();
-                var namedEnumRole = enumRole.ToString();
+                var enumRoleName = enumRole.ToString();
+                var enumRoleNormalised = enumRoleName.ToUpper();
 
-                if (!roleManager.Roles.Any(role => role.NormalizedName == normalisedEnumRole))
+                if (!roleManager.Roles.Any(role => role.NormalizedName == enumRoleNormalised))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(namedEnumRole));
+                    await roleManager.CreateAsync(new IdentityRole(enumRoleName));
                 }
             }
         }

@@ -1,5 +1,4 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Identity;
-using Aggregetter.Aggre.Application.Models.Authentication;
 using Aggregetter.Aggre.Application.Settings;
 using Aggregetter.Aggre.Identity.Models;
 using Aggregetter.Aggre.Identity.Services;
