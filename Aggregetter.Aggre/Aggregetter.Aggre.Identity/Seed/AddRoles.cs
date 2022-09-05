@@ -2,23 +2,21 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Identity.Seed
 {
     public static class AddRoles
     {
-        public static async Task InitiliseAsync(RoleManager<IdentityRole> roleManager)
+        public static Task<IdentityResult[]> InitiliseAsync(RoleManager<IdentityRole> roleManager)
         {
-            foreach(Role enumRole in Enum.GetValues(typeof(Role)))
-            {
-                var enumRoleName = enumRole.ToString();
+            var roleCreationTasks = Enum.GetValues<Role>()
+                .Select(role => role.ToString())
+                .Where(enumRole => !roleManager.Roles.Any(role => string.Equals(role.NormalizedName, enumRole, StringComparison.OrdinalIgnoreCase)))
+                .Select(role => roleManager.CreateAsync(new IdentityRole(role)));
 
-                if (!roleManager.Roles.Any(role => string.Equals(role.NormalizedName, enumRoleName, StringComparison.OrdinalIgnoreCase)))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(enumRoleName));
-                }
-            }
+            return Task.WhenAll(roleCreationTasks);
         }
     }
 }
