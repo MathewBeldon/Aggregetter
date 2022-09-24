@@ -27,11 +27,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
         public readonly HttpClient Client;
 
         private static IServiceScopeFactory _scopeFactory;
-        private readonly TestcontainerDatabase _container;
-
-        public CustomWebApplicationFactory()
-        {
-            _container = new TestcontainersBuilder<MySqlTestcontainer>()
+        private readonly TestcontainerDatabase _container = new TestcontainersBuilder<MySqlTestcontainer>()
            .WithDatabase(new MySqlTestcontainerConfiguration
            {
                Database = "Aggregetter.Data",
@@ -40,9 +36,11 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
            })
            .WithImage("mysql:8")
            .WithCleanUp(true)
-           .WithPortBinding(33306, 3306)
            .Build();
-            Client = CreateClient();
+
+        public CustomWebApplicationFactory()
+        {
+            Client = CreateClient(); 
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -67,7 +65,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                 var serverVersion = new MySqlServerVersion("8.0.0");
                 services.AddDbContext<AggreDbContext>(options =>
                 {
-                    options.UseMySql("Server=localhost;Port=33306; Database=Aggregetter.Data;Uid=MySql;Pwd=MyPassword;", serverVersion, builder =>
+                    options.UseMySql(_container.ConnectionString, serverVersion, builder =>
                     {
                         builder.EnableRetryOnFailure();
                     });
