@@ -1,11 +1,7 @@
-﻿using Aggregetter.Aggre.Identity.Models;
+﻿using Aggregetter.Aggre.Identity.Enums;
+using Aggregetter.Aggre.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Aggregetter.Aggre.Identity.Enums;
 
 namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
 {

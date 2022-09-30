@@ -18,8 +18,8 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
         public AccountsControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _client = factory.Client;
-            factory.CreateDatabase();
+            _client = factory.CreateClient();
+            //factory.CreateDatabase();
         }
 
         [Fact]

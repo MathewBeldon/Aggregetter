@@ -15,7 +15,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
         public CategoriesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _client = factory.Client;
+            _client = factory.CreateClient();
         }
 
         [Fact]

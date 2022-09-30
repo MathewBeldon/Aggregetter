@@ -26,7 +26,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
         public ArticlesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _client = factory.Client;
+            _client = factory.CreateClient();
         }
 
         #region GetArticlesByPage

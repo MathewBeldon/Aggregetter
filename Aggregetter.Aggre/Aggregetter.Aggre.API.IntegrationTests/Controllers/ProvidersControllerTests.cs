@@ -15,20 +15,20 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Controllers
 
         public ProvidersControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _client = factory.Client;
+            _client = factory.CreateClient();
         }
 
         [Fact]
-        public async Task GetCategories_v1_ValidRequest_Success()
+        public async Task GetProviders_v1_ValidRequest_Success()
         {
-            var categoriesResponse = await _client.GetAsync("/api/v1/providers");
-            categoriesResponse.EnsureSuccessStatusCode();
+            var providersResponse = await _client.GetAsync("/api/v1/providers");
+            providersResponse.EnsureSuccessStatusCode();
 
-            var categoriesResponseString = await categoriesResponse.Content.ReadAsStringAsync();
-            var categoriesResponseObject = JsonConvert.DeserializeObject<GetProvidersQueryResponse>(categoriesResponseString) ?? throw new ArgumentNullException();
+            var providersResponseString = await providersResponse.Content.ReadAsStringAsync();
+            var providersResponseObject = JsonConvert.DeserializeObject<GetProvidersQueryResponse>(providersResponseString) ?? throw new ArgumentNullException();
 
-            categoriesResponseObject.Should().NotBeNull();
-            categoriesResponseObject.Data.Count.Should().BeGreaterThan(0);
+            providersResponseObject.Should().NotBeNull();
+            providersResponseObject.Data.Count.Should().BeGreaterThan(0);
         }
     }
 }

@@ -1,15 +1,13 @@
 ﻿using Aggregetter.Aggre.Domain.Entities;
 using Aggregetter.Aggre.Persistence;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
 {
     internal class ArticleData
     {
-        internal async static Task<int> InitialiseAsync(AggreDbContext context)
+        internal static void Initialise(AggreDbContext context)
         {
             var currentTime = DateTime.UtcNow;
 
@@ -18,10 +16,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                 Id = 1,
                 Name = "Latin",
             };
-            var languageResult = await context.Languages.SingleOrDefaultAsync(l => l.Id == language.Id);
+            var languageResult = context.Languages.SingleOrDefault(l => l.Id == language.Id);
             if (languageResult is null)
             {
-                await context.Languages.AddAsync(language);
+                context.Languages.Add(language);
             }
 
             var category = new Category()
@@ -29,10 +27,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                 Id = 1,
                 Name = "Old News",
             };
-            var categoryResult = await context.Categories.SingleOrDefaultAsync(c => c.Id == category.Id);
+            var categoryResult = context.Categories.SingleOrDefault(c => c.Id == category.Id);
             if (categoryResult is null)
             {
-                await context.Categories.AddAsync(category);
+                context.Categories.Add(category);
             }
 
             var provider = new Provider()
@@ -42,10 +40,10 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                 Name = "Roman news",
                 BaseAddress = new Uri("https://base.address.example"),
             };
-            var providerResult = await context.Providers.SingleOrDefaultAsync(p => p.Id == provider.Id);
+            var providerResult = context.Providers.SingleOrDefault(p => p.Id == provider.Id);
             if (providerResult is null)
             {
-                await context.Providers.AddAsync(provider);
+                context.Providers.Add(provider);
             }
 
             for (int i = 0; i < 100; i++)
@@ -63,14 +61,14 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base.Seeds
                     ArticleSlug = "lorem-ipsum" + i
                 };
 
-                var articleResult = await context.Articles.SingleOrDefaultAsync(a => a.Id == article.Id);
+                var articleResult = context.Articles.SingleOrDefault(a => a.Id == article.Id);
                 if (articleResult is null)
                 {
-                    await context.Articles.AddAsync(article);
+                    context.Articles.Add(article);
                 }
             }            
 
-            return await context.SaveChangesAsync(CancellationToken.None);
+            context.SaveChanges();
         }
     }
 }
