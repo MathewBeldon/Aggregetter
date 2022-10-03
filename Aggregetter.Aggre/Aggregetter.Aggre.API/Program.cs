@@ -52,7 +52,7 @@ namespace Aggregetter.Aggre.API
                         aggreIdentityDbcontext.Database.Migrate();
                     }
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    Identity.Seed.AddRoles.Initilise(roleManager);
+                    await Identity.Seed.AddRoles.InitiliseAsync(roleManager);
                     await Persistence.Seed.AddDataButFast.InitiliseAsync(aggreDbcontext, Log.Logger);
                     Log.Information("Application Starting");
                 }

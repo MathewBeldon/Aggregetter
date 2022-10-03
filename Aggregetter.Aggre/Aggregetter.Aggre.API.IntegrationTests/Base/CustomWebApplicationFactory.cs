@@ -121,21 +121,15 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                 var userManager = scopedService.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
 
-                try
-                {
-                    dataContext.Database.EnsureCreated();
-                    identityContext.Database.EnsureCreated();
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "Error creating DB. Error: {Message}", ex.Message);
-                    throw;
-                }
+                
+                dataContext.Database.EnsureCreated();
+                identityContext.Database.EnsureCreated();
+                
 
                 try
                 {
                     ArticleData.Initialise(dataContext);
-                    Identity.Seed.AddRoles.Initilise(roleManager);
+                    Identity.Seed.AddRoles.InitiliseAsync(roleManager).GetAwaiter().GetResult();
                     UserData.InitialiseAsync(userManager).GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
