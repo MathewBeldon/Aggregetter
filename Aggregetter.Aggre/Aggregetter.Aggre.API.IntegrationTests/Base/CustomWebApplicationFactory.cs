@@ -26,7 +26,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
     {
         public readonly HttpClient Client;
 
-        private static IServiceScopeFactory _scopeFactory;
         private TestcontainerDatabase _containerData = new TestcontainersBuilder<MySqlTestcontainer>()
            .WithDatabase(new MySqlTestcontainerConfiguration
            {
@@ -55,12 +54,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //builder.ConfigureTestServices(services =>
-            //{
-            //    services.RemoveAll(typeof(DbContext));
-            //    services.AddSingleton<>
-            //});
-
             builder.ConfigureTestServices(services =>
             {
                 var descriptorOfDbContext = services.SingleOrDefault(
@@ -81,11 +74,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                     });
                 });
 
-                //services.AddDbContext<AggreDbContext>(options =>
-                //{
-                //    options.UseInMemoryDatabase("AggreDbContextInMemoryDatabase");
-                //});
-
                 var descriptorOfIdentityDbContext = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<AggreIdentityDbContext>));
@@ -103,15 +91,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                     });
                 });
 
-
-                //services.AddDbContext<AggreIdentityDbContext>(options =>
-                //{
-                //    options.UseInMemoryDatabase("AggreIdentityDbContextInMemoryDatabase");
-                //});
-
-                _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
-
-                using var scope = _scopeFactory.CreateScope();
+                using var scope = services.BuildServiceProvider().GetService<IServiceScopeFactory>().CreateScope();
 
                 var scopedService = scope.ServiceProvider;
                 var dataContext = scopedService.GetRequiredService<AggreDbContext>();
@@ -123,8 +103,7 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
 
                 
                 dataContext.Database.EnsureCreated();
-                identityContext.Database.EnsureCreated();
-                
+                identityContext.Database.EnsureCreated();                
 
                 try
                 {
@@ -138,11 +117,6 @@ namespace Aggregetter.Aggre.API.IntegrationTests.Base
                     throw;
                 }
             });
-        }
-
-        public void CreateDatabase()
-        {
-            
         }
 
         public async Task InitializeAsync()
