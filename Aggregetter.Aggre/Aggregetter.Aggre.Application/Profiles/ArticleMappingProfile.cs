@@ -29,9 +29,9 @@ namespace Aggregetter.Aggre.Application.Profiles
             CreateMap<Article, CreateArticleCommand>().ReverseMap();
             #endregion CreateArticle
 
-            #region GetArticleSearchResults
-            CreateMap<Article, GetArticleSearchResultsDto>();
-            #endregion GetArticleSearchResults
+            //#region GetArticleSearchResults
+            //CreateMap<Article, GetArticleSearchResultsDto>();
+            //#endregion GetArticleSearchResults
         }
     }    
 }

@@ -49,6 +49,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles.Queries.GetA
             result.Data.ArticleSlug.Should().Be(article.ArticleSlug);
             result.Data.Category.Should().NotBeNull();
             result.Data.Provider.Should().NotBeNull();
+            result.Data.Provider.Language.Should().NotBeNull();
             result.Data.CreatedDateUtc.Should().BeAfter(System.DateTime.MinValue);
             result.Data.Endpoint.Should().NotBeNull();
             result.Data.OriginalBody.Should().NotBeNull();

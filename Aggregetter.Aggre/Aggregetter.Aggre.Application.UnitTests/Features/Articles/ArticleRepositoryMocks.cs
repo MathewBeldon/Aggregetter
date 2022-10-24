@@ -101,6 +101,7 @@ namespace Aggregetter.Aggre.Application.UnitTests.Features.Articles
                             Name = "ProviderName",
                             BaseAddress = new Uri("https://base.address.example"),
                             CreatedDateUtc = DateTime.UtcNow,
+                            Language = new Language()
                         };
                     }
 
