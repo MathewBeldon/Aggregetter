@@ -1,8 +1,9 @@
 ﻿using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Services.PaginationService;
-using MediatR;
+using Mediator;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Aggregetter.Aggre.Application.Pipelines.Pagination
 {
@@ -15,9 +16,10 @@ namespace Aggregetter.Aggre.Application.Pipelines.Pagination
         {
             _paginationService = paginationService ?? throw new ArgumentNullException(nameof(paginationService));
         }
-        public async System.Threading.Tasks.Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+
+        public async ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
         {
-            TResponse response = await next();
+            TResponse response = await next(request, cancellationToken);
 
             var (PreviousPage, NextPage) = _paginationService.GetPagedUris(response.PageSize, response.Page, response.RecordCount);
             var recordCount = response.RecordCount;

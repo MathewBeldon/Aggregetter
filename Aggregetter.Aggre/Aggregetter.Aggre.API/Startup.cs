@@ -59,6 +59,7 @@ namespace Aggregetter.Aggre.API
                     o.DisplayRequestDuration();
                     o.SwaggerEndpoint("/swagger/v1/swagger.json", "Aggregetter API");
                 });
+                
             }
 
             app.UseHttpsRedirection();

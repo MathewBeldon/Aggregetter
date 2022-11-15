@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Models.Base;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,9 +22,10 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
             _validators = validators ?? throw new ArgumentNullException(nameof(validators));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+
+        public async ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
         {
-            if (!_validators.Any()) return await next();            
+            if (!_validators.Any()) return await next(request, cancellationToken);
 
             var context = new ValidationContext<TRequest>(request);
             var validationResults = (await Task.WhenAll(_validators.Select(async query => await query.ValidateAsync(context, cancellationToken)))).SelectMany(x => x.Errors);
@@ -35,7 +36,7 @@ namespace Aggregetter.Aggre.Application.Pipelines.Validation
                 throw new Exceptions.ValidationException(validationResults);
             }
 
-            return await next();
+            return await next(request, cancellationToken);
         }
     }
 }

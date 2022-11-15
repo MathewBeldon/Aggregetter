@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -19,7 +19,7 @@ namespace Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearch
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<GetArticleSearchResultsQueryResponse> Handle(GetArticleSearchResultsQuery request, CancellationToken cancellationToken)
+        public ValueTask<GetArticleSearchResultsQueryResponse> Handle(GetArticleSearchResultsQuery request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

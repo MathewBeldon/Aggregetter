@@ -2,7 +2,6 @@
 using Aggregetter.Aggre.Identity;
 using Aggregetter.Aggre.Identity.Models;
 using Aggregetter.Aggre.Persistence;
-using Docker.DotNet.Models;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;

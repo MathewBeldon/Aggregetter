@@ -6,7 +6,7 @@ using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCate
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProvider;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByProviderAndCategory;
 using Aggregetter.Aggre.Application.Models.Base;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

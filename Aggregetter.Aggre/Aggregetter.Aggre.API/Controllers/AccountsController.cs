@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Features.Accounts.Commands.CreateAccount;
 using Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAccount;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using System.Threading.Tasks;

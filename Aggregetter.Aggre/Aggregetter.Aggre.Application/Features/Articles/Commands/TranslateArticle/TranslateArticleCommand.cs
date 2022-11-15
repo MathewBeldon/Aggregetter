@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Mediator;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArticle
 {

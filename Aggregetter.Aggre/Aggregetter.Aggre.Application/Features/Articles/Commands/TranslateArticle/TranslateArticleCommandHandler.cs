@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Infrastructure;
 using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Domain.Entities;
-using MediatR;
+using Mediator;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.TranslateArti
             _messagePublishService = messageQueueService ?? throw new ArgumentNullException(nameof(messageQueueService));
         }
 
-        public async Task<TranslateArticleCommandResponse> Handle(TranslateArticleCommand request, CancellationToken cancellationToken)
+        public async ValueTask<TranslateArticleCommandResponse> Handle(TranslateArticleCommand request, CancellationToken cancellationToken)
         {
             var article = await _articleRepository.GetArticleBySlugAsync(request.ArticleSlug, cancellationToken);
             

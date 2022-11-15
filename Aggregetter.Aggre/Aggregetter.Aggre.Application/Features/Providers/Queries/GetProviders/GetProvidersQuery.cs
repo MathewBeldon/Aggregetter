@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Pipelines.Caching;
-using MediatR;
+using Mediator;
 using System;
 
 namespace Aggregetter.Aggre.Application.Features.Providers.Queries.GetProviders

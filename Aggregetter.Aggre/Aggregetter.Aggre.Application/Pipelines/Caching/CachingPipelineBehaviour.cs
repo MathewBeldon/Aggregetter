@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Settings;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,23 +29,23 @@ namespace Aggregetter.Aggre.Application.Pipelines.Caching
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        async ValueTask<TResponse> IPipelineBehavior<TRequest, TResponse>.Handle(TRequest request, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
         {
             TResponse response;
-            if (request.Bypass) return await next();
-            
+            if (request.Bypass) return await next(request, cancellationToken);
+
             var cachedResponse = await _cache.GetAsync(request.Key, cancellationToken);
             if (cachedResponse is not null)
             {
                 _logger.LogInformation("Retrieved {key} from cache", request.Key);
-                return JsonSerializer.Deserialize<TResponse>(Encoding.UTF8.GetString(cachedResponse), options: _jsonSerializerOptions);                
+                return JsonSerializer.Deserialize<TResponse>(Encoding.UTF8.GetString(cachedResponse), options: _jsonSerializerOptions);
             }
 
             return await GetResponseAndAddToCacheAsync();
 
             async Task<TResponse> GetResponseAndAddToCacheAsync()
             {
-                response = await next();
+                response = await next(request, cancellationToken);
 
                 var absoluteExpiration = request.AbsoluteExpiration ?? TimeSpan.FromSeconds(_settings.AbsoluteExpiration);
 

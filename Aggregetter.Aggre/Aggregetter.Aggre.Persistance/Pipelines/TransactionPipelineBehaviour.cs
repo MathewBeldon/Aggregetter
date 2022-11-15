@@ -1,5 +1,5 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Mediator.Transactions;
-using MediatR;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
@@ -14,23 +14,24 @@ namespace Aggregetter.Aggre.Persistence.Pipelines
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+
+        public async ValueTask<TResponse> Handle(TRequest request, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
         {
             TResponse result;
 
             //transactions not supported with in memory, fix by using docker with tests
             if (_context.Database.IsInMemory())
             {
-                return await next();
+                return await next(request, cancellationToken);
             }
 
             var strategy = _context.Database.CreateExecutionStrategy();
             result = await strategy.ExecuteAsync(async () =>
             {
                 await using var transaction = await _context.Database.BeginTransactionAsync();
-                result = await next();
+                result = await next(request, cancellationToken);
                 await transaction.CommitAsync();
-                return result;          
+                return result;
             });
 
             return result;

@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Features.Search.Queries.GetArticleSearchResults;
 using Aggregetter.Aggre.Application.Models.Pagination;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

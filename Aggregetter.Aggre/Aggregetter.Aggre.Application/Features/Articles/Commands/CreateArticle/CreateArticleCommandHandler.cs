@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Commands.CreateArticle
             _mapper = mapper;
         }
 
-        public async Task<CreateArticleCommandResponse> Handle(CreateArticleCommand request, CancellationToken cancellationToken)
+        public async ValueTask<CreateArticleCommandResponse> Handle(CreateArticleCommand request, CancellationToken cancellationToken)
         {
             var article = _mapper.Map<Article>(request);
             var response = await _articleRepository.AddAsync(article, cancellationToken);

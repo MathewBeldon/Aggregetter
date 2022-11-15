@@ -1,6 +1,6 @@
 ﻿using Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategories;
 using Aggregetter.Aggre.Application.Features.Providers.Queries.GetProviders;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

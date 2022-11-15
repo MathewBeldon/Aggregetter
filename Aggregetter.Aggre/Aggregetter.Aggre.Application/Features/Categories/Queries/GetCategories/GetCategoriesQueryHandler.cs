@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.Application.Features.Categories.Queries.GetCategorie
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
-        public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<GetCategoriesQueryResponse> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categoryEntities = await _categoryRepository.GetAllAsync(cancellationToken);
             var categoriesDtos = _mapper.Map<List<GetCategoriesDto>>(categoryEntities);

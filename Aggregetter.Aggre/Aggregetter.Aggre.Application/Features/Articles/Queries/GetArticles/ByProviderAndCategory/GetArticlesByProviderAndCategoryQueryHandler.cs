@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.By
             _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
         }
 
-        public async Task<GetArticlesQueryResponse> Handle(GetArticlesByProviderAndCategoryQuery request, CancellationToken cancellationToken)
+        public async ValueTask<GetArticlesQueryResponse> Handle(GetArticlesByProviderAndCategoryQuery request, CancellationToken cancellationToken)
         {
             var articleCount = await _articleRepository.GetCountByProviderAndCategory(request.ProviderId, request.CategoryId, cancellationToken);
             var articleEntities = await _articleRepository.GetArticlesByProviderAndCategoryPagedAsync(request.Page, request.PageSize, request.ProviderId, request.CategoryId, cancellationToken);

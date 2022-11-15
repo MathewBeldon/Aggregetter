@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Identity;
 using Aggregetter.Aggre.Application.Models.Authentication;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace Aggregetter.Aggre.Application.Features.Accounts.Queries.AuthenticateAc
             _mapper = mapper;
         }
 
-        public async Task<AuthenticateAccountQueryResponse> Handle(AuthenticateAccountQuery request, CancellationToken cancellationToken)
+        public async ValueTask<AuthenticateAccountQueryResponse> Handle(AuthenticateAccountQuery request, CancellationToken cancellationToken)
         {
             var authenticationRequest = _mapper.Map<AuthenticationRequest>(request);
             var authenticationResponse = await _authenticationService.AuthenticateAsync(authenticationRequest);

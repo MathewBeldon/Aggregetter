@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Contracts.Persistence;
 using Aggregetter.Aggre.Domain.Entities;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,7 +21,7 @@ namespace Aggregetter.Aggre.Application.Features.Providers.Queries.GetProviders
             _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));
         }
 
-        public async Task<GetProvidersQueryResponse> Handle(GetProvidersQuery request, CancellationToken cancellationToken)
+        public async ValueTask<GetProvidersQueryResponse> Handle(GetProvidersQuery request, CancellationToken cancellationToken)
         {
             var providerEntities = await _providerRepository.GetAllAsync(cancellationToken);
 

@@ -4,7 +4,7 @@ using Aggregetter.Aggre.Application.Pipelines.Validation;
 using Aggregetter.Aggre.Application.Services.PaginationService;
 using Aggregetter.Aggre.Application.Settings;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -19,7 +19,10 @@ namespace Aggregetter.Aggre.Application
         public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediator(options =>
+            {
+                options.ServiceLifetime = ServiceLifetime.Scoped;
+            });
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehaviour<,>));
@@ -27,7 +30,7 @@ namespace Aggregetter.Aggre.Application
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            services.AddSingleton<IPaginationService, PaginationService>();
+            services.AddTransient<IPaginationService, PaginationService>();
             services.AddSingleton(new JsonSerializerOptions()
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),

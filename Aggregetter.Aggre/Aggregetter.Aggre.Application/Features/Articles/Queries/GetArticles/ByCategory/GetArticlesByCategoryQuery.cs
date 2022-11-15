@@ -1,7 +1,7 @@
 ﻿using Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.Base;
 using Aggregetter.Aggre.Application.Models.Pagination;
 using Aggregetter.Aggre.Application.Pipelines.Caching;
-using MediatR;
+using Mediator;
 using System;
 
 namespace Aggregetter.Aggre.Application.Features.Articles.Queries.GetArticles.ByCategory

@@ -74,7 +74,7 @@ namespace Aggregetter.Aggre.Persistence.Seed
 
             var translatedBody = $"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
             
-            const string query = $"INSERT INTO Articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
+            const string query = $"INSERT INTO Articles (CategoryId,ProviderId,OriginalTitle,TranslatedTitle,OriginalBody,TranslatedBody,TranslatedBy,Endpoint,ArticleSlug,CreatedDateUtc,ModifiedDateUtc) VALUES";
             await context.Database.ExecuteSqlRawAsync("SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0;");
             var articleOffset = (await context.Articles.OrderByDescending(x => x.Id).FirstOrDefaultAsync())?.Id ?? 0;
             int batch = 0;
@@ -95,10 +95,11 @@ namespace Aggregetter.Aggre.Persistence.Seed
                 var originalTitle = text[(batch * 10)..(((batch + 1) * 10) - 1)] + i;
                 var translatedTitle = $"What is Lorem Ipsum?{i}";
                 var originalBody = text[(batch * 50)..((batch + 1) * 50 + 1000)] + i;
+                var translatedBy = "email.example.com";
                 var endpoint = $"Lorem/Endpoint{i}";
                 var articleSlug = $"lorem-ipsum{i}";
                 
-                sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
+                sb.Append($@"({categoryId},{providerId},'{originalTitle}','{translatedTitle}','{originalBody}','{translatedTitle}','{translatedBy}','{endpoint}','{articleSlug}',NOW(),'0001-01-01 00:00:00.000000')");
                 if (++batch < batchSize)
                 {
                     sb.Append(',');
