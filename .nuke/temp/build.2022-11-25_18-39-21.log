@@ -1,0 +1,23 @@
+V |                      | ArgumentsFromParametersFile.OnBuildCreated (150)
+V |                      | Passing value for <unresolved> (Aggregetter.Aggre/Aggregetter.Aggre.sln)
+V |                      | InjectParameterValues.OnBuildCreated (100)
+V |                      | HandleShellCompletion.OnBuildCreated (75)
+V |                      | GenerateBuildServerConfigurations.OnBuildCreated (50)
+V |                      | InvokeBuildServerConfigurationGeneration.OnBuildCreated (45)
+V |                      | UpdateNotification.OnBuildCreated (10)
+V |                      | UnsetVisualStudioEnvironmentVariables.OnBuildCreated (0)
+V |                      | HandleVisualStudioDebugging.OnBuildCreated (0)
+V |                      | HandleSingleFileExecution.OnBuildCreated (-50)
+V |                      | EventInvoker.OnBuildCreated (-3.4028235E+38)
+V |                      | Target-unrelated exception was thrown
+System.Exception: Target with name 'run' does not exist. Available targets are:
+  - Clean
+  - Compile
+  - Restore
+   at Nuke.Common.Assert.Fail(String message, Exception exception) in /_/source/Nuke.Common/Assert.cs:line 22
+   at Nuke.Common.Execution.ExecutionPlanner.GetExecutableTarget(String targetName, IReadOnlyCollection`1 executableTargets) in /_/source/Nuke.Common/Execution/ExecutionPlanner.cs:line 108
+   at Nuke.Common.Execution.ExecutionPlanner.<>c__DisplayClass0_0.<GetExecutionPlan>b__0(String x) in /_/source/Nuke.Common/Execution/ExecutionPlanner.cs:line 25
+   at System.Linq.Enumerable.SelectArrayIterator`2.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Nuke.Common.Execution.ExecutionPlanner.GetExecutionPlan(IReadOnlyCollection`1 executableTargets, IReadOnlyCollection`1 invokedTargetNames) in /_/source/Nuke.Common/Execution/ExecutionPlanner.cs:line 25
+   at Nuke.Common.Execution.BuildManager.Execute[T](Expression`1[] defaultTargetExpressions) in /_/source/Nuke.Common/Execution/BuildManager.cs:line 54
