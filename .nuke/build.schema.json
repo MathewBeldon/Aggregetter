@@ -74,6 +74,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "GitHubActions",
               "Restore",
               "Test"
             ]
@@ -91,6 +92,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "GitHubActions",
               "Restore",
               "Test"
             ]
