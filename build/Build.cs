@@ -59,5 +59,9 @@ class Build : NukeBuild
             DotNetTest(_ => _
                 .SetProjectFile(Solution));
         });
+    
+    Target GitHubActions => _ => _
+        .DependsOn(Test)
+        .Executes();
 
 }
